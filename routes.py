@@ -41,7 +41,7 @@ def register():
     
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User()
         user.username = form.username.data
         user.email = form.email.data
