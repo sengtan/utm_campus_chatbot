@@ -112,16 +112,18 @@ def admin_dashboard():
 def chatbot():
     # Get or create chat session
     session_id = session.get('chat_session_id')
-    if not session_id:
+    chat_session = None
+    if session_id:
+        chat_session = ChatSession.query.filter_by(session_id=session_id).first()
+    if not session_id or not chat_session:
         session_id = str(uuid.uuid4())
         session['chat_session_id'] = session_id
-        
+
         chat_session = ChatSession()
         chat_session.user_id = current_user.id
         chat_session.session_id = session_id
         db.session.add(chat_session)
         db.session.commit()
-    
     return render_template('chatbot.html')
 
 @app.route('/api/chat', methods=['POST'])
