@@ -140,7 +140,52 @@ class AIService:
             
         except Exception as e:
             print(f"Error generating response: {e}")
-            return "I'm sorry, I'm having trouble processing your request right now. Please try again or contact support for assistance."
+            # Fallback to rule-based responses when OpenAI is unavailable
+            return self._generate_fallback_response(user_message, intent_data)
+    
+    def _generate_fallback_response(self, user_message, intent_data):
+        """Generate rule-based responses when OpenAI is unavailable"""
+        message_lower = user_message.lower()
+        intent = intent_data.get('intent', 'general_info')
+        
+        # Computer lab queries
+        if any(word in message_lower for word in ['computer', 'lab', 'pc', 'workstation']):
+            return "🖥️ **Computer Lab 1** is located at **Block A, Level 2**. It has 40 workstations and is available for booking. You can use it for coursework and projects."
+        
+        # Library queries
+        if any(word in message_lower for word in ['library', 'book', 'study', 'reading']):
+            return "📚 The **Library** is located at **Block B, Ground Floor**. It's open from 8:00 AM to 10:00 PM and provides study spaces and resources for students."
+        
+        # Gymnasium queries
+        if any(word in message_lower for word in ['gym', 'gymnasium', 'sports', 'exercise', 'fitness']):
+            return "🏃 The **Gymnasium** is located at the **Sports Complex**. It's available for booking and hosts various sports activities and fitness programs."
+        
+        # Hostel queries
+        if any(word in message_lower for word in ['hostel', 'accommodation', 'dormitory', 'room']):
+            return "🏠 We have accommodation facilities:\n• **Male Hostel Block C** - Hostel Area\n• **Female Hostel Block D** - Hostel Area\n\nBoth provide student accommodation with necessary amenities."
+        
+        # Cafeteria queries
+        if any(word in message_lower for word in ['cafeteria', 'food', 'dining', 'eat', 'meal']):
+            return "🍽️ The **Cafeteria** is located at the **Student Center**. It's open from 7:00 AM to 9:00 PM and serves meals throughout the day."
+        
+        # Location/where queries
+        if any(word in message_lower for word in ['where', 'location', 'find']):
+            facilities_list = "📍 **UTM Campus Facilities:**\n\n"
+            for facility in self.facilities_cache[:6]:
+                facilities_list += f"• **{facility['name']}** - {facility['location']}\n"
+            facilities_list += "\nWhat specific facility are you looking for?"
+            return facilities_list
+        
+        # Issue reporting
+        if any(word in message_lower for word in ['problem', 'issue', 'broken', 'report', 'complaint']):
+            return "🔧 To report a facility issue:\n1. Go to the **Report Issue** page\n2. Describe the problem in detail\n3. Select the issue type and location\n4. Submit your report\n\nYou can track the status of your report from your dashboard."
+        
+        # Booking queries
+        if any(word in message_lower for word in ['book', 'reserve', 'booking']):
+            return "📅 **Facility Booking:**\n• Computer Lab 1 - Available for booking\n• Gymnasium - Available for booking\n\nTo book a facility, please contact the facility management or use the booking system if available."
+        
+        # General help
+        return "👋 **UTM Campus Assistant** can help you with:\n\n• 🔍 **Find facilities** - Ask about locations and details\n• 🔧 **Report issues** - Submit facility problems\n• 📅 **Booking info** - Get booking information\n• ℹ️ **General info** - Campus facility questions\n\nWhat can I help you with today?"
     
     def classify_issue_from_description(self, description):
         """Classify issue type and priority from description"""
