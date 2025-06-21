@@ -1,0 +1,9 @@
+# Ignore Python virtual environment
+.venv/
+*.pyc
+
+# Ignore secrets
+secrets.yaml
+
+# Ignore env
+.env
