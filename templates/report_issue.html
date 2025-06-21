@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Report Issue - UTM Campus Assistant{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Report Facility Issue
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="alert alert-info" role="alert">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Before reporting:</strong> Please check if this issue has already been reported. 
+                    Our AI will help classify your issue automatically for faster resolution.
+                </div>
+                
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.title.label(class="form-label") }}
+                        {{ form.title(class="form-control" + (" is-invalid" if form.title.errors else ""), 
+                                     placeholder="e.g., Broken air conditioning in Computer Lab 1") }}
+                        {% if form.title.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.title.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">Provide a clear, descriptive title for your issue</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.description.label(class="form-label") }}
+                        {{ form.description(class="form-control" + (" is-invalid" if form.description.errors else ""), 
+                                          rows="4", 
+                                          placeholder="Describe the issue in detail: What's wrong? When did you notice it? How does it affect you?") }}
+                        {% if form.description.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            The more details you provide, the faster we can resolve your issue. 
+                            Our AI will analyze your description to classify the issue type.
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.location.label(class="form-label") }}
+                            {{ form.location(class="form-control" + (" is-invalid" if form.location.errors else ""), 
+                                           placeholder="e.g., Block A, Level 2, Computer Lab 1") }}
+                            {% if form.location.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.location.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Specify the exact location of the issue</div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            {{ form.issue_type.label(class="form-label") }}
+                            {{ form.issue_type(class="form-select" + (" is-invalid" if form.issue_type.errors else "")) }}
+                            {% if form.issue_type.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.issue_type.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">
+                                Select the closest category. Our AI may adjust this based on your description.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.priority.label(class="form-label") }}
+                        {{ form.priority(class="form-select" + (" is-invalid" if form.priority.errors else "")) }}
+                        {% if form.priority.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.priority.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            <strong>Priority Guide:</strong>
+                            <span class="badge bg-danger ms-1">Urgent</span> Safety hazards, complete failures |
+                            <span class="badge bg-warning ms-1">High</span> Major disruptions |
+                            <span class="badge bg-info ms-1">Medium</span> Moderate issues |
+                            <span class="badge bg-success ms-1">Low</span> Minor problems
+                        </div>
+                    </div>
+                    
+                    <!-- Issue Type Examples -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h6 class="mb-0">
+                                <i class="fas fa-question-circle me-2"></i>Issue Type Examples
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="small mb-0">
+                                        <li><strong>Electrical:</strong> Power outages, faulty wiring, broken lights</li>
+                                        <li><strong>Hygiene:</strong> Unclean restrooms, overflowing trash, pest issues</li>
+                                        <li><strong>Structural:</strong> Leaks, cracks, broken windows, doors</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="small mb-0">
+                                        <li><strong>Equipment:</strong> Broken computers, projectors, furniture</li>
+                                        <li><strong>Security:</strong> Access card issues, broken locks, safety concerns</li>
+                                        <li><strong>Other:</strong> Issues that don't fit other categories</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('student_dashboard') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+                        </a>
+                        {{ form.submit(class="btn btn-danger") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- AI Enhancement Notice -->
+        <div class="alert alert-primary mt-3" role="alert">
+            <i class="fas fa-robot me-2"></i>
+            <strong>AI-Enhanced Reporting:</strong> Our system uses artificial intelligence to automatically 
+            classify and prioritize your issue based on your description, ensuring faster and more accurate resolution.
+        </div>
+    </div>
+</div>
+{% endblock %}

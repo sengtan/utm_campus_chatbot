@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - UTM Campus Assistant{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <i class="fas fa-cogs me-2 text-primary"></i>
+                Admin Dashboard
+            </h2>
+            <div>
+                <a href="{{ url_for('refresh_cache') }}" class="btn btn-secondary me-2">
+                    <i class="fas fa-sync-alt me-1"></i>Refresh Cache
+                </a>
+                <a href="{{ url_for('facility_info') }}" class="btn btn-info">
+                    <i class="fas fa-building me-1"></i>Manage Facilities
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ total_issues }}</h4>
+                        <p class="card-text">Total Issues</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-exclamation-triangle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ pending_issues }}</h4>
+                        <p class="card-text">Pending</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-clock fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ in_progress_issues }}</h4>
+                        <p class="card-text">In Progress</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-cog fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ resolved_issues }}</h4>
+                        <p class="card-text">Resolved</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Issues Management -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-list me-2"></i>Recent Issues
+                </h5>
+                {% if recent_issues %}
+                    <small class="text-muted">Showing latest 10 issues</small>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                {% if recent_issues %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Reporter</th>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for issue in recent_issues %}
+                                <tr>
+                                    <td>#{{ issue.id }}</td>
+                                    <td>{{ issue.reporter.full_name }}</td>
+                                    <td>{{ issue.title[:50] }}{% if issue.title|length > 50 %}...{% endif %}</td>
+                                    <td>
+                                        <span class="badge bg-secondary">{{ issue.issue_type.value.title() }}</span>
+                                    </td>
+                                    <td>
+                                        {% set priority_class = {
+                                            'low': 'success',
+                                            'medium': 'warning', 
+                                            'high': 'danger',
+                                            'urgent': 'danger'
+                                        } %}
+                                        <span class="badge bg-{{ priority_class[issue.priority.value] }}">
+                                            {{ issue.priority.value.title() }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% set status_class = {
+                                            'reported': 'primary',
+                                            'in_progress': 'warning',
+                                            'resolved': 'success',
+                                            'closed': 'secondary'
+                                        } %}
+                                        <span class="badge bg-{{ status_class[issue.status.value] }}">
+                                            {{ issue.status.value.replace('_', ' ').title() }}
+                                        </span>
+                                    </td>
+                                    <td>{{ issue.created_at.strftime('%m/%d/%Y') }}</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="{{ url_for('view_issue', issue_id=issue.id) }}" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            {% if issue.status.value != 'resolved' and issue.status.value != 'closed' %}
+                                                <button class="btn btn-sm btn-outline-success" 
+                                                        onclick="updateStatus({{ issue.id }}, 'in_progress')">
+                                                    <i class="fas fa-play"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-warning" 
+                                                        onclick="updateStatus({{ issue.id }}, 'resolved')">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No Issues Yet</h5>
+                        <p class="text-muted">No facility issues have been reported yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Status Update Modal -->
+<div class="modal fade" id="statusModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Issue Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="statusForm" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" id="issueId" name="issue_id">
+                    
+                    <div class="mb-3">
+                        <label for="status" class="form-label">New Status</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="reported">Reported</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="resolved">Resolved</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="admin_notes" class="form-label">Admin Notes (Optional)</label>
+                        <textarea class="form-control" id="admin_notes" name="admin_notes" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function updateStatus(issueId, status) {
+    document.getElementById('issueId').value = issueId;
+    document.getElementById('status').value = status;
+    document.getElementById('statusForm').action = `/issue/${issueId}/update_status`;
+    
+    const modal = new bootstrap.Modal(document.getElementById('statusModal'));
+    modal.show();
+}
+</script>
+{% endblock %}

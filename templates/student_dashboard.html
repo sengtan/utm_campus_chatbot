@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - UTM Campus Assistant{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <i class="fas fa-tachometer-alt me-2 text-primary"></i>
+                Welcome, {{ current_user.full_name }}
+            </h2>
+            <div>
+                <a href="{{ url_for('chatbot') }}" class="btn btn-primary me-2">
+                    <i class="fas fa-comments me-1"></i>Chat Assistant
+                </a>
+                <a href="{{ url_for('report_issue') }}" class="btn btn-success">
+                    <i class="fas fa-plus me-1"></i>Report Issue
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ total_issues }}</h4>
+                        <p class="card-text">Total Issues</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-exclamation-triangle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ resolved_issues }}</h4>
+                        <p class="card-text">Resolved Issues</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ ((resolved_issues / total_issues * 100) if total_issues > 0 else 0)|round|int }}%</h4>
+                        <p class="card-text">Resolution Rate</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-bolt me-2"></i>Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('chatbot') }}" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-comments d-block mb-2" style="font-size: 1.5rem;"></i>
+                            Chat Assistant
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('report_issue') }}" class="btn btn-outline-success w-100">
+                            <i class="fas fa-exclamation-triangle d-block mb-2" style="font-size: 1.5rem;"></i>
+                            Report Issue
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('facility_info') }}" class="btn btn-outline-info w-100">
+                            <i class="fas fa-building d-block mb-2" style="font-size: 1.5rem;"></i>
+                            Facility Info
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="#" class="btn btn-outline-warning w-100" onclick="alert('Feature coming soon!')">
+                            <i class="fas fa-calendar d-block mb-2" style="font-size: 1.5rem;"></i>
+                            Book Facility
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Issues -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-history me-2"></i>Recent Issues
+                </h5>
+                {% if recent_issues %}
+                    <small class="text-muted">Showing latest 5 issues</small>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                {% if recent_issues %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for issue in recent_issues %}
+                                <tr>
+                                    <td>#{{ issue.id }}</td>
+                                    <td>{{ issue.title }}</td>
+                                    <td>
+                                        <span class="badge bg-secondary">{{ issue.issue_type.value.title() }}</span>
+                                    </td>
+                                    <td>
+                                        {% set priority_class = {
+                                            'low': 'success',
+                                            'medium': 'warning', 
+                                            'high': 'danger',
+                                            'urgent': 'danger'
+                                        } %}
+                                        <span class="badge bg-{{ priority_class[issue.priority.value] }}">
+                                            {{ issue.priority.value.title() }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% set status_class = {
+                                            'reported': 'primary',
+                                            'in_progress': 'warning',
+                                            'resolved': 'success',
+                                            'closed': 'secondary'
+                                        } %}
+                                        <span class="badge bg-{{ status_class[issue.status.value] }}">
+                                            {{ issue.status.value.replace('_', ' ').title() }}
+                                        </span>
+                                    </td>
+                                    <td>{{ issue.created_at.strftime('%m/%d/%Y') }}</td>
+                                    <td>
+                                        <a href="{{ url_for('view_issue', issue_id=issue.id) }}" 
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No Issues Yet</h5>
+                        <p class="text-muted">You haven't reported any facility issues yet.</p>
+                        <a href="{{ url_for('report_issue') }}" class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i>Report Your First Issue
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

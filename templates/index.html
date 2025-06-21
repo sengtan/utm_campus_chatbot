@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-5">
+            <div class="mb-4">
+                <i class="fas fa-robot text-primary" style="font-size: 4rem;"></i>
+            </div>
+            <h1 class="display-4 fw-bold mb-3">UTM Campus Assistant Chatbot</h1>
+            <p class="lead text-muted">
+                Your intelligent companion for campus facility management
+            </p>
+        </div>
+
+        {% if not current_user.is_authenticated %}
+            <!-- Welcome Section for Guests -->
+            <div class="card bg-primary bg-gradient text-white mb-4">
+                <div class="card-body text-center py-5">
+                    <h2 class="card-title mb-3">Welcome to Your Campus Assistant</h2>
+                    <p class="card-text mb-4">
+                        Report facility issues, get instant help, and stay updated on campus facilities 
+                        with our AI-powered chatbot system.
+                    </p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a href="{{ url_for('login') }}" class="btn btn-light btn-lg px-4">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </a>
+                        <a href="{{ url_for('register') }}" class="btn btn-outline-light btn-lg px-4">
+                            <i class="fas fa-user-plus me-2"></i>Register
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Features Section -->
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-comments text-primary" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h5 class="card-title">AI-Powered Chat</h5>
+                        <p class="card-text text-muted">
+                            Get instant responses to your facility queries using natural language processing
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-exclamation-triangle text-warning" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h5 class="card-title">Issue Reporting</h5>
+                        <p class="card-text text-muted">
+                            Report facility problems quickly and track their resolution status
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-building text-success" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h5 class="card-title">Facility Information</h5>
+                        <p class="card-text text-muted">
+                            Find information about campus facilities, locations, and availability
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-chart-bar text-info" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h5 class="card-title">Real-time Tracking</h5>
+                        <p class="card-text text-muted">
+                            Monitor issue status and receive updates on resolution progress
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if not current_user.is_authenticated %}
+            <!-- Benefits Section -->
+            <div class="mt-5">
+                <h3 class="text-center mb-4">Why Use Our Campus Assistant?</h3>
+                <div class="row">
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="fas fa-clock text-primary mb-2" style="font-size: 2rem;"></i>
+                        <h6>24/7 Availability</h6>
+                        <p class="text-muted small">Get help anytime, anywhere</p>
+                    </div>
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="fas fa-brain text-primary mb-2" style="font-size: 2rem;"></i>
+                        <h6>Smart Responses</h6>
+                        <p class="text-muted small">AI understands your queries</p>
+                    </div>
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="fas fa-tasks text-primary mb-2" style="font-size: 2rem;"></i>
+                        <h6>Efficient Management</h6>
+                        <p class="text-muted small">Streamlined issue resolution</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

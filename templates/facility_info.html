@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+
+{% block title %}Facility Information - UTM Campus Assistant{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <i class="fas fa-building me-2 text-primary"></i>
+                Campus Facilities
+            </h2>
+            <div>
+                <button class="btn btn-outline-secondary" onclick="filterFacilities('all')">
+                    All
+                </button>
+                <button class="btn btn-outline-primary" onclick="filterFacilities('Laboratory')">
+                    Labs
+                </button>
+                <button class="btn btn-outline-success" onclick="filterFacilities('Academic')">
+                    Academic
+                </button>
+                <button class="btn btn-outline-info" onclick="filterFacilities('Sports')">
+                    Sports
+                </button>
+                <button class="btn btn-outline-warning" onclick="filterFacilities('Accommodation')">
+                    Housing
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search Bar -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="input-group">
+            <span class="input-group-text">
+                <i class="fas fa-search"></i>
+            </span>
+            <input type="text" 
+                   class="form-control" 
+                   id="facilitySearch"
+                   placeholder="Search facilities by name or location..."
+                   onkeyup="searchFacilities()">
+        </div>
+    </div>
+</div>
+
+<!-- Facilities Grid -->
+<div class="row" id="facilitiesGrid">
+    {% if facilities %}
+        {% for facility in facilities %}
+        <div class="col-lg-6 col-xl-4 mb-4 facility-card" data-category="{{ facility.category }}">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">{{ facility.name }}</h6>
+                    <span class="badge bg-primary">{{ facility.category }}</span>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <i class="fas fa-map-marker-alt text-danger me-2"></i>
+                        <strong>Location:</strong> {{ facility.location }}
+                    </div>
+                    
+                    {% if facility.description %}
+                    <div class="mb-2">
+                        <i class="fas fa-info-circle text-info me-2"></i>
+                        <strong>Description:</strong> {{ facility.description }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if facility.capacity %}
+                    <div class="mb-2">
+                        <i class="fas fa-users text-success me-2"></i>
+                        <strong>Capacity:</strong> {{ facility.capacity }} people
+                    </div>
+                    {% endif %}
+                    
+                    {% if facility.operating_hours %}
+                    <div class="mb-2">
+                        <i class="fas fa-clock text-warning me-2"></i>
+                        <strong>Hours:</strong> {{ facility.operating_hours }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if facility.contact_info %}
+                    <div class="mb-2">
+                        <i class="fas fa-phone text-secondary me-2"></i>
+                        <strong>Contact:</strong> {{ facility.contact_info }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if facility.is_bookable %}
+                    <div class="mb-2">
+                        <span class="badge bg-success">
+                            <i class="fas fa-calendar-check me-1"></i>
+                            Bookable
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group w-100" role="group">
+                        <button class="btn btn-outline-primary btn-sm" 
+                                onclick="showDirections('{{ facility.location }}')">
+                            <i class="fas fa-directions me-1"></i>Directions
+                        </button>
+                        {% if facility.is_bookable %}
+                        <button class="btn btn-outline-success btn-sm" 
+                                onclick="bookFacility('{{ facility.name }}')">
+                            <i class="fas fa-calendar me-1"></i>Book
+                        </button>
+                        {% endif %}
+                        <button class="btn btn-outline-danger btn-sm" 
+                                onclick="reportIssue('{{ facility.name }}', '{{ facility.location }}')">
+                            <i class="fas fa-exclamation-triangle me-1"></i>Report Issue
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-building fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">No Facilities Found</h5>
+                    <p class="text-muted">No facility information is currently available.</p>
+                    {% if current_user.role.value == 'admin' %}
+                    <button class="btn btn-primary" onclick="alert('Facility management feature coming soon!')">
+                        <i class="fas fa-plus me-1"></i>Add Facility
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- No Results Message (Hidden by default) -->
+<div id="noResults" class="row" style="display: none;">
+    <div class="col-12">
+        <div class="text-center py-5">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">No Facilities Found</h5>
+            <p class="text-muted">Try adjusting your search or filter criteria.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Facility Quick Info Modal -->
+<div class="modal fade" id="facilityModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Facility Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function filterFacilities(category) {
+    const cards = document.querySelectorAll('.facility-card');
+    const noResults = document.getElementById('noResults');
+    let visibleCards = 0;
+    
+    cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+            card.style.display = 'block';
+            visibleCards++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // Show/hide no results message
+    if (visibleCards === 0) {
+        noResults.style.display = 'block';
+    } else {
+        noResults.style.display = 'none';
+    }
+    
+    // Update button states
+    document.querySelectorAll('button[onclick^="filterFacilities"]').forEach(btn => {
+        btn.classList.remove('btn-primary', 'btn-outline-primary', 'btn-success', 'btn-outline-success', 
+                            'btn-info', 'btn-outline-info', 'btn-warning', 'btn-outline-warning',
+                            'btn-secondary', 'btn-outline-secondary');
+        
+        if (btn.textContent.trim() === 'All' && category === 'all') {
+            btn.classList.add('btn-secondary');
+        } else if (btn.textContent.trim() === 'Labs' && category === 'Laboratory') {
+            btn.classList.add('btn-primary');
+        } else if (btn.textContent.trim() === 'Academic' && category === 'Academic') {
+            btn.classList.add('btn-success');
+        } else if (btn.textContent.trim() === 'Sports' && category === 'Sports') {
+            btn.classList.add('btn-info');
+        } else if (btn.textContent.trim() === 'Housing' && category === 'Accommodation') {
+            btn.classList.add('btn-warning');
+        } else {
+            btn.classList.add('btn-outline-secondary');
+        }
+    });
+}
+
+function searchFacilities() {
+    const searchTerm = document.getElementById('facilitySearch').value.toLowerCase();
+    const cards = document.querySelectorAll('.facility-card');
+    const noResults = document.getElementById('noResults');
+    let visibleCards = 0;
+    
+    cards.forEach(card => {
+        const facilityName = card.querySelector('.card-header h6').textContent.toLowerCase();
+        const facilityLocation = card.querySelector('div:nth-child(1)').textContent.toLowerCase();
+        
+        if (facilityName.includes(searchTerm) || facilityLocation.includes(searchTerm)) {
+            card.style.display = 'block';
+            visibleCards++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // Show/hide no results message
+    if (visibleCards === 0) {
+        noResults.style.display = 'block';
+    } else {
+        noResults.style.display = 'none';
+    }
+}
+
+function showDirections(location) {
+    alert(`Directions to: ${location}\n\nDetailed campus map and navigation feature coming soon!`);
+}
+
+function bookFacility(facilityName) {
+    alert(`Booking facility: ${facilityName}\n\nOnline booking system feature coming soon!`);
+}
+
+function reportIssue(facilityName, location) {
+    // Pre-fill the report form with facility information
+    const url = "{{ url_for('report_issue') }}?" + 
+                "facility=" + encodeURIComponent(facilityName) + 
+                "&location=" + encodeURIComponent(location);
+    window.location.href = url;
+}
+</script>
+{% endblock %}
