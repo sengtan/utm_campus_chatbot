@@ -38,9 +38,10 @@ The UTM Campus Assistant Chatbot is a Flask-based web application designed to he
 - **Admin**: Full access plus issue management, user oversight, facility management
 
 ### AI Service Integration
-- **Natural Language Processing**: OpenAI GPT-4o for understanding user queries
+- **Natural Language Processing**: Self-hosted DeepSeek LLM for understanding user queries
 - **Entity Extraction**: Identifies facilities, issue types, and user intent
 - **Context Awareness**: Maintains conversation context and facility database knowledge
+- **Fallback System**: Rule-based responses when LLM service is unavailable
 
 ### Form Validation
 - **WTForms**: Comprehensive form validation for user input
@@ -91,7 +92,8 @@ The UTM Campus Assistant Chatbot is a Flask-based web application designed to he
 ### Environment Variables Required
 - **DATABASE_URL**: PostgreSQL connection string
 - **SESSION_SECRET**: Flask session encryption key
-- **OPENAI_API_KEY**: OpenAI API authentication
+- **DEEPSEEK_API_URL**: Self-hosted DeepSeek LLM API endpoint (default: http://localhost:11434/v1/chat/completions)
+- **DEEPSEEK_MODEL**: DeepSeek model name (default: deepseek-r1:7b)
 
 ## Deployment Strategy
 
@@ -112,9 +114,85 @@ The UTM Campus Assistant Chatbot is a Flask-based web application designed to he
 - **Database Migration**: SQLAlchemy handles table creation automatically
 - **Environment Isolation**: Dependencies managed via pyproject.toml
 
+## Self-Hosted Deployment Setup
+
+### DeepSeek LLM Configuration
+
+1. **Install and Run DeepSeek locally** (Choose one option):
+
+   **Option A: Using Ollama**
+   ```bash
+   # Install Ollama
+   curl -fsSL https://ollama.ai/install.sh | sh
+   
+   # Pull DeepSeek model
+   ollama pull deepseek-r1:7b
+   
+   # Run the API server
+   ollama serve
+   ```
+   Default API URL: `http://localhost:11434/v1/chat/completions`
+
+   **Option B: Using vLLM**
+   ```bash
+   # Install vLLM
+   pip install vllm
+   
+   # Run DeepSeek model
+   python -m vllm.entrypoints.openai.api_server \
+     --model deepseek-ai/deepseek-r1-distill-qwen-7b \
+     --port 8000
+   ```
+   API URL: `http://localhost:8000/v1/chat/completions`
+
+2. **Configure Environment Variables**:
+   ```bash
+   export DEEPSEEK_API_URL="http://localhost:11434/v1/chat/completions"
+   export DEEPSEEK_MODEL="deepseek-r1:7b"
+   ```
+
+### Ngrok Deployment
+
+1. **Install ngrok**:
+   ```bash
+   # Download and install ngrok
+   curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+   echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+   sudo apt update && sudo apt install ngrok
+   ```
+
+2. **Authenticate ngrok**:
+   ```bash
+   ngrok authtoken YOUR_NGROK_TOKEN
+   ```
+
+3. **Start the application**:
+   ```bash
+   python main.py
+   ```
+
+4. **Expose via ngrok** (in another terminal):
+   ```bash
+   ngrok http 5000
+   ```
+
+5. **Access your application**:
+   - Local: `http://localhost:5000`
+   - Public: Use the ngrok URL (e.g., `https://abc123.ngrok.io`)
+
+### Production Considerations
+- Ensure DeepSeek LLM service is running before starting the Flask app
+- Monitor DeepSeek API response times and adjust timeout settings if needed
+- Use HTTPS with ngrok for secure access
+- Consider rate limiting for public access
+
 ## Changelog
-- June 21, 2025. Initial setup
+- June 21, 2025: Initial setup with OpenAI integration
+- June 21, 2025: Migrated from OpenAI to self-hosted DeepSeek LLM for complete local deployment
+- June 21, 2025: Added fallback response system for improved reliability
+- June 21, 2025: Configured for ngrok deployment support
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Deployment preference: Self-hosted with DeepSeek LLM on local computer, exposed via ngrok.

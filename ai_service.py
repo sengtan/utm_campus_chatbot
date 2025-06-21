@@ -1,16 +1,14 @@
 import os
 import json
 import re
-from openai import OpenAI
+import requests
 from models import Facility, IssueType, Priority
-
-# the newest OpenAI model is "gpt-4o" which was released May 13, 2024.
-# do not change this unless explicitly requested by the user
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "default_key")
-openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
 class AIService:
     def __init__(self):
+        # DeepSeek API configuration - adjust URL to your local setup
+        self.deepseek_url = os.environ.get("DEEPSEEK_API_URL", "http://localhost:11434/v1/chat/completions")
+        self.deepseek_model = os.environ.get("DEEPSEEK_MODEL", "deepseek-r1:7b")
         self.facilities_cache = None
         self.load_facilities()
     
@@ -71,17 +69,22 @@ class AIService:
             }}
             """
             
-            response = openai_client.chat.completions.create(
-                model="gpt-4o",
-                messages=[
-                    {"role": "system", "content": "You are an expert in natural language processing for campus facility management."},
+            payload = {
+                "model": self.deepseek_model,
+                "messages": [
+                    {"role": "system", "content": "You are an expert in natural language processing for campus facility management. Always respond with valid JSON."},
                     {"role": "user", "content": prompt}
                 ],
-                response_format={"type": "json_object"},
-                max_tokens=500
-            )
+                "max_tokens": 500,
+                "temperature": 0.3
+            }
             
-            result = json.loads(response.choices[0].message.content)
+            response = requests.post(self.deepseek_url, json=payload, timeout=30)
+            response.raise_for_status()
+            
+            result_data = response.json()
+            content = result_data["choices"][0]["message"]["content"]
+            result = json.loads(content)
             return result
             
         except Exception as e:
@@ -127,16 +130,21 @@ class AIService:
             Be conversational and helpful. If you need more information, ask clarifying questions.
             """
             
-            response = openai_client.chat.completions.create(
-                model="gpt-4o",
-                messages=[
+            payload = {
+                "model": self.deepseek_model,
+                "messages": [
                     {"role": "system", "content": context},
                     {"role": "user", "content": user_message}
                 ],
-                max_tokens=300
-            )
+                "max_tokens": 300,
+                "temperature": 0.7
+            }
             
-            return response.choices[0].message.content.strip()
+            response = requests.post(self.deepseek_url, json=payload, timeout=30)
+            response.raise_for_status()
+            
+            result_data = response.json()
+            return result_data["choices"][0]["message"]["content"].strip()
             
         except Exception as e:
             print(f"Error generating response: {e}")
@@ -221,17 +229,22 @@ class AIService:
             }}
             """
             
-            response = openai_client.chat.completions.create(
-                model="gpt-4o",
-                messages=[
-                    {"role": "system", "content": "You are an expert in facility management and issue classification."},
+            payload = {
+                "model": self.deepseek_model,
+                "messages": [
+                    {"role": "system", "content": "You are an expert in facility management and issue classification. Always respond with valid JSON."},
                     {"role": "user", "content": prompt}
                 ],
-                response_format={"type": "json_object"},
-                max_tokens=200
-            )
+                "max_tokens": 200,
+                "temperature": 0.3
+            }
             
-            result = json.loads(response.choices[0].message.content)
+            response = requests.post(self.deepseek_url, json=payload, timeout=30)
+            response.raise_for_status()
+            
+            result_data = response.json()
+            content = result_data["choices"][0]["message"]["content"]
+            result = json.loads(content)
             return {
                 'issue_type': result.get('issue_type', 'other'),
                 'priority': result.get('priority', 'medium'),
