@@ -8,8 +8,9 @@ from models import Facility, IssueType, Priority
 class AIService:
     def __init__(self):
         # DeepSeek API configuration - adjust URL to your local setup
-        self.deepseek_url = os.environ.get("DEEPSEEK_API_URL", "http://localhost:11434/api/chat")
-        self.deepseek_model = os.environ.get("DEEPSEEK_MODEL", "deepseek-r1:7b")
+        self.deepseek_url = os.environ.get("DEEPSEEK_API_URL1", "http://localhost:11434/v1/chat/completions")
+        self.deepseek_model = os.environ.get("DEEPSEEK_MODEL1", "deepseek-r1:7b")
+        self.deepseek_key = os.environ.get("DEEPSEEK_API_KEY1", None)  # Optional, if your API requires a key
         self.facilities_cache = None
         self.load_facilities()
     
@@ -98,6 +99,8 @@ class AIService:
             }}
             """
             
+            headers = {"Authorization": f"Bearer {self.deepseek_key}"} if self.deepseek_key else {}
+
             payload = {
                 "model": self.deepseek_model,
                 "messages": [
@@ -111,12 +114,22 @@ class AIService:
                 "stream": False # Ensure full JSON response at once
             }
             
-            response = requests.post(self.deepseek_url, json=payload, timeout=60) # Increased timeout
+            response = requests.post(self.deepseek_url, json=payload, headers=headers, timeout=60) # Increased timeout
             response.raise_for_status() # Raises HTTPError for bad responses (4xx or 5xx)
             
             result_data = response.json()
+
             # Correctly access content from Ollama's /api/chat response
-            model_raw_content = result_data.get("message", {}).get("content", "")
+            # model_raw_content = result_data.get("message", {}).get("content", "")
+
+            # For OpenRouter.ai: extract content from choices[0]['message']['content']
+            choices = result_data.get("choices", [])
+            model_raw_content = ""
+            if choices and "message" in choices[0]:
+                model_raw_content = choices[0]["message"].get("content", "")
+
+            if not model_raw_content:
+                raise ValueError("Model returned empty content for entity extraction.")
 
             if not model_raw_content:
                 raise ValueError("Model returned empty content for entity extraction.")
@@ -214,6 +227,8 @@ class AIService:
             """
             messages.append({"role": "system", "content": response_guidance}) # Add this as a guiding message
 
+            headers = {"Authorization": f"Bearer {self.deepseek_key}"} if self.deepseek_key else {}
+
             payload = {
                 "model": self.deepseek_model,
                 "messages": messages, # Use the built messages array
@@ -224,20 +239,29 @@ class AIService:
                 "stream": False # Get full response at once
             }
 
-            response = requests.post(self.deepseek_url, json=payload, timeout=60) # Increased timeout
+            response = requests.post(self.deepseek_url, json=payload, headers=headers, timeout=60) # Increased timeout
             response.raise_for_status() # Raises HTTPError for bad responses (4xx or 5xx)
             
             result_data = response.json()
             # --- CRITICAL FIX: Correctly access the content from Ollama's chat API response ---
             # Ollama's /api/chat returns: {"model": ..., "created_at": ..., "message": {"role": "assistant", "content": "..."}}
             # Access directly via 'message' key.
-            model_response_content = result_data.get("message", {}).get("content", "").strip()
+            # model_raw_content = result_data.get("message", {}).get("content", "").strip()
 
-            if not model_response_content:
+            # For OpenRouter.ai: extract content from choices[0]['message']['content']
+            choices = result_data.get("choices", [])
+            model_raw_content = ""
+            if choices and "message" in choices[0]:
+                model_raw_content = choices[0]["message"].get("content", "")
+
+            if not model_raw_content:
+                raise ValueError("Model returned empty content for entity extraction.")
+
+            if not model_raw_content:
                 raise ValueError("Model returned empty response content for generation.")
 
             # Remove <think>...</think> tags before returning to user
-            return self._remove_think_tags(model_response_content).strip()
+            return self._remove_think_tags(model_raw_content).strip()
             
         except requests.exceptions.Timeout:
             print(f"Error generating response: Request timed out.")
@@ -333,6 +357,8 @@ class AIService:
             }}
             """
             
+            headers = {"Authorization": f"Bearer {self.deepseek_key}"} if self.deepseek_key else {}
+
             payload = {
                 "model": self.deepseek_model,
                 "messages": [
@@ -346,12 +372,18 @@ class AIService:
                 "stream": False # Ensure full JSON response at once
             }
             
-            response = requests.post(self.deepseek_url, json=payload, timeout=60) # Increased timeout
+            response = requests.post(self.deepseek_url, json=payload, headers=headers, timeout=60) # Increased timeout
             response.raise_for_status()
             
             result_data = response.json()
             # Correctly access content from Ollama's /api/chat response
-            model_raw_content = result_data.get("message", {}).get("content", "")
+            # model_raw_content = result_data.get("message", {}).get("content", "")
+
+            # For OpenRouter.ai: extract content from choices[0]['message']['content']
+            choices = result_data.get("choices", [])
+            model_raw_content = ""
+            if choices and "message" in choices[0]:
+                model_raw_content = choices[0]["message"].get("content", "")
 
             if not model_raw_content:
                 raise ValueError("Model returned empty content for issue classification.")
