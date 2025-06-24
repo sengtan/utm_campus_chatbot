@@ -24,7 +24,7 @@ csrf = CSRFProtect()
 # Create the app
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "replit-utm-campus-assistant-fallback-key")
-app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+#app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 # Configure the database - SQLite for simplicity and portability
 database_url = os.environ.get("DATABASE_URL")
