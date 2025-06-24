@@ -19,7 +19,7 @@ class AIService:
         try:
             # Import app and db within the method to avoid circular imports
             # if AIService is initialized before app/db. This is a common pattern.
-            from app import app, db 
+            from flask_app import app, db 
             with app.app_context():
                 facilities = Facility.query.all()
                 self.facilities_cache = [

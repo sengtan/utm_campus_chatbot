@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from flask import render_template, request, redirect, url_for, flash, jsonify, session
 from flask_login import login_user, logout_user, login_required, current_user
-from app import app, db, bcrypt
+from flask_app import app, db, bcrypt
 from models import User, Issue, Facility, ChatSession, ChatMessage, IssueStatus, IssueType, Priority, UserRole, FacilityBooking, BookingStatus
 from forms import LoginForm, RegistrationForm, IssueForm, FeedbackForm, BookingForm, BookingManagementForm, FacilityForm, FacilityManagementForm
 from ai_service import ai_service

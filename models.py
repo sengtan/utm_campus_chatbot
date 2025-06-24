@@ -1,5 +1,5 @@
 from datetime import datetime
-from app import db
+from flask_app import db
 from flask_login import UserMixin
 from sqlalchemy import Enum
 import enum
