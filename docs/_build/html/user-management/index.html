@@ -1,0 +1,780 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. User Management &mdash; UTM Campus Assistant Admin Manual 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1. Troubleshooting Guide" href="../troubleshooting/index.html" />
+    <link rel="prev" title="1. Admin Dashboard" href="../admin-dashboard/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            UTM Campus Assistant Admin Manual
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">1. Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">2. Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Administration</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../admin-dashboard/index.html">1. Admin Dashboard</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. User Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#user-roles-and-permissions">2.1. User Roles and Permissions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#student-role">2.1.1. Student Role</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#administrator-role">2.1.2. Administrator Role</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#user-account-lifecycle">2.2. User Account Lifecycle</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#user-registration">2.2.1. User Registration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#admin-account-creation">2.2.2. Admin Account Creation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#user-account-management">2.3. User Account Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#viewing-user-accounts">2.3.1. Viewing User Accounts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-information-display">2.3.2. User Information Display</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modifying-user-accounts">2.3.3. Modifying User Accounts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#password-management">2.4. Password Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#password-reset-admin">2.4.1. Password Reset (Admin)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#password-policy">2.4.2. Password Policy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#user-activity-monitoring">2.5. User Activity Monitoring</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tracking-user-actions">2.5.1. Tracking User Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#activity-logs">2.5.2. Activity Logs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#user-support-and-assistance">2.6. User Support and Assistance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#common-user-issues">2.6.1. Common User Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#account-recovery">2.6.2. Account Recovery</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bulk-user-operations">2.7. Bulk User Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bulk-user-import">2.7.1. Bulk User Import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bulk-role-changes">2.7.2. Bulk Role Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-data-export">2.7.3. User Data Export</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#security-considerations">2.8. Security Considerations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#access-control">2.8.1. Access Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-privacy">2.8.2. User Privacy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#audit-and-compliance">2.8.3. Audit and Compliance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#user-statistics-and-analytics">2.9. User Statistics and Analytics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#user-metrics">2.9.1. User Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#usage-analytics">2.9.2. Usage Analytics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reporting">2.9.3. Reporting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">2.10. Best Practices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#user-management-guidelines">2.10.1. User Management Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#account-lifecycle-management">2.10.2. Account Lifecycle Management</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting-user-issues">2.11. Troubleshooting User Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#common-problems-and-solutions">2.11.1. Common Problems and Solutions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#emergency-procedures">2.11.2. Emergency Procedures</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Maintenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">1. Troubleshooting Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UTM Campus Assistant Admin Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">2. </span>User Management</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/user-management/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="user-management">
+<h1><span class="section-number">2. </span>User Management<a class="headerlink" href="#user-management" title="Link to this heading"></a></h1>
+<p>This section covers comprehensive user account management for the UTM Campus Assistant system.</p>
+<section id="user-roles-and-permissions">
+<h2><span class="section-number">2.1. </span>User Roles and Permissions<a class="headerlink" href="#user-roles-and-permissions" title="Link to this heading"></a></h2>
+<p>The system supports two primary user roles:</p>
+<section id="student-role">
+<h3><span class="section-number">2.1.1. </span>Student Role<a class="headerlink" href="#student-role" title="Link to this heading"></a></h3>
+<p><strong>Permissions</strong>:</p>
+<ul class="simple">
+<li><p>Report facility issues</p></li>
+<li><p>Use AI chatbot interface</p></li>
+<li><p>View facility information and directions</p></li>
+<li><p>Book available facilities</p></li>
+<li><p>Track personal issue status</p></li>
+<li><p>Provide feedback on resolved issues</p></li>
+</ul>
+<p><strong>Restrictions</strong>:</p>
+<ul class="simple">
+<li><p>Cannot access admin dashboard</p></li>
+<li><p>Cannot manage other users</p></li>
+<li><p>Cannot update issue status</p></li>
+<li><p>Cannot access system configuration</p></li>
+</ul>
+</section>
+<section id="administrator-role">
+<h3><span class="section-number">2.1.2. </span>Administrator Role<a class="headerlink" href="#administrator-role" title="Link to this heading"></a></h3>
+<p><strong>Permissions</strong>:</p>
+<ul class="simple">
+<li><p>All student permissions</p></li>
+<li><p>Access admin dashboard</p></li>
+<li><p>Manage user accounts</p></li>
+<li><p>Update issue status and assignments</p></li>
+<li><p>Manage facility information</p></li>
+<li><p>Approve/reject facility bookings</p></li>
+<li><p>Access system logs and analytics</p></li>
+<li><p>Configure system settings</p></li>
+<li><p>Manage database operations</p></li>
+</ul>
+</section>
+</section>
+<section id="user-account-lifecycle">
+<h2><span class="section-number">2.2. </span>User Account Lifecycle<a class="headerlink" href="#user-account-lifecycle" title="Link to this heading"></a></h2>
+<section id="user-registration">
+<h3><span class="section-number">2.2.1. </span>User Registration<a class="headerlink" href="#user-registration" title="Link to this heading"></a></h3>
+<p>Students can self-register through the registration form:</p>
+<ol class="arabic simple">
+<li><p><strong>Registration Process</strong>:</p>
+<ul class="simple">
+<li><p>Username (4-20 characters, unique)</p></li>
+<li><p>Email address (valid format, unique)</p></li>
+<li><p>Full name</p></li>
+<li><p>Student ID (optional)</p></li>
+<li><p>Password (minimum 6 characters)</p></li>
+<li><p>Role selection (defaults to Student)</p></li>
+</ul>
+</li>
+<li><p><strong>Validation Rules</strong>:</p>
+<ul class="simple">
+<li><p>Username must be unique</p></li>
+<li><p>Email must be valid and unique</p></li>
+<li><p>Student ID must be unique if provided</p></li>
+<li><p>Password must meet minimum requirements</p></li>
+</ul>
+</li>
+<li><p><strong>Account Activation</strong>:</p>
+<ul class="simple">
+<li><p>Accounts are immediately active upon registration</p></li>
+<li><p>Users can login immediately after registration</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="admin-account-creation">
+<h3><span class="section-number">2.2.2. </span>Admin Account Creation<a class="headerlink" href="#admin-account-creation" title="Link to this heading"></a></h3>
+<p><strong>Method 1: Promote Existing User</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">from app import app, db</span>
+<span class="s2">from models import User, UserRole</span>
+<span class="s2">with app.app_context():</span>
+<span class="s2">    user = User.query.filter_by(username=&#39;target-username&#39;).first()</span>
+<span class="s2">    if user:</span>
+<span class="s2">        user.role = UserRole.ADMIN</span>
+<span class="s2">        db.session.commit()</span>
+<span class="s2">        print(f&#39;User {user.username} promoted to admin&#39;)</span>
+<span class="s2">    else:</span>
+<span class="s2">        print(&#39;User not found&#39;)</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>Method 2: Database Direct Update</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">role</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;admin&#39;</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;target-username&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Method 3: Create Admin During Registration</strong></p>
+<p>Select “Admin” role during the registration process (requires existing admin approval in production).</p>
+</section>
+</section>
+<section id="user-account-management">
+<h2><span class="section-number">2.3. </span>User Account Management<a class="headerlink" href="#user-account-management" title="Link to this heading"></a></h2>
+<section id="viewing-user-accounts">
+<h3><span class="section-number">2.3.1. </span>Viewing User Accounts<a class="headerlink" href="#viewing-user-accounts" title="Link to this heading"></a></h3>
+<p>Access user management through the admin dashboard:</p>
+<ol class="arabic simple">
+<li><p>Login as administrator</p></li>
+<li><p>Navigate to “Manage Users” section</p></li>
+<li><p>View user list with details:</p>
+<ul class="simple">
+<li><p>Username and full name</p></li>
+<li><p>Email address</p></li>
+<li><p>Role assignment</p></li>
+<li><p>Registration date</p></li>
+<li><p>Last login (if tracked)</p></li>
+<li><p>Account status</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="user-information-display">
+<h3><span class="section-number">2.3.2. </span>User Information Display<a class="headerlink" href="#user-information-display" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">User Information Fields</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ID</p></td>
+<td><p>Unique user identifier</p></td>
+</tr>
+<tr class="row-odd"><td><p>Username</p></td>
+<td><p>Login username</p></td>
+</tr>
+<tr class="row-even"><td><p>Email</p></td>
+<td><p>Contact email address</p></td>
+</tr>
+<tr class="row-odd"><td><p>Full Name</p></td>
+<td><p>Complete user name</p></td>
+</tr>
+<tr class="row-even"><td><p>Student ID</p></td>
+<td><p>University student identifier</p></td>
+</tr>
+<tr class="row-odd"><td><p>Role</p></td>
+<td><p>Student or Administrator</p></td>
+</tr>
+<tr class="row-even"><td><p>Created At</p></td>
+<td><p>Account creation timestamp</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="modifying-user-accounts">
+<h3><span class="section-number">2.3.3. </span>Modifying User Accounts<a class="headerlink" href="#modifying-user-accounts" title="Link to this heading"></a></h3>
+<p><strong>Updating User Information</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Update user details</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">db</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">models</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;username&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s1">&#39;new-email@utm.my&#39;</span>
+    <span class="n">user</span><span class="o">.</span><span class="n">full_name</span> <span class="o">=</span> <span class="s1">&#39;Updated Name&#39;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Changing User Roles</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Promote to admin</span>
+<span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span>
+
+<span class="c1"># Demote to student</span>
+<span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">STUDENT</span>
+
+<span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="password-management">
+<h2><span class="section-number">2.4. </span>Password Management<a class="headerlink" href="#password-management" title="Link to this heading"></a></h2>
+<section id="password-reset-admin">
+<h3><span class="section-number">2.4.1. </span>Password Reset (Admin)<a class="headerlink" href="#password-reset-admin" title="Link to this heading"></a></h3>
+<p>Administrators can reset user passwords:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">werkzeug.security</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_password_hash</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;username&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="n">new_password</span> <span class="o">=</span> <span class="s1">&#39;temporary-password&#39;</span>
+    <span class="n">user</span><span class="o">.</span><span class="n">password_hash</span> <span class="o">=</span> <span class="n">generate_password_hash</span><span class="p">(</span><span class="n">new_password</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="password-policy">
+<h3><span class="section-number">2.4.2. </span>Password Policy<a class="headerlink" href="#password-policy" title="Link to this heading"></a></h3>
+<p>Current password requirements:</p>
+<ul class="simple">
+<li><p>Minimum 6 characters</p></li>
+<li><p>No maximum length limit</p></li>
+<li><p>No special character requirements (configurable)</p></li>
+</ul>
+<p><strong>Recommended Security Settings</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enhanced password policy (implementation)</span>
+<span class="n">PASSWORD_MIN_LENGTH</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">PASSWORD_REQUIRE_UPPERCASE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">PASSWORD_REQUIRE_LOWERCASE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">PASSWORD_REQUIRE_DIGIT</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">PASSWORD_REQUIRE_SPECIAL</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="user-activity-monitoring">
+<h2><span class="section-number">2.5. </span>User Activity Monitoring<a class="headerlink" href="#user-activity-monitoring" title="Link to this heading"></a></h2>
+<section id="tracking-user-actions">
+<h3><span class="section-number">2.5.1. </span>Tracking User Actions<a class="headerlink" href="#tracking-user-actions" title="Link to this heading"></a></h3>
+<p>Monitor user activity through:</p>
+<ol class="arabic simple">
+<li><p><strong>Login Tracking</strong>:</p>
+<ul class="simple">
+<li><p>Login timestamps</p></li>
+<li><p>Failed login attempts</p></li>
+<li><p>Session duration</p></li>
+</ul>
+</li>
+<li><p><strong>Feature Usage</strong>:</p>
+<ul class="simple">
+<li><p>Issue reports submitted</p></li>
+<li><p>Chatbot interactions</p></li>
+<li><p>Facility bookings made</p></li>
+<li><p>Feedback provided</p></li>
+</ul>
+</li>
+<li><p><strong>Admin Actions</strong>:</p>
+<ul class="simple">
+<li><p>Issue status updates</p></li>
+<li><p>User role changes</p></li>
+<li><p>System configuration changes</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="activity-logs">
+<h3><span class="section-number">2.5.2. </span>Activity Logs<a class="headerlink" href="#activity-logs" title="Link to this heading"></a></h3>
+<p>Access user activity logs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># View user&#39;s issues</span>
+<span class="n">user_issues</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+<span class="c1"># View user&#39;s bookings</span>
+<span class="n">user_bookings</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+<span class="c1"># View chat sessions</span>
+<span class="n">user_chats</span> <span class="o">=</span> <span class="n">ChatSession</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="user-support-and-assistance">
+<h2><span class="section-number">2.6. </span>User Support and Assistance<a class="headerlink" href="#user-support-and-assistance" title="Link to this heading"></a></h2>
+<section id="common-user-issues">
+<h3><span class="section-number">2.6.1. </span>Common User Issues<a class="headerlink" href="#common-user-issues" title="Link to this heading"></a></h3>
+<p><strong>Login Problems</strong>:</p>
+<ol class="arabic simple">
+<li><p>Forgotten password</p></li>
+<li><p>Username confusion</p></li>
+<li><p>Account lockout</p></li>
+<li><p>Session timeout</p></li>
+</ol>
+<p><strong>Resolution Steps</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if user exists</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;user@utm.my&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+<span class="c1"># Reset password</span>
+<span class="n">user</span><span class="o">.</span><span class="n">password_hash</span> <span class="o">=</span> <span class="n">generate_password_hash</span><span class="p">(</span><span class="s1">&#39;new-password&#39;</span><span class="p">)</span>
+<span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+<span class="c1"># Verify user role</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User role: </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">role</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="account-recovery">
+<h3><span class="section-number">2.6.2. </span>Account Recovery<a class="headerlink" href="#account-recovery" title="Link to this heading"></a></h3>
+<p><strong>Password Recovery Process</strong>:</p>
+<ol class="arabic simple">
+<li><p>User contacts administrator</p></li>
+<li><p>Admin verifies user identity</p></li>
+<li><p>Admin resets password</p></li>
+<li><p>New password provided securely</p></li>
+<li><p>User required to change password on next login</p></li>
+</ol>
+<p><strong>Account Unlock</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># If implementing account locking</span>
+<span class="n">user</span><span class="o">.</span><span class="n">locked</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">user</span><span class="o">.</span><span class="n">failed_login_attempts</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bulk-user-operations">
+<h2><span class="section-number">2.7. </span>Bulk User Operations<a class="headerlink" href="#bulk-user-operations" title="Link to this heading"></a></h2>
+<section id="bulk-user-import">
+<h3><span class="section-number">2.7.1. </span>Bulk User Import<a class="headerlink" href="#bulk-user-import" title="Link to this heading"></a></h3>
+<p>Import multiple users from CSV:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">models</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">UserRole</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">import_users_from_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span>
+                    <span class="n">username</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">],</span>
+                    <span class="n">email</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">],</span>
+                    <span class="n">full_name</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;full_name&#39;</span><span class="p">],</span>
+                    <span class="n">student_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;student_id&#39;</span><span class="p">),</span>
+                    <span class="n">role</span><span class="o">=</span><span class="n">UserRole</span><span class="o">.</span><span class="n">STUDENT</span>
+                <span class="p">)</span>
+                <span class="n">user</span><span class="o">.</span><span class="n">password_hash</span> <span class="o">=</span> <span class="n">generate_password_hash</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span>
+                <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="bulk-role-changes">
+<h3><span class="section-number">2.7.2. </span>Bulk Role Changes<a class="headerlink" href="#bulk-role-changes" title="Link to this heading"></a></h3>
+<p>Change multiple user roles:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Promote multiple users to admin</span>
+<span class="n">admin_usernames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;user1&#39;</span><span class="p">,</span> <span class="s1">&#39;user2&#39;</span><span class="p">,</span> <span class="s1">&#39;user3&#39;</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">admin_usernames</span><span class="p">))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">:</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="user-data-export">
+<h3><span class="section-number">2.7.3. </span>User Data Export<a class="headerlink" href="#user-data-export" title="Link to this heading"></a></h3>
+<p>Export user data for analysis:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">export_users_to_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s1">&#39;Username&#39;</span><span class="p">,</span> <span class="s1">&#39;Email&#39;</span><span class="p">,</span> <span class="s1">&#39;Full Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Role&#39;</span><span class="p">,</span> <span class="s1">&#39;Created&#39;</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">:</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span>
+                    <span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                    <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
+                    <span class="n">user</span><span class="o">.</span><span class="n">full_name</span><span class="p">,</span>
+                    <span class="n">user</span><span class="o">.</span><span class="n">role</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                    <span class="n">user</span><span class="o">.</span><span class="n">created_at</span>
+                <span class="p">])</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="security-considerations">
+<h2><span class="section-number">2.8. </span>Security Considerations<a class="headerlink" href="#security-considerations" title="Link to this heading"></a></h2>
+<section id="access-control">
+<h3><span class="section-number">2.8.1. </span>Access Control<a class="headerlink" href="#access-control" title="Link to this heading"></a></h3>
+<p><strong>Role-Based Access Control (RBAC)</strong>:</p>
+<ul class="simple">
+<li><p>Students: Limited to personal data and public features</p></li>
+<li><p>Admins: Full system access with audit trails</p></li>
+</ul>
+<p><strong>Session Security</strong>:</p>
+<ul class="simple">
+<li><p>Secure session cookies</p></li>
+<li><p>Session timeout after inactivity</p></li>
+<li><p>Protection against session hijacking</p></li>
+</ul>
+<p><strong>Data Protection</strong>:</p>
+<ul class="simple">
+<li><p>Password hashing with bcrypt</p></li>
+<li><p>Email validation and sanitization</p></li>
+<li><p>Input validation on all forms</p></li>
+</ul>
+</section>
+<section id="user-privacy">
+<h3><span class="section-number">2.8.2. </span>User Privacy<a class="headerlink" href="#user-privacy" title="Link to this heading"></a></h3>
+<p><strong>Data Collection</strong>:</p>
+<ul class="simple">
+<li><p>Minimal data collection principle</p></li>
+<li><p>Clear purpose for each data field</p></li>
+<li><p>User consent for data processing</p></li>
+</ul>
+<p><strong>Data Retention</strong>:</p>
+<ul class="simple">
+<li><p>Regular cleanup of old session data</p></li>
+<li><p>Archive inactive user accounts</p></li>
+<li><p>Secure deletion of removed accounts</p></li>
+</ul>
+</section>
+<section id="audit-and-compliance">
+<h3><span class="section-number">2.8.3. </span>Audit and Compliance<a class="headerlink" href="#audit-and-compliance" title="Link to this heading"></a></h3>
+<p><strong>Audit Trails</strong>:</p>
+<ul class="simple">
+<li><p>Log all admin actions</p></li>
+<li><p>Track user role changes</p></li>
+<li><p>Monitor access patterns</p></li>
+</ul>
+<p><strong>Compliance Requirements</strong>:</p>
+<ul class="simple">
+<li><p>Data protection regulations</p></li>
+<li><p>University policies</p></li>
+<li><p>Security standards</p></li>
+</ul>
+</section>
+</section>
+<section id="user-statistics-and-analytics">
+<h2><span class="section-number">2.9. </span>User Statistics and Analytics<a class="headerlink" href="#user-statistics-and-analytics" title="Link to this heading"></a></h2>
+<section id="user-metrics">
+<h3><span class="section-number">2.9.1. </span>User Metrics<a class="headerlink" href="#user-metrics" title="Link to this heading"></a></h3>
+<p>Track key user metrics:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># User registration trends</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">func</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="c1"># Users registered in last 30 days</span>
+    <span class="n">thirty_days_ago</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">recent_users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+        <span class="n">User</span><span class="o">.</span><span class="n">created_at</span> <span class="o">&gt;=</span> <span class="n">thirty_days_ago</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+    <span class="c1"># Total users by role</span>
+    <span class="n">students</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">UserRole</span><span class="o">.</span><span class="n">STUDENT</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">admins</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="usage-analytics">
+<h3><span class="section-number">2.9.2. </span>Usage Analytics<a class="headerlink" href="#usage-analytics" title="Link to this heading"></a></h3>
+<p>Analyze user engagement:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Most active users (by issues reported)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">desc</span>
+
+<span class="n">active_users</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">User</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+    <span class="n">func</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">Issue</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s1">&#39;issue_count&#39;</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Issue</span><span class="p">)</span><span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span>
+    <span class="n">desc</span><span class="p">(</span><span class="s1">&#39;issue_count&#39;</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="reporting">
+<h3><span class="section-number">2.9.3. </span>Reporting<a class="headerlink" href="#reporting" title="Link to this heading"></a></h3>
+<p>Generate user reports:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">generate_user_report</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+        <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;total_users&#39;</span><span class="p">:</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+            <span class="s1">&#39;students&#39;</span><span class="p">:</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">UserRole</span><span class="o">.</span><span class="n">STUDENT</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+            <span class="s1">&#39;admins&#39;</span><span class="p">:</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+            <span class="s1">&#39;recent_registrations&#39;</span><span class="p">:</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">User</span><span class="o">.</span><span class="n">created_at</span> <span class="o">&gt;=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">report</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="best-practices">
+<h2><span class="section-number">2.10. </span>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<section id="user-management-guidelines">
+<h3><span class="section-number">2.10.1. </span>User Management Guidelines<a class="headerlink" href="#user-management-guidelines" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Regular Reviews</strong>:</p>
+<ul class="simple">
+<li><p>Review user accounts monthly</p></li>
+<li><p>Remove inactive accounts</p></li>
+<li><p>Audit admin permissions</p></li>
+</ul>
+</li>
+<li><p><strong>Security Practices</strong>:</p>
+<ul class="simple">
+<li><p>Enforce strong passwords</p></li>
+<li><p>Monitor suspicious activity</p></li>
+<li><p>Regular security training</p></li>
+</ul>
+</li>
+<li><p><strong>Support Procedures</strong>:</p>
+<ul class="simple">
+<li><p>Document common issues</p></li>
+<li><p>Maintain support scripts</p></li>
+<li><p>Track resolution times</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="account-lifecycle-management">
+<h3><span class="section-number">2.10.2. </span>Account Lifecycle Management<a class="headerlink" href="#account-lifecycle-management" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Onboarding</strong>:</p>
+<ul class="simple">
+<li><p>Clear registration process</p></li>
+<li><p>Welcome instructions</p></li>
+<li><p>Feature orientation</p></li>
+</ul>
+</li>
+<li><p><strong>Maintenance</strong>:</p>
+<ul class="simple">
+<li><p>Regular data cleanup</p></li>
+<li><p>Permission reviews</p></li>
+<li><p>Performance monitoring</p></li>
+</ul>
+</li>
+<li><p><strong>Offboarding</strong>:</p>
+<ul class="simple">
+<li><p>Account deactivation process</p></li>
+<li><p>Data retention policies</p></li>
+<li><p>Secure data deletion</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="troubleshooting-user-issues">
+<h2><span class="section-number">2.11. </span>Troubleshooting User Issues<a class="headerlink" href="#troubleshooting-user-issues" title="Link to this heading"></a></h2>
+<section id="common-problems-and-solutions">
+<h3><span class="section-number">2.11.1. </span>Common Problems and Solutions<a class="headerlink" href="#common-problems-and-solutions" title="Link to this heading"></a></h3>
+<p><strong>User Cannot Login</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if user exists and verify details</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;username&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;User not found&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User found: </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">, Role: </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">role</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Permission Denied Errors</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify user role</span>
+<span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;User needs admin privileges&quot;</span><span class="p">)</span>
+    <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Duplicate Registration Attempts</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check for existing users</span>
+<span class="n">existing_user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="n">username</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">email</span> <span class="o">==</span> <span class="n">email</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">existing_user</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Conflict with existing user: </span><span class="si">{</span><span class="n">existing_user</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="emergency-procedures">
+<h3><span class="section-number">2.11.2. </span>Emergency Procedures<a class="headerlink" href="#emergency-procedures" title="Link to this heading"></a></h3>
+<p><strong>Mass Password Reset</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reset all user passwords (emergency only)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">secrets</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">reset_log</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">:</span>
+        <span class="n">temp_password</span> <span class="o">=</span> <span class="n">secrets</span><span class="o">.</span><span class="n">token_urlsafe</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">password_hash</span> <span class="o">=</span> <span class="n">generate_password_hash</span><span class="p">(</span><span class="n">temp_password</span><span class="p">)</span>
+        <span class="n">reset_log</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="n">temp_password</span><span class="p">))</span>
+
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="c1"># Save reset log securely</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;password_reset_log.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span> <span class="ow">in</span> <span class="n">reset_log</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">password</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Account Recovery</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recover accidentally deleted admin account</span>
+<span class="n">emergency_admin</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span>
+    <span class="n">username</span><span class="o">=</span><span class="s1">&#39;emergency_admin&#39;</span><span class="p">,</span>
+    <span class="n">email</span><span class="o">=</span><span class="s1">&#39;admin@utm.my&#39;</span><span class="p">,</span>
+    <span class="n">full_name</span><span class="o">=</span><span class="s1">&#39;Emergency Administrator&#39;</span><span class="p">,</span>
+    <span class="n">role</span><span class="o">=</span><span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span>
+<span class="p">)</span>
+<span class="n">emergency_admin</span><span class="o">.</span><span class="n">password_hash</span> <span class="o">=</span> <span class="n">generate_password_hash</span><span class="p">(</span><span class="s1">&#39;emergency_password&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">emergency_admin</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../admin-dashboard/index.html" class="btn btn-neutral float-left" title="1. Admin Dashboard" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../troubleshooting/index.html" class="btn btn-neutral float-right" title="1. Troubleshooting Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, UTM IT Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

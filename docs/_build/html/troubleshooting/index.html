@@ -1,0 +1,643 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. Troubleshooting Guide &mdash; UTM Campus Assistant Admin Manual 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="2. User Management" href="../user-management/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            UTM Campus Assistant Admin Manual
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">1. Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">2. Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../admin-dashboard/index.html">1. Admin Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-management/index.html">2. User Management</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Maintenance</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Troubleshooting Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#common-issues">1.1. Common Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#application-won-t-start">1.1.1. Application Won’t Start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cannot-access-admin-dashboard">1.1.2. Cannot Access Admin Dashboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chatbot-not-responding">1.1.3. Chatbot Not Responding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#database-issues">1.1.4. Database Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-issues">1.2. Performance Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#slow-response-times">1.2.1. Slow Response Times</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#high-memory-usage">1.2.2. High Memory Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#error-diagnosis">1.3. Error Diagnosis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#common-error-messages">1.3.1. Common Error Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#log-analysis">1.4. Log Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#application-logs">1.4.1. Application Logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#web-server-logs">1.4.2. Web Server Logs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#system-recovery">1.5. System Recovery</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#emergency-procedures">1.5.1. Emergency Procedures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#service-restart-procedures">1.5.2. Service Restart Procedures</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring-and-prevention">1.6. Monitoring and Prevention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#health-checks">1.6.1. Health Checks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#preventive-maintenance">1.6.2. Preventive Maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-additional-help">1.7. Getting Additional Help</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#when-to-contact-support">1.7.1. When to Contact Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#support-information">1.7.2. Support Information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#useful-commands-reference">1.8. Useful Commands Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#quick-diagnostic-commands">1.8.1. Quick Diagnostic Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#log-commands">1.8.2. Log Commands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UTM Campus Assistant Admin Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1. </span>Troubleshooting Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/troubleshooting/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="troubleshooting-guide">
+<h1><span class="section-number">1. </span>Troubleshooting Guide<a class="headerlink" href="#troubleshooting-guide" title="Link to this heading"></a></h1>
+<p>This guide helps resolve common issues with the UTM Campus Assistant system.</p>
+<section id="common-issues">
+<h2><span class="section-number">1.1. </span>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h2>
+<section id="application-won-t-start">
+<h3><span class="section-number">1.1.1. </span>Application Won’t Start<a class="headerlink" href="#application-won-t-start" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Application fails to start or crashes immediately</p>
+<p><strong>Possible Causes and Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Missing Environment Variables</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if required variables are set</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$SESSION_SECRET</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$DATABASE_URL</span>
+</pre></div>
+</div>
+<p><strong>Solution</strong>: Set all required environment variables</p>
+</li>
+<li><p><strong>Port Already in Use</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find process using port 5000</span>
+lsof<span class="w"> </span>-i<span class="w"> </span>:5000
+<span class="c1"># Kill the process or use different port</span>
+<span class="nb">kill</span><span class="w"> </span>-9<span class="w"> </span>&lt;PID&gt;
+</pre></div>
+</div>
+<p><strong>Solution</strong>: Use a different port or stop conflicting service</p>
+</li>
+<li><p><strong>Database Connection Issues</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test database connectivity</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from app import db; print(db.engine.url)&quot;</span>
+</pre></div>
+</div>
+<p><strong>Solution</strong>: Verify database URL and credentials</p>
+</li>
+</ol>
+</section>
+<section id="cannot-access-admin-dashboard">
+<h3><span class="section-number">1.1.2. </span>Cannot Access Admin Dashboard<a class="headerlink" href="#cannot-access-admin-dashboard" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Users cannot access administrative features</p>
+<p><strong>Diagnostic Steps</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check User Role</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">from app import app, db</span>
+<span class="s2">from models import User</span>
+<span class="s2">with app.app_context():</span>
+<span class="s2">    user = User.query.filter_by(username=&#39;your-username&#39;).first()</span>
+<span class="s2">    print(f&#39;User role: {user.role}&#39;)</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Promote User to Admin</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">from app import app, db</span>
+<span class="s2">from models import User, UserRole</span>
+<span class="s2">with app.app_context():</span>
+<span class="s2">    user = User.query.filter_by(username=&#39;your-username&#39;).first()</span>
+<span class="s2">    user.role = UserRole.ADMIN</span>
+<span class="s2">    db.session.commit()</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="chatbot-not-responding">
+<h3><span class="section-number">1.1.3. </span>Chatbot Not Responding<a class="headerlink" href="#chatbot-not-responding" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: AI chatbot returns errors or no responses</p>
+<p><strong>Diagnostic Steps</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check AI Service Status</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test DeepSeek API</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:11434/v1/chat/completions<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;model&quot;:&quot;deepseek-r1:7b&quot;,&quot;messages&quot;:[{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;test&quot;}]}&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Restart AI Service</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For Ollama</span>
+ollama<span class="w"> </span>serve
+
+<span class="c1"># Check if model is available</span>
+ollama<span class="w"> </span>list
+</pre></div>
+</div>
+</li>
+<li><p><strong>Check AI Service Logs</strong></p>
+<p>Review application logs for AI-related errors</p>
+</li>
+</ol>
+</section>
+<section id="database-issues">
+<h3><span class="section-number">1.1.4. </span>Database Issues<a class="headerlink" href="#database-issues" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Database errors or data corruption</p>
+<p><strong>Diagnostic Steps</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check Database File Permissions</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-la<span class="w"> </span>instance/utm_campus.db
+<span class="c1"># Ensure proper read/write permissions</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Test Database Connection</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">from app import app, db</span>
+<span class="s2">with app.app_context():</span>
+<span class="s2">    try:</span>
+<span class="s2">        db.engine.connect()</span>
+<span class="s2">        print(&#39;Database connection successful&#39;)</span>
+<span class="s2">    except Exception as e:</span>
+<span class="s2">        print(f&#39;Database error: {e}&#39;)</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Backup and Recreate Database</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Backup existing database</span>
+cp<span class="w"> </span>instance/utm_campus.db<span class="w"> </span>instance/utm_campus_backup.db
+
+<span class="c1"># Recreate database</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">from app import app, db</span>
+<span class="s2">with app.app_context():</span>
+<span class="s2">    db.drop_all()</span>
+<span class="s2">    db.create_all()</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="performance-issues">
+<h2><span class="section-number">1.2. </span>Performance Issues<a class="headerlink" href="#performance-issues" title="Link to this heading"></a></h2>
+<section id="slow-response-times">
+<h3><span class="section-number">1.2.1. </span>Slow Response Times<a class="headerlink" href="#slow-response-times" title="Link to this heading"></a></h3>
+<p><strong>Diagnostic Steps</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check System Resources</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monitor CPU and memory usage</span>
+top<span class="w"> </span>-p<span class="w"> </span><span class="k">$(</span>pgrep<span class="w"> </span>-f<span class="w"> </span>gunicorn<span class="k">)</span>
+
+<span class="c1"># Check disk usage</span>
+df<span class="w"> </span>-h
+
+<span class="c1"># Monitor network</span>
+netstat<span class="w"> </span>-tuln<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>:5000
+</pre></div>
+</div>
+</li>
+<li><p><strong>Database Performance</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check database size</span>
+du<span class="w"> </span>-h<span class="w"> </span>instance/utm_campus.db
+
+<span class="c1"># Monitor database queries (if using PostgreSQL)</span>
+<span class="c1"># SELECT query, calls, total_time FROM pg_stat_statements ORDER BY total_time DESC LIMIT 10;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Application Profiling</strong></p>
+<p>Enable debug mode temporarily to identify bottlenecks:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add to main.py for debugging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">werkzeug.middleware.profiler</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProfilerMiddleware</span>
+<span class="n">app</span><span class="o">.</span><span class="n">wsgi_app</span> <span class="o">=</span> <span class="n">ProfilerMiddleware</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">wsgi_app</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="high-memory-usage">
+<h3><span class="section-number">1.2.2. </span>High Memory Usage<a class="headerlink" href="#high-memory-usage" title="Link to this heading"></a></h3>
+<p><strong>Diagnostic Steps</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Monitor Memory Usage</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check memory usage by process</span>
+ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>gunicorn<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2, $4, $6, $11}&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Optimize Database Connections</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Adjust connection pool settings</span>
+<span class="n">SQLALCHEMY_ENGINE_OPTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;pool_size&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">&#39;pool_recycle&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+    <span class="s1">&#39;pool_pre_ping&#39;</span><span class="p">:</span> <span class="kc">True</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="error-diagnosis">
+<h2><span class="section-number">1.3. </span>Error Diagnosis<a class="headerlink" href="#error-diagnosis" title="Link to this heading"></a></h2>
+<section id="common-error-messages">
+<h3><span class="section-number">1.3.1. </span>Common Error Messages<a class="headerlink" href="#common-error-messages" title="Link to this heading"></a></h3>
+<p><strong>“No module named ‘app’”</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure you&#39;re in the correct directory</span>
+<span class="nb">pwd</span>
+ls<span class="w"> </span>-la<span class="w"> </span>main.py
+
+<span class="c1"># Check Python path</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print(sys.path)&quot;</span>
+</pre></div>
+</div>
+<p><strong>“OperationalError: no such table”</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recreate database tables</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">from app import app, db</span>
+<span class="s2">with app.app_context():</span>
+<span class="s2">    db.create_all()</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>“CSRF token missing”</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if CSRF is properly configured</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">from app import app</span>
+<span class="s2">print(app.config.get(&#39;WTF_CSRF_ENABLED&#39;, &#39;Not set&#39;))</span>
+<span class="s2">print(app.secret_key)</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>“Connection refused” (AI Service)</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if AI service is running</span>
+curl<span class="w"> </span>-f<span class="w"> </span>http://localhost:11434/api/version<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;AI service not accessible&quot;</span>
+
+<span class="c1"># Start AI service</span>
+ollama<span class="w"> </span>serve
+</pre></div>
+</div>
+</section>
+</section>
+<section id="log-analysis">
+<h2><span class="section-number">1.4. </span>Log Analysis<a class="headerlink" href="#log-analysis" title="Link to this heading"></a></h2>
+<section id="application-logs">
+<h3><span class="section-number">1.4.1. </span>Application Logs<a class="headerlink" href="#application-logs" title="Link to this heading"></a></h3>
+<p><strong>Location</strong>: Check the console output or log files</p>
+<p><strong>Common Log Patterns</strong>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Normal operation
+INFO:root:Database tables created
+INFO:root:Loaded 9 facilities into cache
+
+# Database issues
+ERROR:sqlalchemy.engine:Cannot connect to database
+
+# AI service issues
+WARNING:ai_service:DeepSeek API not available, using fallback
+</pre></div>
+</div>
+<p><strong>Log Analysis Commands</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Search for errors in logs</span>
+grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;error&quot;</span><span class="w"> </span>utm_campus.log
+
+<span class="c1"># Count error occurrences</span>
+grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;ERROR&quot;</span><span class="w"> </span>utm_campus.log
+
+<span class="c1"># Monitor live logs</span>
+tail<span class="w"> </span>-f<span class="w"> </span>utm_campus.log
+</pre></div>
+</div>
+</section>
+<section id="web-server-logs">
+<h3><span class="section-number">1.4.2. </span>Web Server Logs<a class="headerlink" href="#web-server-logs" title="Link to this heading"></a></h3>
+<p><strong>Gunicorn Logs</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check gunicorn process status</span>
+ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>gunicorn
+
+<span class="c1"># Monitor gunicorn logs</span>
+journalctl<span class="w"> </span>-u<span class="w"> </span>gunicorn<span class="w"> </span>-f
+</pre></div>
+</div>
+</section>
+</section>
+<section id="system-recovery">
+<h2><span class="section-number">1.5. </span>System Recovery<a class="headerlink" href="#system-recovery" title="Link to this heading"></a></h2>
+<section id="emergency-procedures">
+<h3><span class="section-number">1.5.1. </span>Emergency Procedures<a class="headerlink" href="#emergency-procedures" title="Link to this heading"></a></h3>
+<p><strong>Complete System Reset</strong> (Development Only):</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This will delete all data. Only use in development environments.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Stop the application</span>
+pkill<span class="w"> </span>-f<span class="w"> </span>gunicorn
+
+<span class="c1"># Backup database</span>
+cp<span class="w"> </span>instance/utm_campus.db<span class="w"> </span>instance/backup_<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d_%H%M%S<span class="k">)</span>.db
+
+<span class="c1"># Reset database</span>
+rm<span class="w"> </span>instance/utm_campus.db
+
+<span class="c1"># Restart application</span>
+python<span class="w"> </span>main.py
+</pre></div>
+</div>
+<p><strong>Database Recovery</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Restore from backup</span>
+cp<span class="w"> </span>instance/backup_YYYYMMDD_HHMMSS.db<span class="w"> </span>instance/utm_campus.db
+
+<span class="c1"># Verify database integrity</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">from app import app, db</span>
+<span class="s2">from models import User, Facility</span>
+<span class="s2">with app.app_context():</span>
+<span class="s2">    print(f&#39;Users: {User.query.count()}&#39;)</span>
+<span class="s2">    print(f&#39;Facilities: {Facility.query.count()}&#39;)</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="service-restart-procedures">
+<h3><span class="section-number">1.5.2. </span>Service Restart Procedures<a class="headerlink" href="#service-restart-procedures" title="Link to this heading"></a></h3>
+<p><strong>Application Restart</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Graceful restart</span>
+pkill<span class="w"> </span>-TERM<span class="w"> </span>-f<span class="w"> </span>gunicorn
+sleep<span class="w"> </span><span class="m">5</span>
+python<span class="w"> </span>main.py
+
+<span class="c1"># Force restart</span>
+pkill<span class="w"> </span>-KILL<span class="w"> </span>-f<span class="w"> </span>gunicorn
+python<span class="w"> </span>main.py
+</pre></div>
+</div>
+<p><strong>AI Service Restart</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Restart Ollama</span>
+pkill<span class="w"> </span>ollama
+ollama<span class="w"> </span>serve<span class="w"> </span><span class="p">&amp;</span>
+
+<span class="c1"># Wait for service to start</span>
+sleep<span class="w"> </span><span class="m">10</span>
+ollama<span class="w"> </span>list
+</pre></div>
+</div>
+</section>
+</section>
+<section id="monitoring-and-prevention">
+<h2><span class="section-number">1.6. </span>Monitoring and Prevention<a class="headerlink" href="#monitoring-and-prevention" title="Link to this heading"></a></h2>
+<section id="health-checks">
+<h3><span class="section-number">1.6.1. </span>Health Checks<a class="headerlink" href="#health-checks" title="Link to this heading"></a></h3>
+<p>Create a health check script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_health</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Check main application</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://localhost:5000/&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># Check AI service</span>
+        <span class="n">ai_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://localhost:11434/api/version&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ai_response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: AI service not responding&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Health check failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">check_health</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;System healthy&quot;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;System unhealthy&quot;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="preventive-maintenance">
+<h3><span class="section-number">1.6.2. </span>Preventive Maintenance<a class="headerlink" href="#preventive-maintenance" title="Link to this heading"></a></h3>
+<p><strong>Daily Tasks</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check disk space</span>
+df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;$5 &gt; 80 {print &quot;Warning: &quot; $0}&#39;</span>
+
+<span class="c1"># Check log file sizes</span>
+find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.log&quot;</span><span class="w"> </span>-size<span class="w"> </span>+100M<span class="w"> </span>-ls
+
+<span class="c1"># Verify database integrity</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">from app import app, db</span>
+<span class="s2">with app.app_context():</span>
+<span class="s2">    try:</span>
+<span class="s2">        db.engine.execute(&#39;PRAGMA integrity_check&#39;)</span>
+<span class="s2">        print(&#39;Database integrity OK&#39;)</span>
+<span class="s2">    except Exception as e:</span>
+<span class="s2">        print(f&#39;Database issue: {e}&#39;)</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>Weekly Tasks</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rotate logs</span>
+mv<span class="w"> </span>utm_campus.log<span class="w"> </span>utm_campus.log.<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>
+
+<span class="c1"># Clean old backups</span>
+find<span class="w"> </span>backups/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.db&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
+
+<span class="c1"># Update system dependencies</span>
+pip<span class="w"> </span>list<span class="w"> </span>--outdated
+</pre></div>
+</div>
+</section>
+</section>
+<section id="getting-additional-help">
+<h2><span class="section-number">1.7. </span>Getting Additional Help<a class="headerlink" href="#getting-additional-help" title="Link to this heading"></a></h2>
+<section id="when-to-contact-support">
+<h3><span class="section-number">1.7.1. </span>When to Contact Support<a class="headerlink" href="#when-to-contact-support" title="Link to this heading"></a></h3>
+<p>Contact IT support when:</p>
+<ul class="simple">
+<li><p>System is completely inaccessible</p></li>
+<li><p>Data corruption is suspected</p></li>
+<li><p>Security incidents occur</p></li>
+<li><p>Performance severely degraded</p></li>
+<li><p>Multiple users report issues</p></li>
+</ul>
+</section>
+<section id="support-information">
+<h3><span class="section-number">1.7.2. </span>Support Information<a class="headerlink" href="#support-information" title="Link to this heading"></a></h3>
+<p><strong>Before Contacting Support, Gather</strong>:</p>
+<ol class="arabic simple">
+<li><p>Error messages (exact text)</p></li>
+<li><p>Steps to reproduce the issue</p></li>
+<li><p>System logs</p></li>
+<li><p>Recent changes made</p></li>
+<li><p>Number of affected users</p></li>
+</ol>
+<p><strong>Contact Information</strong>:</p>
+<ul class="simple">
+<li><p><strong>Email</strong>: <a class="reference external" href="mailto:it-support&#37;&#52;&#48;utm&#46;my">it-support<span>&#64;</span>utm<span>&#46;</span>my</a></p></li>
+<li><p><strong>Phone</strong>: +60-7-553-4100</p></li>
+<li><p><strong>Emergency</strong>: 24/7 support hotline</p></li>
+</ul>
+<p><strong>Include in Support Requests</strong>:</p>
+<ul class="simple">
+<li><p>System version information</p></li>
+<li><p>Environment details (development/production)</p></li>
+<li><p>Error logs and screenshots</p></li>
+<li><p>Impact assessment</p></li>
+<li><p>Urgency level</p></li>
+</ul>
+</section>
+</section>
+<section id="useful-commands-reference">
+<h2><span class="section-number">1.8. </span>Useful Commands Reference<a class="headerlink" href="#useful-commands-reference" title="Link to this heading"></a></h2>
+<section id="quick-diagnostic-commands">
+<h3><span class="section-number">1.8.1. </span>Quick Diagnostic Commands<a class="headerlink" href="#quick-diagnostic-commands" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check application status</span>
+curl<span class="w"> </span>-I<span class="w"> </span>http://localhost:5000/
+
+<span class="c1"># Test database connection</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from app import db; print(&#39;DB OK&#39; if db.engine.connect() else &#39;DB Error&#39;)&quot;</span>
+
+<span class="c1"># Check AI service</span>
+curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:11434/api/version<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
+
+<span class="c1"># Monitor resource usage</span>
+ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;(gunicorn|python|ollama)&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2, $3, $4, $11}&#39;</span>
+
+<span class="c1"># Check port usage</span>
+netstat<span class="w"> </span>-tlnp<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>:5000
+</pre></div>
+</div>
+</section>
+<section id="log-commands">
+<h3><span class="section-number">1.8.2. </span>Log Commands<a class="headerlink" href="#log-commands" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># View recent errors</span>
+tail<span class="w"> </span>-100<span class="w"> </span>utm_campus.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>error
+
+<span class="c1"># Monitor live logs</span>
+tail<span class="w"> </span>-f<span class="w"> </span>utm_campus.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;GET /&quot;</span>
+
+<span class="c1"># Count error types</span>
+grep<span class="w"> </span>-oE<span class="w"> </span><span class="s2">&quot;ERROR:[^:]*&quot;</span><span class="w"> </span>utm_campus.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c
+
+<span class="c1"># Find specific user activity</span>
+grep<span class="w"> </span><span class="s2">&quot;user_id=123&quot;</span><span class="w"> </span>utm_campus.log
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../user-management/index.html" class="btn btn-neutral float-left" title="2. User Management" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, UTM IT Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

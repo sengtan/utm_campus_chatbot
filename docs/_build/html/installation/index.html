@@ -1,0 +1,412 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. Installation Guide &mdash; UTM Campus Assistant Admin Manual 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. Configuration Guide" href="../configuration/index.html" />
+    <link rel="prev" title="UTM Campus Assistant - Administrator Manual" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            UTM Campus Assistant Admin Manual
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Installation Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#system-requirements">1.1. System Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hardware-requirements">1.1.1. Hardware Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software-requirements">1.1.2. Software Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-methods">1.2. Installation Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#replit-deployment">1.3. Replit Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#local-development-setup">1.4. Local Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ai-service-setup-optional">1.5. AI Service Setup (Optional)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-ollama-recommended">1.5.1. Using Ollama (Recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-vllm">1.5.2. Using vLLM</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#post-installation-setup">1.6. Post-Installation Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verification">1.7. Verification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting-installation">1.8. Troubleshooting Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#common-issues">1.8.1. Common Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">1.9. Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/index.html">2. Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../admin-dashboard/index.html">1. Admin Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-management/index.html">2. User Management</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Maintenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">1. Troubleshooting Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UTM Campus Assistant Admin Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1. </span>Installation Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/installation/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installation-guide">
+<h1><span class="section-number">1. </span>Installation Guide<a class="headerlink" href="#installation-guide" title="Link to this heading"></a></h1>
+<p>This section covers the complete installation process for the UTM Campus Assistant system.</p>
+<section id="system-requirements">
+<h2><span class="section-number">1.1. </span>System Requirements<a class="headerlink" href="#system-requirements" title="Link to this heading"></a></h2>
+<section id="hardware-requirements">
+<h3><span class="section-number">1.1.1. </span>Hardware Requirements<a class="headerlink" href="#hardware-requirements" title="Link to this heading"></a></h3>
+<p><strong>Minimum Requirements:</strong></p>
+<ul class="simple">
+<li><p>CPU: 2 cores, 2.0 GHz</p></li>
+<li><p>RAM: 4 GB</p></li>
+<li><p>Storage: 10 GB available space</p></li>
+<li><p>Network: Stable internet connection</p></li>
+</ul>
+<p><strong>Recommended Requirements:</strong></p>
+<ul class="simple">
+<li><p>CPU: 4 cores, 2.5 GHz or higher</p></li>
+<li><p>RAM: 8 GB or more</p></li>
+<li><p>Storage: 20 GB available space (SSD preferred)</p></li>
+<li><p>Network: High-speed internet connection</p></li>
+</ul>
+</section>
+<section id="software-requirements">
+<h3><span class="section-number">1.1.2. </span>Software Requirements<a class="headerlink" href="#software-requirements" title="Link to this heading"></a></h3>
+<p><strong>Operating System:</strong></p>
+<ul class="simple">
+<li><p>Linux (Ubuntu 20.04+ recommended)</p></li>
+<li><p>macOS 10.15+</p></li>
+<li><p>Windows 10/11 with WSL2</p></li>
+</ul>
+<p><strong>Required Software:</strong></p>
+<ul class="simple">
+<li><p>Python 3.11 or higher</p></li>
+<li><p>Node.js 18+ (for development tools)</p></li>
+<li><p>Git</p></li>
+<li><p>SQLite3</p></li>
+<li><p>Web browser (Chrome, Firefox, Safari, or Edge)</p></li>
+</ul>
+</section>
+</section>
+<section id="installation-methods">
+<h2><span class="section-number">1.2. </span>Installation Methods<a class="headerlink" href="#installation-methods" title="Link to this heading"></a></h2>
+<p>There are several ways to install the UTM Campus Assistant:</p>
+<ol class="arabic simple">
+<li><p><strong>Replit Deployment</strong> (Recommended for quick setup)</p></li>
+<li><p><strong>Local Development Setup</strong></p></li>
+<li><p><strong>Docker Installation</strong> (Coming soon)</p></li>
+<li><p><strong>Cloud Deployment</strong> (AWS, Azure, GCP)</p></li>
+</ol>
+</section>
+<section id="replit-deployment">
+<h2><span class="section-number">1.3. </span>Replit Deployment<a class="headerlink" href="#replit-deployment" title="Link to this heading"></a></h2>
+<p>The fastest way to get started is using Replit:</p>
+<ol class="arabic">
+<li><p><strong>Fork the Repository</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Navigate to the Replit project</span>
+<span class="c1"># Click &quot;Fork&quot; to create your own copy</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Configure Environment Variables</strong></p>
+<p>Set up the following environment variables in Replit:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">SESSION_SECRET</span><span class="o">=</span>your-secure-session-key
+<span class="nv">DATABASE_URL</span><span class="o">=</span>sqlite:///utm_campus.db
+<span class="nv">DEEPSEEK_API_URL</span><span class="o">=</span>http://localhost:11434/v1/chat/completions
+<span class="nv">DEEPSEEK_MODEL</span><span class="o">=</span>deepseek-r1:7b
+</pre></div>
+</div>
+</li>
+<li><p><strong>Install Dependencies</strong></p>
+<p>Dependencies are automatically installed when you run the project.</p>
+</li>
+<li><p><strong>Run the Application</strong></p>
+<p>Click the “Run” button in Replit or use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gunicorn<span class="w"> </span>--bind<span class="w"> </span><span class="m">0</span>.0.0.0:5000<span class="w"> </span>--reuse-port<span class="w"> </span>--reload<span class="w"> </span>main:app
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="local-development-setup">
+<h2><span class="section-number">1.4. </span>Local Development Setup<a class="headerlink" href="#local-development-setup" title="Link to this heading"></a></h2>
+<p>For local development and testing:</p>
+<ol class="arabic">
+<li><p><strong>Clone the Repository</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/your-org/utm-campus-assistant.git
+<span class="nb">cd</span><span class="w"> </span>utm-campus-assistant
+</pre></div>
+</div>
+</li>
+<li><p><strong>Create Virtual Environment</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate<span class="w">  </span><span class="c1"># On Windows: venv\Scripts\activate</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Install Dependencies</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+</li>
+<li><p><strong>Set Environment Variables</strong></p>
+<p>Create a <cite>.env</cite> file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">SESSION_SECRET</span><span class="o">=</span>your-secure-session-key-here
+<span class="nv">DATABASE_URL</span><span class="o">=</span>sqlite:///utm_campus.db
+<span class="nv">DEEPSEEK_API_URL</span><span class="o">=</span>http://localhost:11434/v1/chat/completions
+<span class="nv">DEEPSEEK_MODEL</span><span class="o">=</span>deepseek-r1:7b
+</pre></div>
+</div>
+</li>
+<li><p><strong>Initialize Database</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from app import app, db; app.app_context().push(); db.create_all()&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Run the Application</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>main.py
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="ai-service-setup-optional">
+<h2><span class="section-number">1.5. </span>AI Service Setup (Optional)<a class="headerlink" href="#ai-service-setup-optional" title="Link to this heading"></a></h2>
+<p>For enhanced AI capabilities, set up a local DeepSeek LLM:</p>
+<section id="using-ollama-recommended">
+<h3><span class="section-number">1.5.1. </span>Using Ollama (Recommended)<a class="headerlink" href="#using-ollama-recommended" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p><strong>Install Ollama</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://ollama.ai/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+</pre></div>
+</div>
+</li>
+<li><p><strong>Download DeepSeek Model</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ollama<span class="w"> </span>pull<span class="w"> </span>deepseek-r1:7b
+</pre></div>
+</div>
+</li>
+<li><p><strong>Start Ollama Service</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ollama<span class="w"> </span>serve
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="using-vllm">
+<h3><span class="section-number">1.5.2. </span>Using vLLM<a class="headerlink" href="#using-vllm" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p><strong>Install vLLM</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>vllm
+</pre></div>
+</div>
+</li>
+<li><p><strong>Run DeepSeek Model</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>vllm.entrypoints.openai.api_server<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model<span class="w"> </span>deepseek-ai/deepseek-r1-distill-qwen-7b<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="m">8000</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="post-installation-setup">
+<h2><span class="section-number">1.6. </span>Post-Installation Setup<a class="headerlink" href="#post-installation-setup" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p><strong>Access the Application</strong></p>
+<p>Open your web browser and navigate to:</p>
+<ul class="simple">
+<li><p>Local: <a class="reference external" href="http://localhost:5000">http://localhost:5000</a></p></li>
+<li><p>Replit: Use the provided URL</p></li>
+</ul>
+</li>
+<li><p><strong>Create Admin Account</strong></p>
+<p>Register the first user account and promote it to admin:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">from app import app, db</span>
+<span class="s2">from models import User, UserRole</span>
+<span class="s2">with app.app_context():</span>
+<span class="s2">    admin = User.query.filter_by(username=&#39;your-username&#39;).first()</span>
+<span class="s2">    admin.role = UserRole.ADMIN</span>
+<span class="s2">    db.session.commit()</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Initialize Facility Data</strong></p>
+<p>Use the admin dashboard to add initial facility data or run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from routes import create_sample_data; create_sample_data()&quot;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="verification">
+<h2><span class="section-number">1.7. </span>Verification<a class="headerlink" href="#verification" title="Link to this heading"></a></h2>
+<p>To verify the installation is successful:</p>
+<ol class="arabic simple">
+<li><p><strong>Check Application Status</strong></p>
+<ul class="simple">
+<li><p>Access the main page</p></li>
+<li><p>Register a test user account</p></li>
+<li><p>Login successfully</p></li>
+<li><p>Access the chatbot interface</p></li>
+</ul>
+</li>
+<li><p><strong>Test Core Features</strong></p>
+<ul class="simple">
+<li><p>Browse facility information</p></li>
+<li><p>Submit a test issue report</p></li>
+<li><p>Use the chatbot interface</p></li>
+<li><p>Access admin dashboard (if admin user)</p></li>
+</ul>
+</li>
+<li><p><strong>Check System Health</strong></p>
+<ul class="simple">
+<li><p>Verify database connectivity</p></li>
+<li><p>Test AI service (if configured)</p></li>
+<li><p>Check log files for errors</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="troubleshooting-installation">
+<h2><span class="section-number">1.8. </span>Troubleshooting Installation<a class="headerlink" href="#troubleshooting-installation" title="Link to this heading"></a></h2>
+<section id="common-issues">
+<h3><span class="section-number">1.8.1. </span>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<p><strong>Port Already in Use</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find process using port 5000</span>
+lsof<span class="w"> </span>-i<span class="w"> </span>:5000
+
+<span class="c1"># Kill the process or use different port</span>
+gunicorn<span class="w"> </span>--bind<span class="w"> </span><span class="m">0</span>.0.0.0:5001<span class="w"> </span>--reuse-port<span class="w"> </span>--reload<span class="w"> </span>main:app
+</pre></div>
+</div>
+<p><strong>Database Connection Errors</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check database file permissions</span>
+ls<span class="w"> </span>-la<span class="w"> </span>instance/utm_campus.db
+
+<span class="c1"># Recreate database if needed</span>
+rm<span class="w"> </span>instance/utm_campus.db
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from app import app, db; app.app_context().push(); db.create_all()&quot;</span>
+</pre></div>
+</div>
+<p><strong>Module Import Errors</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reinstall dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>--force-reinstall<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p><strong>AI Service Connection Issues</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if Ollama is running</span>
+curl<span class="w"> </span>http://localhost:11434/api/version
+
+<span class="c1"># Restart Ollama service</span>
+ollama<span class="w"> </span>serve
+</pre></div>
+</div>
+</section>
+</section>
+<section id="next-steps">
+<h2><span class="section-number">1.9. </span>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>After successful installation:</p>
+<ol class="arabic simple">
+<li><p>Read the <a class="reference internal" href="../configuration/index.html"><span class="doc">Configuration Guide</span></a> guide</p></li>
+<li><p>Complete the <span class="xref std std-doc">../first-setup/index</span> process</p></li>
+<li><p>Review the <a class="reference internal" href="../admin-dashboard/index.html"><span class="doc">Admin Dashboard</span></a> documentation</p></li>
+<li><p>Set up <span class="xref std std-doc">../monitoring/index</span> and <span class="xref std std-doc">../backup/index</span></p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Keep your installation secure by regularly updating dependencies and following the security guidelines in <span class="xref std std-doc">../security/index</span>.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="UTM Campus Assistant - Administrator Manual" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../configuration/index.html" class="btn btn-neutral float-right" title="2. Configuration Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, UTM IT Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
