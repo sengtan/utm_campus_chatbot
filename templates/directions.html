@@ -1,0 +1,327 @@
+{% extends "base.html" %}
+
+{% block title %}Directions to {{ facility.name }} - UTM Campus Assistant{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>
+                    <i class="fas fa-directions me-2 text-primary"></i>
+                    Directions to {{ facility.name }}
+                </h2>
+                <p class="text-muted mb-0">
+                    <i class="fas fa-map-marker-alt me-1"></i>
+                    {{ facility.location }}
+                </p>
+            </div>
+            <a href="{{ url_for('facility_info') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i>Back to Facilities
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Trip Summary -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-primary">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="fas fa-clock text-primary mb-2" style="font-size: 1.5rem;"></i>
+                            <small class="text-muted">Estimated Time</small>
+                            <strong>{{ directions.total_time }}</strong>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="fas fa-walking text-success mb-2" style="font-size: 1.5rem;"></i>
+                            <small class="text-muted">Difficulty</small>
+                            <strong>{{ directions.difficulty }}</strong>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="fas fa-wheelchair text-info mb-2" style="font-size: 1.5rem;"></i>
+                            <small class="text-muted">Accessibility</small>
+                            <strong>Available</strong>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="fas fa-route text-warning mb-2" style="font-size: 1.5rem;"></i>
+                            <small class="text-muted">Total Steps</small>
+                            <strong>{{ directions.steps|length }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Step-by-Step Directions -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-list-ol me-2"></i>
+                    Step-by-Step Directions
+                </h5>
+            </div>
+            <div class="card-body">
+                {% for step in directions.steps %}
+                <div class="d-flex mb-3 {% if not loop.last %}border-bottom pb-3{% endif %}">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                            {{ step.step }}
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-1">{{ step.instruction }}</h6>
+                        <p class="text-muted mb-1 small">{{ step.detail }}</p>
+                        <small class="text-primary">
+                            <i class="fas fa-map-pin me-1"></i>{{ step.landmark }}
+                        </small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Facility Information -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Facility Details
+                </h5>
+            </div>
+            {% set image_path = facility.contact_info.split('|IMG:')[-1] if facility.contact_info and '|IMG:' in facility.contact_info else 'images/facilities/default.svg' %}
+            <img src="{{ url_for('static', filename=image_path) }}" 
+                 class="card-img-top" 
+                 alt="{{ facility.name }}" 
+                 style="height: 200px; object-fit: cover;"
+                 onerror="this.src='{{ url_for('static', filename='images/facilities/default.svg') }}'">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong>Name:</strong><br>
+                        <span class="text-muted">{{ facility.name }}</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong>Category:</strong><br>
+                        <span class="badge bg-primary">{{ facility.category }}</span>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    {% if facility.capacity %}
+                    <div class="col-sm-6">
+                        <strong>Capacity:</strong><br>
+                        <span class="text-muted">{{ facility.capacity }} people</span>
+                    </div>
+                    {% endif %}
+                    {% if facility.operating_hours %}
+                    <div class="col-sm-6">
+                        <strong>Operating Hours:</strong><br>
+                        <span class="text-muted">{{ facility.operating_hours }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% if facility.description %}
+                <hr>
+                <strong>Description:</strong><br>
+                <p class="text-muted small">{{ facility.description }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Campus Map -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-map me-2"></i>
+                    Campus Map & Route
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <!-- Interactive Campus Map -->
+                <div id="campusMap" style="height: 450px; background: #f0f8f0; position: relative; overflow: hidden; border-radius: 8px;">
+                    <!-- UTM Campus Map with more detailed layout -->
+                    <svg width="100%" height="100%" viewBox="0 0 500 400" style="background: linear-gradient(135deg, #e8f5e8 0%, #d4e7d4 100%);">
+                        <!-- Campus boundary -->
+                        <rect x="20" y="20" width="460" height="360" fill="#f0f8f0" stroke="#a5d6a7" stroke-width="2" rx="10"/>
+                        
+                        <!-- Roads -->
+                        <path d="M 50 350 Q 150 300 250 320 Q 350 340 450 350" stroke="#666" stroke-width="8" fill="none" opacity="0.7"/>
+                        <path d="M 80 50 L 80 350" stroke="#666" stroke-width="6" fill="none" opacity="0.7"/>
+                        <path d="M 250 80 L 250 350" stroke="#666" stroke-width="6" fill="none" opacity="0.7"/>
+                        
+                        <!-- Main buildings based on actual UTM layout -->
+                        <!-- Faculty of Computing N28A (main building) -->
+                        <rect x="180" y="120" width="80" height="60" fill="#ffecb3" stroke="#ff9800" stroke-width="2" rx="4"/>
+                        <text x="220" y="140" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#e65100">N28A</text>
+                        <text x="220" y="155" text-anchor="middle" font-family="Arial" font-size="9" fill="#e65100">Faculty of</text>
+                        <text x="220" y="168" text-anchor="middle" font-family="Arial" font-size="9" fill="#e65100">Computing</text>
+                        
+                        <!-- Faculty of Computing N28 (secondary building) -->
+                        <rect x="280" y="120" width="70" height="50" fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="4"/>
+                        <text x="315" y="140" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#e65100">N28</text>
+                        <text x="315" y="155" text-anchor="middle" font-family="Arial" font-size="9" fill="#e65100">Computing</text>
+                        
+                        <!-- Arked Angkasa (food court) -->
+                        <rect x="140" y="200" width="60" height="30" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="4"/>
+                        <text x="170" y="215" text-anchor="middle" font-family="Arial" font-size="10" fill="#1976d2">Arked</text>
+                        <text x="170" y="227" text-anchor="middle" font-family="Arial" font-size="10" fill="#1976d2">Angkasa</text>
+                        
+                        <!-- UTM Sports Hall -->
+                        <rect x="320" y="200" width="60" height="40" fill="#e8f5e8" stroke="#4caf50" stroke-width="2" rx="4"/>
+                        <text x="350" y="220" text-anchor="middle" font-family="Arial" font-size="10" fill="#388e3c">Sports Hall</text>
+                        
+                        <!-- Main Gate -->
+                        <rect x="70" y="340" width="20" height="30" fill="#ffcdd2" stroke="#f44336" stroke-width="2" rx="2"/>
+                        <text x="80" y="380" text-anchor="middle" font-family="Arial" font-size="10" fill="#d32f2f">Main Gate</text>
+                        
+                        <!-- Other campus buildings -->
+                        <rect x="100" y="80" width="50" height="40" fill="#f3e5f5" stroke="#9c27b0" stroke-width="1" rx="3"/>
+                        <text x="125" y="105" text-anchor="middle" font-family="Arial" font-size="9" fill="#7b1fa2">Admin</text>
+                        
+                        <rect x="380" y="80" width="50" height="40" fill="#fff8e1" stroke="#ffc107" stroke-width="1" rx="3"/>
+                        <text x="405" y="105" text-anchor="middle" font-family="Arial" font-size="9" fill="#f57c00">Library</text>
+                        
+                        <!-- Walkways -->
+                        <path d="M 80 350 L 170 220 L 220 180" stroke="#4caf50" stroke-width="4" fill="none" stroke-dasharray="8,4" opacity="0.8"/>
+                        
+                        <!-- Route path with animation -->
+                        <path id="routePath" d="M 80 350 Q 150 280 170 220 Q 190 200 220 180" 
+                              stroke="#2196f3" stroke-width="4" fill="none" 
+                              stroke-dasharray="10,5" opacity="0.9">
+                            <animate attributeName="stroke-dashoffset" values="0;-15" dur="2s" repeatCount="indefinite"/>
+                        </path>
+                        
+                        <!-- Direction arrows -->
+                        <defs>
+                            <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#2196f3"/>
+                            </marker>
+                        </defs>
+                        <path d="M 80 350 Q 150 280 170 220 Q 190 200 220 180" 
+                              stroke="transparent" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+                    </svg>
+                    
+                    <!-- Interactive location markers -->
+                    <div id="startMarker" style="position: absolute; bottom: 50px; left: 70px; background: #f44336; color: white; padding: 6px 10px; border-radius: 15px; font-size: 11px; box-shadow: 0 3px 6px rgba(0,0,0,0.3); cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-flag-checkered"></i> Main Entrance
+                    </div>
+                    
+                    <div id="waypointMarker" style="position: absolute; top: 200px; left: 160px; background: #ff9800; color: white; padding: 6px 10px; border-radius: 15px; font-size: 11px; box-shadow: 0 3px 6px rgba(0,0,0,0.3); cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-utensils"></i> Arked Angkasa
+                    </div>
+                    
+                    <div id="destinationMarker" style="position: absolute; top: 120px; left: 210px; background: #4caf50; color: white; padding: 6px 10px; border-radius: 15px; font-size: 11px; box-shadow: 0 3px 6px rgba(0,0,0,0.3); cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-map-marker-alt"></i> {{ facility.name }}
+                    </div>
+                    
+                    <!-- Walking time indicator -->
+                    <div style="position: absolute; top: 10px; right: 10px; background: rgba(33, 150, 243, 0.9); color: white; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: bold;">
+                        <i class="fas fa-walking me-1"></i> {{ directions.total_time }}
+                    </div>
+                </div>
+                
+                <!-- Map Legend -->
+                <div class="p-3 border-top">
+                    <h6 class="mb-2">Map Legend</h6>
+                    <div class="row">
+                        <div class="col-6">
+                            <small class="d-block">
+                                <span class="badge bg-danger me-1">●</span>Starting Point
+                            </small>
+                            <small class="d-block">
+                                <span class="badge bg-warning me-1">●</span>Landmarks
+                            </small>
+                        </div>
+                        <div class="col-6">
+                            <small class="d-block">
+                                <span class="badge bg-success me-1">●</span>Destination
+                            </small>
+                            <small class="d-block">
+                                <span style="color: #2196F3;">━━</span> Walking Route
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-tools me-2"></i>
+                    Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    {% if facility.is_bookable %}
+                    <button class="btn btn-success" onclick="bookFacility('{{ facility.name }}')">
+                        <i class="fas fa-calendar-check me-2"></i>Book This Facility
+                    </button>
+                    {% endif %}
+                    <button class="btn btn-warning" onclick="reportIssueWithContext('{{ facility.name }}', '{{ facility.location }}')">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Report an Issue
+                    </button>
+                    <button class="btn btn-info" onclick="askAIWithContext('{{ facility.name }}', '{{ facility.location }}')">
+                        <i class="fas fa-comments me-2"></i>Ask AI Assistant
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function bookFacility(facilityName) {
+    alert(`Booking facility: ${facilityName}\n\nOnline booking system feature coming soon!`);
+}
+
+function reportIssueWithContext(facilityName, location) {
+    const url = "{{ url_for('report_issue') }}?" + 
+                "facility=" + encodeURIComponent(facilityName) + 
+                "&location=" + encodeURIComponent(location) +
+                "&context=directions&from_page=facility_directions";
+    window.location.href = url;
+}
+
+function askAIWithContext(facilityName, location) {
+    const url = "{{ url_for('chatbot') }}?" + 
+                "facility=" + encodeURIComponent(facilityName) + 
+                "&location=" + encodeURIComponent(location) +
+                "&context=directions&message=" + encodeURIComponent(`I need help with ${facilityName} located at ${location}. I was looking at directions to this facility.`);
+    window.location.href = url;
+}
+
+// Add some interactivity to the map
+document.addEventListener('DOMContentLoaded', function() {
+    const mapElement = document.getElementById('campusMap');
+    if (mapElement) {
+        mapElement.addEventListener('click', function(e) {
+            // Add click effect to show the route is interactive
+            this.style.transform = 'scale(1.02)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    }
+});
+</script>
+{% endblock %}

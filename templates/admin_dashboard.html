@@ -14,9 +14,12 @@
                 <a href="{{ url_for('refresh_cache') }}" class="btn btn-secondary me-2">
                     <i class="fas fa-sync-alt me-1"></i>Refresh Cache
                 </a>
-                <a href="{{ url_for('facility_info') }}" class="btn btn-info">
+                <a href="{{ url_for('facility_info') }}" class="btn btn-info me-2">
                     <i class="fas fa-building me-1"></i>Manage Facilities
                 </a>
+                <button type="button" class="btn btn-danger" onclick="confirmDatabaseReset()">
+                    <i class="fas fa-trash-alt me-1"></i>Reset Database
+                </button>
             </div>
         </div>
     </div>
@@ -291,6 +294,39 @@
         </div>
     </div>
 </div>
+<!-- Database Reset Confirmation Modal -->
+<div class="modal fade" id="resetConfirmModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Database Reset</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Warning:</strong> This action will permanently delete:
+                </div>
+                <ul class="mb-3">
+                    <li>All student user accounts</li>
+                    <li>All reported issues</li>
+                    <li>All facility bookings</li>
+                    <li>All chat history</li>
+                </ul>
+                <p><strong>Admin accounts and facility data will be preserved.</strong></p>
+                <p>This action cannot be undone. Are you sure you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="{{ url_for('reset_database') }}" style="display: inline;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger">Reset Database</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -301,6 +337,11 @@ function updateStatus(issueId, status) {
     document.getElementById('statusForm').action = `/issue/${issueId}/update_status`;
     
     const modal = new bootstrap.Modal(document.getElementById('statusModal'));
+    modal.show();
+}
+
+function confirmDatabaseReset() {
+    const modal = new bootstrap.Modal(document.getElementById('resetConfirmModal'));
     modal.show();
 }
 </script>

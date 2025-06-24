@@ -177,7 +177,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const csrfInput = document.createElement('input');
         csrfInput.type = 'hidden';
         csrfInput.name = 'csrf_token';
-        csrfInput.value = '{{ csrf_token() }}';
+        const metaToken = document.querySelector('meta[name=csrf-token]');
+        csrfInput.value = metaToken ? metaToken.getAttribute('content') : '';
         
         const statusInput = document.createElement('input');
         statusInput.type = 'hidden';

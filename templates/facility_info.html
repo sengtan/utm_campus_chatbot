@@ -53,9 +53,19 @@
         {% for facility in facilities %}
         <div class="col-lg-6 col-xl-4 mb-4 facility-card" data-category="{{ facility.category }}">
             <div class="card h-100 shadow-sm">
-                <div class="card-header d-flex justify-content-between align-items-center">
+                {% set image_path = facility.contact_info.split('|IMG:')[-1] if facility.contact_info and '|IMG:' in facility.contact_info else 'images/facilities/default.svg' %}
+                <div class="position-relative">
+                    <img src="{{ url_for('static', filename=image_path) }}" 
+                         class="card-img-top" 
+                         alt="{{ facility.name }}" 
+                         style="height: 180px; object-fit: cover;"
+                         onerror="this.src='{{ url_for('static', filename='images/facilities/default.svg') }}'">
+                    <div class="position-absolute top-0 end-0 m-2">
+                        <span class="badge bg-primary bg-opacity-90">{{ facility.category }}</span>
+                    </div>
+                </div>
+                <div class="card-header">
                     <h6 class="mb-0">{{ facility.name }}</h6>
-                    <span class="badge bg-primary">{{ facility.category }}</span>
                 </div>
                 <div class="card-body">
                     <div class="mb-2">
@@ -66,7 +76,20 @@
                     {% if facility.description %}
                     <div class="mb-2">
                         <i class="fas fa-info-circle text-info me-2"></i>
-                        <strong>Description:</strong> {{ facility.description }}
+                        <strong>Description:</strong> 
+                        <span id="desc-short-{{ facility.id }}">
+                            {{ facility.description[:100] }}{% if facility.description|length > 100 %}...{% endif %}
+                        </span>
+                        <span id="desc-full-{{ facility.id }}" style="display: none;">
+                            {{ facility.description }}
+                        </span>
+                        {% if facility.description|length > 100 %}
+                        <button class="btn btn-link btn-sm p-0 ms-1" 
+                                onclick="toggleDescription({{ facility.id }})" 
+                                id="desc-toggle-{{ facility.id }}">
+                            Read more
+                        </button>
+                        {% endif %}
                     </div>
                     {% endif %}
                     
@@ -77,18 +100,24 @@
                     </div>
                     {% endif %}
                     
-                    {% if facility.operating_hours %}
                     <div class="mb-2">
                         <i class="fas fa-clock text-warning me-2"></i>
-                        <strong>Hours:</strong> {{ facility.operating_hours }}
+                        <strong>Hours:</strong> 
+                        {% if facility.operating_hours %}
+                            {{ facility.operating_hours }}
+                        {% else %}
+                            8:00 AM - 6:00 PM (Mon-Fri), 9:00 AM - 1:00 PM (Sat)
+                        {% endif %}
                     </div>
-                    {% endif %}
                     
                     {% if facility.contact_info %}
+                    {% set landmarks = facility.contact_info.split('|IMG:')[0] if '|IMG:' in facility.contact_info else facility.contact_info %}
+                    {% if landmarks and landmarks.strip() %}
                     <div class="mb-2">
-                        <i class="fas fa-phone text-secondary me-2"></i>
-                        <strong>Contact:</strong> {{ facility.contact_info }}
+                        <i class="fas fa-map-signs text-secondary me-2"></i>
+                        <strong>Landmarks:</strong> {{ landmarks.replace('Landmarks: ', '') }}
                     </div>
+                    {% endif %}
                     {% endif %}
                     
                     {% if facility.is_bookable %}
@@ -102,20 +131,20 @@
                 </div>
                 <div class="card-footer">
                     <div class="btn-group w-100" role="group">
-                        <button class="btn btn-outline-primary btn-sm" 
-                                onclick="showDirections('{{ facility.location }}')">
+                        <a href="{{ url_for('facility_directions', facility_id=facility.id) }}" 
+                           class="btn btn-outline-primary btn-sm">
                             <i class="fas fa-directions me-1"></i>Directions
-                        </button>
+                        </a>
                         {% if facility.is_bookable %}
                         <button class="btn btn-outline-success btn-sm" 
                                 onclick="bookFacility('{{ facility.name }}')">
                             <i class="fas fa-calendar me-1"></i>Book
                         </button>
                         {% endif %}
-                        <button class="btn btn-outline-danger btn-sm" 
-                                onclick="reportIssue('{{ facility.name }}', '{{ facility.location }}')">
+                        <a href="{{ url_for('report_issue', facility_name=facility.name, location=facility.location, context='facility_info', from_page='facility_info') }}" 
+                           class="btn btn-outline-danger btn-sm">
                             <i class="fas fa-exclamation-triangle me-1"></i>Report Issue
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -240,12 +269,11 @@ function searchFacilities() {
     }
 }
 
-function showDirections(location) {
-    alert(`Directions to: ${location}\n\nDetailed campus map and navigation feature coming soon!`);
-}
+// Directions are now handled by dedicated route
 
 function bookFacility(facilityName) {
-    alert(`Booking facility: ${facilityName}\n\nOnline booking system feature coming soon!`);
+    // Redirect to booking page with facility pre-selected
+    window.location.href = "{{ url_for('book_facility') }}?facility=" + encodeURIComponent(facilityName);
 }
 
 function reportIssue(facilityName, location) {
@@ -254,6 +282,22 @@ function reportIssue(facilityName, location) {
                 "facility=" + encodeURIComponent(facilityName) + 
                 "&location=" + encodeURIComponent(location);
     window.location.href = url;
+}
+
+function toggleDescription(facilityId) {
+    const shortDesc = document.getElementById(`desc-short-${facilityId}`);
+    const fullDesc = document.getElementById(`desc-full-${facilityId}`);
+    const toggleBtn = document.getElementById(`desc-toggle-${facilityId}`);
+    
+    if (fullDesc.style.display === 'none') {
+        shortDesc.style.display = 'none';
+        fullDesc.style.display = 'inline';
+        toggleBtn.textContent = 'Read less';
+    } else {
+        shortDesc.style.display = 'inline';
+        fullDesc.style.display = 'none';
+        toggleBtn.textContent = 'Read more';
+    }
 }
 </script>
 {% endblock %}
