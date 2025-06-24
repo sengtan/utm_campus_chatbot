@@ -103,7 +103,7 @@
                         </a>
                     </div>
                     <div class="col-md-3 mb-2">
-                        <a href="#" class="btn btn-outline-warning w-100" onclick="alert('Feature coming soon!')">
+                        <a href="{{ url_for('book_facility') }}" class="btn btn-outline-warning w-100">
                             <i class="fas fa-calendar d-block mb-2" style="font-size: 1.5rem;"></i>
                             Book Facility
                         </a>
@@ -114,9 +114,44 @@
     </div>
 </div>
 
-<!-- Recent Issues -->
+<!-- My Bookings and Recent Issues -->
 <div class="row">
-    <div class="col-12">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-calendar-check me-2"></i>My Recent Bookings
+                </h5>
+                <a href="{{ url_for('my_bookings') }}" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% if recent_bookings %}
+                    {% for booking in recent_bookings %}
+                    <div class="d-flex justify-content-between align-items-center {% if not loop.last %}border-bottom pb-2 mb-2{% endif %}">
+                        <div>
+                            <strong>{{ booking.facility.name }}</strong><br>
+                            <small class="text-muted">{{ booking.booking_date.strftime('%b %d') }} • {{ booking.time_slot_display }}</small>
+                        </div>
+                        <span class="badge 
+                            {% if booking.status.value == 'pending' %}bg-warning text-dark
+                            {% elif booking.status.value == 'approved' %}bg-success
+                            {% elif booking.status.value == 'rejected' %}bg-danger
+                            {% else %}bg-secondary{% endif %}">
+                            {{ booking.status.value.title() }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-3">
+                        <i class="fas fa-calendar-plus fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-2">No bookings yet</p>
+                        <a href="{{ url_for('book_facility') }}" class="btn btn-sm btn-primary">Make First Booking</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">

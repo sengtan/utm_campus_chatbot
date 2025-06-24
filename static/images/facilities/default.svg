@@ -1,0 +1,15 @@
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="defaultGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#95a5a6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7f8c8d;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="200" fill="url(#defaultGrad)"/>
+  <rect x="20" y="20" width="260" height="160" fill="none" stroke="white" stroke-width="2" opacity="0.3"/>
+  <text x="150" y="90" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">UTM Facility</text>
+  <text x="150" y="115" font-family="Arial, sans-serif" font-size="12" fill="#ecf0f1" text-anchor="middle">Campus Building</text>
+  <circle cx="50" cy="50" r="8" fill="#3498db" opacity="0.7"/>
+  <circle cx="250" cy="150" r="6" fill="#e74c3c" opacity="0.7"/>
+  <circle cx="80" cy="170" r="4" fill="#f39c12" opacity="0.7"/>
+</svg>

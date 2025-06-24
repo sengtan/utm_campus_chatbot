@@ -49,10 +49,12 @@ class Facility(db.Model):
     location = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text)
     is_bookable = db.Column(db.Boolean, default=False)
+    is_active = db.Column(db.Boolean, default=True)
     capacity = db.Column(db.Integer)
     operating_hours = db.Column(db.String(100))
     contact_info = db.Column(db.String(200))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class Issue(db.Model):
     __tablename__ = 'issues'
@@ -111,18 +113,38 @@ class ChatMessage(db.Model):
     # Relationships
     session = db.relationship('ChatSession')
 
+class BookingStatus(enum.Enum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+    CANCELLED = "cancelled"
+
 class FacilityBooking(db.Model):
     __tablename__ = 'facility_bookings'
     
     id = db.Column(db.Integer, primary_key=True)
     facility_id = db.Column(db.Integer, db.ForeignKey('facilities.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    start_time = db.Column(db.DateTime, nullable=False)
-    end_time = db.Column(db.DateTime, nullable=False)
+    booking_date = db.Column(db.Date, nullable=False)
+    start_hour = db.Column(db.Integer, nullable=False)  # 0-23 for hour slots
+    end_hour = db.Column(db.Integer, nullable=False)    # 0-23 for hour slots
     purpose = db.Column(db.String(200))
-    status = db.Column(db.String(20), default='pending')  # pending, approved, rejected
+    status = db.Column(Enum(BookingStatus), default=BookingStatus.PENDING)
+    admin_notes = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Relationships
-    facility = db.relationship('Facility')
-    user = db.relationship('User')
+    facility = db.relationship('Facility', backref='bookings')
+    user = db.relationship('User', backref='facility_bookings')
+    
+    def __repr__(self):
+        return f'<FacilityBooking {self.facility.name} on {self.booking_date} {self.start_hour}:00-{self.end_hour}:00>'
+    
+    @property
+    def duration_hours(self):
+        return self.end_hour - self.start_hour
+    
+    @property
+    def time_slot_display(self):
+        return f"{self.start_hour:02d}:00 - {self.end_hour:02d}:00"

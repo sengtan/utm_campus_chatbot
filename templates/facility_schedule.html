@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}{{ facility.name }} Schedule - UTM Campus Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>
+                <i class="fas fa-calendar-week text-primary me-2"></i>
+                {{ facility.name }} Schedule
+            </h2>
+            <p class="text-muted mb-0">
+                <i class="fas fa-map-marker-alt me-2"></i>{{ facility.location }}
+                {% if facility.capacity %}
+                | <i class="fas fa-users me-2"></i>Capacity: {{ facility.capacity }}
+                {% endif %}
+            </p>
+        </div>
+        <div>
+            <a href="{{ url_for('book_facility') }}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Book This Facility
+            </a>
+            <a href="{{ url_for('facility_info') }}" class="btn btn-outline-secondary ms-2">
+                <i class="fas fa-arrow-left me-2"></i>Back to Facilities
+            </a>
+        </div>
+    </div>
+    
+    <!-- Facility Description -->
+    {% if facility.description %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5>About This Facility</h5>
+            <p>{{ facility.description }}</p>
+            {% if facility.operating_hours %}
+            <p><strong>Operating Hours:</strong> {{ facility.operating_hours }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Booking Calendar -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <i class="fas fa-calendar-alt me-2"></i>
+                Upcoming Bookings (Next 30 Days)
+            </h5>
+        </div>
+        <div class="card-body">
+            {% if bookings %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Duration</th>
+                            <th>Purpose</th>
+                            <th>Status</th>
+                            <th>Booked By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                        <tr>
+                            <td>
+                                <strong>{{ booking.booking_date.strftime('%B %d, %Y') }}</strong><br>
+                                <small class="text-muted">{{ booking.booking_date.strftime('%A') }}</small>
+                            </td>
+                            <td>
+                                <i class="fas fa-clock me-2"></i>{{ booking.time_slot_display }}
+                            </td>
+                            <td>{{ booking.duration_hours }} hour{% if booking.duration_hours != 1 %}s{% endif %}</td>
+                            <td>{{ booking.purpose[:50] }}{% if booking.purpose|length > 50 %}...{% endif %}</td>
+                            <td>
+                                <span class="badge 
+                                    {% if booking.status.value == 'pending' %}bg-warning text-dark
+                                    {% elif booking.status.value == 'approved' %}bg-success
+                                    {% elif booking.status.value == 'rejected' %}bg-danger
+                                    {% else %}bg-secondary{% endif %}">
+                                    {{ booking.status.value.title() }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if current_user.role.value == 'admin' or booking.user_id == current_user.id %}
+                                    {{ booking.user.full_name }}
+                                {% else %}
+                                    <i class="text-muted">Reserved</i>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-calendar-check fa-3x text-success mb-3"></i>
+                <h4 class="text-success">No Bookings Scheduled</h4>
+                <p class="text-muted">This facility is available for booking in the next 30 days.</p>
+                <a href="{{ url_for('book_facility') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Book This Facility
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Booking Guidelines -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h6 class="mb-0">
+                <i class="fas fa-info-circle me-2"></i>
+                Booking Guidelines
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Bookings are available from 8:00 AM to 10:00 PM</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Minimum booking duration: 1 hour</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Maximum booking duration: 8 hours per day</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-info text-primary me-2"></i>All bookings require admin approval</li>
+                        <li><i class="fas fa-info text-primary me-2"></i>Bookings can be made up to 30 days in advance</li>
+                        <li><i class="fas fa-info text-primary me-2"></i>You'll receive confirmation via the dashboard</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

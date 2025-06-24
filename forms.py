@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, SelectField, SubmitField
-from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
-from models import User, UserRole, IssueType, Priority
+from wtforms import StringField, PasswordField, TextAreaField, SelectField, SubmitField, IntegerField, BooleanField
+from wtforms.fields import DateField
+from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError, Optional, NumberRange
+from models import User, UserRole, IssueType, Priority, BookingStatus
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=4, max=20)])
@@ -55,3 +56,54 @@ class FeedbackForm(FlaskForm):
                         validators=[DataRequired()])
     comment = TextAreaField('Feedback Comment', validators=[Length(max=500)])
     submit = SubmitField('Submit Feedback')
+
+class BookingForm(FlaskForm):
+    facility_id = SelectField('Facility', coerce=int, validators=[DataRequired()])
+    booking_date = DateField('Booking Date', validators=[DataRequired()])
+    start_hour = SelectField('Start Time', coerce=int, validators=[DataRequired()],
+                           choices=[(i, f"{i:02d}:00") for i in range(8, 22)])  # 8 AM to 9 PM
+    end_hour = SelectField('End Time', coerce=int, validators=[DataRequired()],
+                         choices=[(i, f"{i:02d}:00") for i in range(9, 23)])   # 9 AM to 10 PM
+    purpose = StringField('Purpose', validators=[DataRequired(), Length(min=5, max=200)])
+    submit = SubmitField('Book Facility')
+    
+    def validate_booking_date(self, booking_date):
+        from datetime import date
+        if booking_date.data < date.today():
+            raise ValidationError('Booking date cannot be in the past.')
+    
+    def validate_end_hour(self, end_hour):
+        if end_hour.data <= self.start_hour.data:
+            raise ValidationError('End time must be after start time.')
+
+class BookingManagementForm(FlaskForm):
+    status = SelectField('Status', validators=[DataRequired()],
+                        choices=[(s.value, s.value.title()) for s in BookingStatus])
+    admin_notes = TextAreaField('Admin Notes', validators=[Length(max=500)])
+    submit = SubmitField('Update Booking')
+
+class FacilityForm(FlaskForm):
+    name = StringField('Facility Name', validators=[DataRequired(), Length(min=2, max=100)])
+    category = SelectField('Category', validators=[DataRequired()],
+                          choices=[
+                              ('Laboratory', 'Laboratory'),
+                              ('Academic', 'Academic'),
+                              ('Sports', 'Sports'),
+                              ('Administrative', 'Administrative'),
+                              ('Accommodation', 'Accommodation'),
+                              ('Dining', 'Dining'),
+                              ('Event', 'Event')
+                          ])
+    location = StringField('Location', validators=[DataRequired(), Length(min=5, max=200)])
+    description = TextAreaField('Description', validators=[Length(max=1000)])
+    is_bookable = BooleanField('Can be Booked')
+    is_active = BooleanField('Active', default=True)
+    capacity = IntegerField('Capacity', validators=[Optional(), NumberRange(min=1, max=1000)])
+    operating_hours = StringField('Operating Hours', validators=[Length(max=100)])
+    contact_info = StringField('Contact Info/Landmarks', validators=[Length(max=200)])
+    submit = SubmitField('Save Facility')
+
+class FacilityManagementForm(FlaskForm):
+    is_active = BooleanField('Active')
+    admin_notes = TextAreaField('Admin Notes', validators=[Length(max=500)])
+    submit = SubmitField('Update Status')

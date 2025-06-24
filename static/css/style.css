@@ -1,10 +1,164 @@
-/* UTM Campus Assistant Chatbot - Custom Styles */
+/* UTM Campus Assistant - UTM Branded Theme */
+
+/* UTM Brand Colors */
+:root {
+    --utm-maroon: #8B1538;
+    --utm-maroon-dark: #6B1028;
+    --utm-maroon-light: #AB1548;
+    --utm-gold: #FFD700;
+    --utm-gold-dark: #E5C100;
+    --utm-gray: #f8f9fa;
+    --utm-text: #333333;
+    --utm-text-light: #666666;
+    --utm-white: #ffffff;
+    --utm-border: #dee2e6;
+}
+
+/* Override Bootstrap primary colors with UTM branding */
+.bg-primary {
+    background-color: var(--utm-maroon) !important;
+}
+
+.btn-primary {
+    background-color: var(--utm-maroon);
+    border-color: var(--utm-maroon);
+}
+
+.btn-primary:hover {
+    background-color: var(--utm-maroon-dark);
+    border-color: var(--utm-maroon-dark);
+}
+
+.btn-outline-primary {
+    color: var(--utm-maroon);
+    border-color: var(--utm-maroon);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--utm-maroon);
+    border-color: var(--utm-maroon);
+}
+
+.text-primary {
+    color: var(--utm-maroon) !important;
+}
+
+.border-primary {
+    border-color: var(--utm-maroon) !important;
+}
+
+/* Navbar styling to match UTM */
+.navbar-dark {
+    background-color: var(--utm-maroon) !important;
+}
+
+.navbar-brand {
+    color: var(--utm-white) !important;
+    font-weight: 700;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navbar-brand:hover {
+    color: var(--utm-gold) !important;
+}
+
+.navbar-nav .nav-link {
+    color: var(--utm-white) !important;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    margin: 0 0.25rem;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--utm-gold) !important;
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--utm-gold) !important;
+}
+
+/* UTM Logo styling */
+.utm-logo {
+    width: 40px;
+    height: 40px;
+    background: var(--utm-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--utm-maroon);
+    font-size: 1.2rem;
+}
+
+/* Card styling with UTM theme */
+.card {
+    border: 1px solid var(--utm-border);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(139, 21, 56, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(139, 21, 56, 0.15) !important;
+}
+
+.card-header {
+    background-color: var(--utm-gray);
+    border-bottom: 1px solid var(--utm-border);
+    font-weight: 600;
+    color: var(--utm-text);
+}
+
+/* Dashboard cards */
+.dashboard-card {
+    border-left: 4px solid var(--utm-maroon);
+}
+
+.dashboard-card .card-body {
+    padding: 1.5rem;
+}
+
+.dashboard-card h5 {
+    color: var(--utm-maroon);
+    font-weight: 600;
+}
+
+/* Alert styling */
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeaa7;
+    color: #856404;
+}
+
+.alert-info {
+    background-color: #cce7ff;
+    border-color: #b3d9ff;
+    color: #004085;
+}
 
 /* Chat Container Styles */
 .chat-container {
-    background-color: var(--bs-body-bg);
-    border: 1px solid var(--bs-border-color);
-    border-radius: 0.375rem;
+    background-color: var(--utm-white);
+    border: 1px solid var(--utm-border);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(139, 21, 56, 0.1);
 }
 
 .message {
@@ -14,8 +168,11 @@
 
 .bot-message .message-bubble {
     max-width: 80%;
-    background-color: var(--bs-light) !important;
-    border: 1px solid var(--bs-border-color);
+    background-color: var(--utm-gray) !important;
+    border: 1px solid var(--utm-border);
+    color: var(--utm-text);
+    padding: 0.75rem 1rem;
+    border-radius: 1rem 0.25rem 1rem 1rem;
 }
 
 .user-message {
@@ -25,8 +182,8 @@
 
 .user-message .message-bubble {
     max-width: 80%;
-    background-color: var(--bs-primary);
-    color: white;
+    background-color: var(--utm-maroon);
+    color: var(--utm-white);
     padding: 0.75rem 1rem;
     border-radius: 1rem 1rem 0.25rem 1rem;
 }
@@ -38,9 +195,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--bs-light);
-    border: 1px solid var(--bs-border-color);
+    background-color: var(--utm-gray);
+    border: 1px solid var(--utm-border);
+    color: var(--utm-maroon);
     flex-shrink: 0;
+    font-weight: 600;
 }
 
 .user-avatar {
@@ -50,9 +209,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--bs-primary);
-    color: white;
+    background-color: var(--utm-maroon);
+    color: var(--utm-white);
     flex-shrink: 0;
+    font-weight: 600;
 }
 
 /* Message timestamp */
@@ -163,11 +323,88 @@
     transform: translateY(-3px);
 }
 
-/* Form enhancements */
+/* Form enhancements with UTM theme */
 .form-control:focus,
 .form-select:focus {
-    border-color: var(--bs-primary);
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    border-color: var(--utm-maroon);
+    box-shadow: 0 0 0 0.2rem rgba(139, 21, 56, 0.25);
+}
+
+.form-control {
+    border: 1px solid var(--utm-border);
+    border-radius: 0.375rem;
+    background-color: var(--utm-white);
+    color: var(--utm-text);
+}
+
+.form-control::placeholder {
+    color: var(--utm-text-light);
+    opacity: 0.8;
+}
+
+.form-label {
+    color: var(--utm-text);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-select {
+    border: 1px solid var(--utm-border);
+    border-radius: 0.375rem;
+    background-color: var(--utm-white);
+    color: var(--utm-text);
+}
+
+/* Search bar specific styling */
+.input-group .form-control {
+    background-color: var(--utm-white);
+    border-color: var(--utm-border);
+    color: var(--utm-text);
+}
+
+.input-group-text {
+    background-color: var(--utm-gray);
+    border-color: var(--utm-border);
+    color: var(--utm-maroon);
+}
+
+/* Button enhancements */
+.btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary {
+    background-color: var(--utm-text-light);
+    border-color: var(--utm-text-light);
+    color: var(--utm-white);
+}
+
+.btn-secondary:hover {
+    background-color: var(--utm-text);
+    border-color: var(--utm-text);
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-warning {
+    background-color: var(--utm-gold-dark);
+    border-color: var(--utm-gold-dark);
+    color: var(--utm-text);
+}
+
+.btn-warning:hover {
+    background-color: var(--utm-gold);
+    border-color: var(--utm-gold);
 }
 
 /* Loading states */
@@ -245,6 +482,38 @@
 [data-bs-theme="dark"] .bot-avatar {
     background-color: var(--bs-gray-800);
     border-color: var(--bs-gray-600);
+}
+
+/* Dark theme form controls */
+[data-bs-theme="dark"] .form-control {
+    background-color: var(--bs-gray-900);
+    border-color: var(--bs-gray-700);
+    color: var(--bs-body-color);
+}
+
+[data-bs-theme="dark"] .form-control::placeholder {
+    color: var(--bs-gray-400);
+    opacity: 1;
+}
+
+[data-bs-theme="dark"] .form-select {
+    background-color: var(--bs-gray-900);
+    border-color: var(--bs-gray-700);
+    color: var(--bs-body-color);
+}
+
+[data-bs-theme="dark"] .input-group-text {
+    background-color: var(--bs-gray-800);
+    border-color: var(--bs-gray-700);
+    color: var(--bs-gray-300);
+}
+
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus {
+    background-color: var(--bs-gray-900);
+    border-color: var(--utm-maroon-light);
+    color: var(--bs-body-color);
+    box-shadow: 0 0 0 0.2rem rgba(171, 21, 72, 0.25);
 }
 
 [data-bs-theme="dark"] .typing-indicator {
