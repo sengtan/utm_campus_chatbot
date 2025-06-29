@@ -8,9 +8,9 @@ from models import Facility, IssueType, Priority
 class AIService:
     def __init__(self):
         # DeepSeek API configuration - adjust URL to your local setup
-        self.deepseek_url = os.environ.get("DEEPSEEK_API_URL1", "http://localhost:11434/v1/chat/completions")
-        self.deepseek_model = os.environ.get("DEEPSEEK_MODEL1", "deepseek-r1:7b")
-        self.deepseek_key = os.environ.get("DEEPSEEK_API_KEY1", None)  # Optional, if your API requires a key
+        self.deepseek_url = os.environ.get("DEEPSEEK_API_URL", "http://localhost:11434/v1/chat/completions")
+        self.deepseek_model = os.environ.get("DEEPSEEK_MODEL", "deepseek-r1:7b")
+        self.deepseek_key = os.environ.get("DEEPSEEK_API_KEY", None)  # Optional, if your API requires a key
         self.facilities_cache = None
         self.load_facilities()
     
@@ -204,14 +204,13 @@ class AIService:
             # Build conversation history if user_context is provided (for multi-turn)
             messages = [
                 {"role": "system", "content": context_prompt},
-                {"role": "user", "content": user_message} # The current user message
             ]
             
             # If you want to maintain a longer conversation, you'd add past messages here
-            # Example: if user_context and user_context.get('history'):
-            #     for msg in user_context['history']:
-            #         messages.append(msg)
-            # messages.append({"role": "user", "content": user_message})
+            if user_context and user_context.get('history'):
+                for msg in user_context['history']:
+                    messages.append(msg)
+            messages.append({"role": "user", "content": user_message})
 
             # Add specific guidance for response generation based on intent
             response_guidance = """

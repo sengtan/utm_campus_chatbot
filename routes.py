@@ -161,7 +161,8 @@ def chat_api():
     try:
         data = request.get_json()
         user_message = data.get('message', '').strip()
-        
+        chat_history = data.get('history', [])  # <-- get history from request
+
         if not user_message:
             return jsonify({'error': 'Message cannot be empty'}), 400
         
@@ -172,10 +173,10 @@ def chat_api():
         if not chat_session:
             return jsonify({'error': 'Chat session not found'}), 400
         
-        # Process message with AI
+        # Process message with AI, now passing chat_history as user_context
         intent_data = ai_service.extract_entities_and_intent(user_message)
-        bot_response = ai_service.generate_response(user_message, intent_data)
-        
+        bot_response = ai_service.generate_response(user_message, intent_data, user_context={'history': chat_history})
+
         # Save user message
         user_msg = ChatMessage()
         user_msg.session_id = chat_session.id
@@ -198,7 +199,7 @@ def chat_api():
             'intent': intent_data.get('intent'),
             'entities': intent_data.get('entities')
         })
-        
+
     except Exception as e:
         print(f"Chat API error: {e}")
         return jsonify({'error': 'Failed to process message'}), 500
@@ -698,13 +699,14 @@ def manage_bookings():
 @app.route('/update_booking/<int:booking_id>', methods=['GET', 'POST'])
 @login_required
 def update_booking(booking_id):
+    print("hello")
     """Update booking status (admin only)"""
     if current_user.role != UserRole.ADMIN:
         flash('Access denied.', 'error')
         return redirect(url_for('index'))
-    
+    print("hello1")
     booking = FacilityBooking.query.get_or_404(booking_id)
-    form = BookingManagementForm()
+    form = BookingManagementForm(obj=booking)
     
     if form.validate_on_submit():
         booking.status = BookingStatus(form.status.data)
@@ -712,6 +714,9 @@ def update_booking(booking_id):
         db.session.commit()
         flash('Booking updated successfully!', 'success')
         return redirect(url_for('manage_bookings'))
+    
+    # Render the update form for GET or invalid POST
+    return render_template('update_booking.html', form=form, booking=booking)
 
 @app.route('/reset_database', methods=['POST'])
 @login_required

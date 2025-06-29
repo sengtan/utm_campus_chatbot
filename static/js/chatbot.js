@@ -54,6 +54,9 @@ class ChatBot {
         // Disable input and show loading state
         this.setInputState(false);
         
+        // Get chat history
+        const history = this.getChatHistory();
+
         // Add user message to chat
         this.addUserMessage(message);
         
@@ -66,7 +69,7 @@ class ChatBot {
         
         try {
             // Send message to backend
-            const response = await this.sendToAPI(message);
+            const response = await this.sendToAPI(message, history);
             
             // Remove typing indicator
             this.hideTypingIndicator();
@@ -92,24 +95,60 @@ class ChatBot {
         }
     }
     
-    async sendToAPI(message) {
+    async sendToAPI(message, history) {
+        // Prepare chat history if not provided
+        if (!history) {
+            history = [];
+        }
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                message: message
+                message: message,
+                history: history // <-- send history to backend
             })
         });
-        
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         return await response.json();
     }
     
+    getChatHistory() {
+        const messages = [];
+        this.messagesContainer.querySelectorAll('.message').forEach(msgDiv => {
+            // User message
+            if (msgDiv.classList.contains('user-message')) {
+                const text = msgDiv.querySelector('.message-bubble p')?.textContent || '';
+                messages.push({ sender: 'user', text });
+            }
+            // Bot message
+            else if (msgDiv.classList.contains('bot-message')) {
+                // Get the first child div inside .message-bubble (the actual bot reply)
+                const bubble = msgDiv.querySelector('.message-bubble');
+                let text = '';
+                if (bubble) {
+                    // Find the first child that is a DIV and not a time/debug info
+                    const firstDiv = Array.from(bubble.children).find(
+                        el => el.tagName === 'DIV' && !el.className.includes('message-time')
+                    );
+                    text = firstDiv ? firstDiv.textContent : bubble.textContent;
+                }
+                messages.push({ sender: 'bot', text: text.trim() });
+            }
+            // System message
+            else if (msgDiv.classList.contains('system-message')) {
+                const text = msgDiv.textContent || '';
+                messages.push({ sender: 'system', text });
+            }
+        });
+        return messages;
+    }
+
     addUserMessage(message) {
         const messageElement = this.createMessageElement(message, true);
         this.messagesContainer.appendChild(messageElement);
@@ -150,7 +189,7 @@ class ChatBot {
             let debugInfo = '';
             if (intent || entities) {
                 debugInfo = `
-                    <div class="mt-2 p-2 bg-dark rounded" style="font-size: 0.75rem;">
+                    <div class="mt-2 p-2 rounded" style="font-size: 0.75rem; background-color: #e2e3e5;">
                         ${intent ? `<div><strong>Intent:</strong> ${intent}</div>` : ''}
                         ${entities && Object.keys(entities).length > 0 ? `<div><strong>Entities:</strong> ${JSON.stringify(entities)}</div>` : ''}
                     </div>
