@@ -97,7 +97,7 @@ class ChatSession(db.Model):
     
     # Relationships
     user = db.relationship('User')
-    messages = db.relationship('ChatMessage', cascade='all, delete-orphan')
+    messages = db.relationship('ChatMessage', back_populates="session")
 
 class ChatMessage(db.Model):
     __tablename__ = 'chat_messages'
@@ -111,7 +111,7 @@ class ChatMessage(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     
     # Relationships
-    session = db.relationship('ChatSession')
+    session = db.relationship('ChatSession', back_populates="messages", overlaps="messages")
 
 class BookingStatus(enum.Enum):
     PENDING = "pending"
