@@ -8,8 +8,8 @@ from models import Facility, IssueType, Priority
 class AIService:
     def __init__(self):
         # DeepSeek API configuration - adjust URL to your local setup
-        self.deepseek_url = os.environ.get("DEEPSEEK_API_URL", "http://localhost:11434/v1/chat/completions")
-        self.deepseek_model = os.environ.get("DEEPSEEK_MODEL", "deepseek-r1:7b")
+        self.deepseek_url = os.environ.get("DEEPSEEK_API_URL", "https://openrouter.ai/api/v1/chat/completions")
+        self.deepseek_model = os.environ.get("DEEPSEEK_MODEL", "deepseek/deepseek-chat-v3-0324:free")
         self.deepseek_key = os.environ.get("DEEPSEEK_API_KEY", None)  # Optional, if your API requires a key
         self.facilities_cache = None
         self.load_facilities()
