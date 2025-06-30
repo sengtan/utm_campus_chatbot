@@ -173,27 +173,36 @@ document.addEventListener('DOMContentLoaded', function() {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = `/update_booking/${bookingId}`;
-        
-        const csrfInput = document.createElement('input');
-        csrfInput.type = 'hidden';
-        csrfInput.name = 'csrf_token';
-        const metaToken = document.querySelector('meta[name=csrf-token]');
-        csrfInput.value = metaToken ? metaToken.getAttribute('content') : '';
-        
+
+        // CSRF token
+        // const csrfInput = document.createElement('input');
+        // csrfInput.type = 'hidden';
+        // csrfInput.name = 'csrf_token';
+        // const metaToken = document.querySelector('meta[name=csrf-token]');
+        // csrfInput.value = metaToken ? metaToken.getAttribute('content') : '';
+        // form.appendChild(csrfInput);
+
+        // Status
         const statusInput = document.createElement('input');
         statusInput.type = 'hidden';
         statusInput.name = 'status';
         statusInput.value = status;
-        
+        form.appendChild(statusInput);
+
+        // Admin notes
+        const adminInput = document.createElement('input');
+        adminInput.type = 'hidden';
+        adminInput.name = 'admin_notes';
+        adminInput.value = status === 'rejected' ? 'Quick Rejected' : (status === 'approved' ? 'Quick Approved' : '');
+        form.appendChild(adminInput);
+
+        // Submit button value
         const submitInput = document.createElement('input');
         submitInput.type = 'hidden';
-        submitInput.name = 'submit';
+        submitInput.name = 'action_submit';
         submitInput.value = 'Update Booking';
-        
-        form.appendChild(csrfInput);
-        form.appendChild(statusInput);
         form.appendChild(submitInput);
-        
+
         document.body.appendChild(form);
         form.submit();
     }
