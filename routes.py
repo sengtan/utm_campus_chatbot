@@ -699,12 +699,10 @@ def manage_bookings():
 @app.route('/update_booking/<int:booking_id>', methods=['GET', 'POST'])
 @login_required
 def update_booking(booking_id):
-    print("hello")
     """Update booking status (admin only)"""
     if current_user.role != UserRole.ADMIN:
         flash('Access denied.', 'error')
         return redirect(url_for('index'))
-    print("hello1")
     booking = FacilityBooking.query.get_or_404(booking_id)
     form = BookingManagementForm(obj=booking)
     
