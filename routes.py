@@ -49,6 +49,12 @@ def register():
         user.student_id = form.student_id.data if form.student_id.data else None
         user.role = UserRole(form.role.data)
         user.password_hash = hashed_password
+
+        if user.role == UserRole.ADMIN and user.username != 'admin':
+            flash('Only the default admin can be registered as an admin. Please use "admin" as the username for admin accounts.', 'danger')
+            return render_template('register.html', form=form)
+
+        # Add new user to the database
         db.session.add(user)
         db.session.commit()
         flash('Registration successful! You can now log in.', 'success')
