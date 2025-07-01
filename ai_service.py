@@ -6,6 +6,8 @@ import requests
 from models import Facility, IssueType, Priority 
 
 class AIService:
+    timeout = 60
+
     def __init__(self):
         # DeepSeek API configuration - adjust URL to your local setup
         self.deepseek_url = os.environ.get("DEEPSEEK_API_URL", "https://openrouter.ai/api/v1/chat/completions")
@@ -113,8 +115,7 @@ class AIService:
                 },
                 "stream": False # Ensure full JSON response at once
             }
-            
-            response = requests.post(self.deepseek_url, json=payload, headers=headers, timeout=60) # Increased timeout
+            response = requests.post(self.deepseek_url, json=payload, headers=headers, timeout=self.timeout) # Increased timeout
             response.raise_for_status() # Raises HTTPError for bad responses (4xx or 5xx)
             
             result_data = response.json()
@@ -129,10 +130,7 @@ class AIService:
                 model_raw_content = choices[0]["message"].get("content", "")
 
             if not model_raw_content:
-                raise ValueError("Model returned empty content for entity extraction.")
-
-            if not model_raw_content:
-                raise ValueError("Model returned empty content for entity extraction.")
+                raise ValueError("Model returned empty content for entity & intent extraction.")
 
             result = self._extract_json_from_llm_response(model_raw_content)
 
@@ -196,20 +194,19 @@ class AIService:
             **Available Facilities Information:**
             {facilities_context}
 
-            **User Input:** "{user_message}"
-            **Detected Intent:** {intent}
-            **Extracted Entities:** {entities}
+            **Current User Input:** "{user_message}"
+            **Current Detected Intent:** {intent}
+            **Current Extracted Entities:** {entities}
             """
             
             # Build conversation history if user_context is provided (for multi-turn)
             messages = [
                 {"role": "system", "content": context_prompt},
             ]
-            
             # If you want to maintain a longer conversation, you'd add past messages here
             if user_context and user_context.get('history'):
                 for msg in user_context['history']:
-                    messages.append(msg)
+                    messages.append({"role": msg['sender'].replace("bot","assistant"), "content": msg['text']})
             messages.append({"role": "user", "content": user_message})
 
             # Add specific guidance for response generation based on intent
@@ -237,11 +234,12 @@ class AIService:
                 },
                 "stream": False # Get full response at once
             }
-
-            response = requests.post(self.deepseek_url, json=payload, headers=headers, timeout=60) # Increased timeout
+            
+            response = requests.post(self.deepseek_url, json=payload, headers=headers, timeout=self.timeout) # Increased timeout
             response.raise_for_status() # Raises HTTPError for bad responses (4xx or 5xx)
             
             result_data = response.json()
+
             # --- CRITICAL FIX: Correctly access the content from Ollama's chat API response ---
             # Ollama's /api/chat returns: {"model": ..., "created_at": ..., "message": {"role": "assistant", "content": "..."}}
             # Access directly via 'message' key.
@@ -252,9 +250,6 @@ class AIService:
             model_raw_content = ""
             if choices and "message" in choices[0]:
                 model_raw_content = choices[0]["message"].get("content", "")
-
-            if not model_raw_content:
-                raise ValueError("Model returned empty content for entity extraction.")
 
             if not model_raw_content:
                 raise ValueError("Model returned empty response content for generation.")
@@ -370,8 +365,7 @@ class AIService:
                 },
                 "stream": False # Ensure full JSON response at once
             }
-            
-            response = requests.post(self.deepseek_url, json=payload, headers=headers, timeout=60) # Increased timeout
+            response = requests.post(self.deepseek_url, json=payload, headers=headers, timeout=self.timeout) # Increased timeout
             response.raise_for_status()
             
             result_data = response.json()
