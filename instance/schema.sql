@@ -14,8 +14,9 @@ CREATE TABLE users (
 	UNIQUE (email), 
 	UNIQUE (student_id)
 );
-INSERT INTO users VALUES(1,'student','student@graduate.utm.my','$2b$12$F8FoM25d1iAAs07jiASlYOdw57khxyvWyAJCw/O0rEAxYKk3hlfhW','STUDENT','student','1234','2025-06-24 13:29:20.232277');
 INSERT INTO users VALUES(2,'admin','admin@graduate.utm.my','$2b$12$AoWg5BcxhONNeohDD7cgSentxG2k1HpKwe9yCxcQxPR9TorpEQvk.','ADMIN','admin',NULL,'2025-06-24 14:18:06.746334');
+INSERT INTO users VALUES(3,'ada_lovelace','ada_lovelace@graduate.utm.my','$2b$12$OSwVNm5vgAbsuoOwEQOInuZRgvBGrjFgUm3lWL/fK19jOEKpQbeEy','STUDENT','Ada Lovelace','MEC001815','2025-07-01 15:55:44.712120');
+INSERT INTO users VALUES(4,'alan_turing','alan_turing@graduate.utm.my','$2b$12$FyfU/UCPoseCJNMXBiLnWeE.Qy0b5WP6tSTCCtJw7HfAxKIx1Oa2y','STUDENT','Alan Turing','MEC001912','2025-07-01 16:16:31.622391');
 CREATE TABLE facilities (
 	id INTEGER NOT NULL, 
 	name VARCHAR(100) NOT NULL, 
@@ -65,7 +66,11 @@ CREATE TABLE issues (
 	FOREIGN KEY(facility_id) REFERENCES facilities (id), 
 	FOREIGN KEY(assigned_to) REFERENCES users (id)
 );
-INSERT INTO issues VALUES(1,'Broken air conditioning unit','Air cond broke','OTHER','MEDIUM','REPORTED','Kejora Hall',1,NULL,NULL,'2025-06-29 17:43:59.610016','2025-06-29 17:43:59.610016',NULL,NULL,NULL,NULL);
+INSERT INTO issues VALUES(1,'Issue with Lecture Room Type A','Air conditioning broke down, the room is so hot, I can''t study','ELECTRICAL','HIGH','IN_PROGRESS','N28a, FC',3,NULL,NULL,'2025-07-01 16:01:16.095999','2025-07-01 16:15:18.582350',NULL,'I have asked the technician to check the air conditioning in Lecture Room Type A, please wait 1-2 days.',NULL,NULL);
+INSERT INTO issues VALUES(2,'Issue with Female Hostel Block D','There are a lot of rats in the female dormroom.','HYGIENE','HIGH','RESOLVED','Hostel Area',3,NULL,NULL,'2025-07-01 16:02:12.388193','2025-07-01 16:15:34.103699','2025-07-01 16:15:34.103699','I killed all rats yesterday.',NULL,NULL);
+INSERT INTO issues VALUES(3,'Issue with Male Hostel Block C','Someone did not flush the toilet, may we add automated flushing mechanisms?','HYGIENE','MEDIUM','CLOSED','Hostel Area',4,NULL,NULL,'2025-07-01 16:19:53.475900','2025-07-01 16:26:15.719653',NULL,'This is not an issue, you can flush it for your dorm mates.',NULL,NULL);
+INSERT INTO issues VALUES(4,'Issue with Gymnasium','The weights are not heavy enough, I can''t gain enough muscle.','EQUIPMENT','LOW','REPORTED','Sports Complex',4,NULL,NULL,'2025-07-01 16:20:36.665158','2025-07-01 16:20:36.665158',NULL,NULL,NULL,NULL);
+INSERT INTO issues VALUES(5,'Issue with Kejora Hall','The lights and mic are not working, I need to give a thesis presentation to Dr Shasha soon, please help to fix immediately.','EQUIPMENT','URGENT','IN_PROGRESS','N28a, FC',4,NULL,NULL,'2025-07-01 16:23:49.094618','2025-07-01 16:26:38.647362',NULL,'I have sent technicians to check on the issues, will be done today.',NULL,NULL);
 CREATE TABLE chat_sessions (
 	id INTEGER NOT NULL, 
 	user_id INTEGER NOT NULL, 
@@ -74,9 +79,7 @@ CREATE TABLE chat_sessions (
 	PRIMARY KEY (id), 
 	FOREIGN KEY(user_id) REFERENCES users (id)
 );
-INSERT INTO chat_sessions VALUES(1,1,'7da4b478-41e0-4d5b-8c79-f3f1b477f3f4','2025-06-24 13:29:45.114085');
-INSERT INTO chat_sessions VALUES(2,1,'3bbcb977-779c-46a9-9535-021ccf1ece61','2025-06-24 15:05:10.476680');
-INSERT INTO chat_sessions VALUES(3,1,'1b632250-c40d-4e82-a08a-c8acc349c2b4','2025-06-29 16:19:35.332287');
+INSERT INTO chat_sessions VALUES(1,3,'8bbb33b3-f3ec-41e1-97bc-875280255e4c','2025-07-01 16:03:59.797055');
 CREATE TABLE facility_bookings (
 	id INTEGER NOT NULL, 
 	facility_id INTEGER NOT NULL, 
@@ -93,9 +96,12 @@ CREATE TABLE facility_bookings (
 	FOREIGN KEY(facility_id) REFERENCES facilities (id), 
 	FOREIGN KEY(user_id) REFERENCES users (id)
 );
-INSERT INTO facility_bookings VALUES(1,1,1,'2025-06-28',9,10,'uh to practioce','CANCELLED','nou','2025-06-24 13:30:42.076453','2025-06-29 17:18:57.756225');
-INSERT INTO facility_bookings VALUES(2,1,1,'2025-06-24',8,9,'hehehehe','REJECTED','NO','2025-06-24 13:31:10.086738','2025-06-24 14:18:36.447643');
-INSERT INTO facility_bookings VALUES(3,5,1,'2025-07-05',8,9,'for fun','PENDING','ok','2025-06-29 16:58:04.990629','2025-06-29 17:33:21.064520');
+INSERT INTO facility_bookings VALUES(1,4,3,'2025-12-10',8,9,'To practice on solving computer problems.','APPROVED','Please go ahead, I will turn on the electricity and check the computers before this slot.','2025-07-01 15:57:07.243055','2025-07-01 16:13:38.612712');
+INSERT INTO facility_bookings VALUES(2,5,3,'2025-12-25',12,13,'To celebrate Christmas by solving network problems.','REJECTED','CCNP Network Lab is closed during Christmas, solve network problems elsewhere.','2025-07-01 15:58:49.919787','2025-07-01 16:14:20.953308');
+INSERT INTO facility_bookings VALUES(3,10,4,'2026-06-23',8,9,'I need to gain muscle to learn computing.','APPROVED','Hope you gain huge muscles and become a computing legend with muscles.','2025-07-01 16:17:25.827752','2025-07-01 16:24:58.270405');
+INSERT INTO facility_bookings VALUES(4,8,4,'2025-09-08',8,22,'I need to present my AI thesis to Dr Shasha. This research will change the whole world.','PENDING',NULL,'2025-07-01 16:18:31.001667','2025-07-01 16:18:31.001667');
+INSERT INTO facility_bookings VALUES(5,6,4,'2025-07-02',8,22,'I need to do some tutorials to pass my exams.','CANCELLED','Date has passed, sorry I wasn''t able to approve in time.','2025-07-01 16:19:10.806312','2025-07-01 16:25:25.044133');
+INSERT INTO facility_bookings VALUES(6,9,3,'2025-07-03',8,9,'To discuss and align on AI Assignment and Presentation.','APPROVED','Please go ahead.','2025-07-01 17:06:16.761724','2025-07-01 17:06:46.479440');
 CREATE TABLE chat_messages (
 	id INTEGER NOT NULL, 
 	session_id INTEGER NOT NULL, 
@@ -107,24 +113,22 @@ CREATE TABLE chat_messages (
 	PRIMARY KEY (id), 
 	FOREIGN KEY(session_id) REFERENCES chat_sessions (id)
 );
-INSERT INTO chat_messages VALUES(1,2,'Where is the computer lab?',1,'search','{"facility": "Computer Lab", "location": "N28 & N28a, FC"}','2025-06-24 15:05:14.505242');
-INSERT INTO chat_messages VALUES(2,2,replace('**Computer Lab**\n≡ƒôì Location: N28 & N28a, FC\n≡ƒÅó Category: Academic\nΓä╣∩╕Å Description: Well-equipped computer laboratory with individual workstations. Features ceiling-mounted projector, WiPG wireless system, air-conditioning, microphones, white board, and WiFi connectivity. Projector (ceiling mounted), WiPG Wireless system, Air-Conditioner, Microphone provided, White Board, WiFi facility, Total of 12 Computer lab, Located in N28 & N28a FC\n\nDirections: From main entrance: Proceed to Faculty of Computing buildings (N28 & N28A). The computer labs are distributed across both buildings. Look for "Computer Lab" signage. There are 12 computer labs total - some in N28A and others in N28 building.\n≡ƒôà This facility is bookable - you can make a reservation!\n','\n',char(10)),0,NULL,NULL,'2025-06-24 15:05:14.505838');
-INSERT INTO chat_messages VALUES(3,2,'Where is the computer lab?',1,'search','{"facility": "Computer Lab", "location": "N28 & N28a, FC"}','2025-06-24 15:07:02.589434');
-INSERT INTO chat_messages VALUES(4,2,replace('**Computer Lab**\n≡ƒôì Location: N28 & N28a, FC\n≡ƒÅó Category: Academic\nΓä╣∩╕Å Description: Well-equipped computer laboratory with individual workstations. Features ceiling-mounted projector, WiPG wireless system, air-conditioning, microphones, white board, and WiFi connectivity. Projector (ceiling mounted), WiPG Wireless system, Air-Conditioner, Microphone provided, White Board, WiFi facility, Total of 12 Computer lab, Located in N28 & N28a FC\n\nDirections: From main entrance: Proceed to Faculty of Computing buildings (N28 & N28A). The computer labs are distributed across both buildings. Look for "Computer Lab" signage. There are 12 computer labs total - some in N28A and others in N28 building.\n≡ƒôà This facility is bookable - you can make a reservation!\n','\n',char(10)),0,NULL,NULL,'2025-06-24 15:07:02.590504');
-INSERT INTO chat_messages VALUES(5,3,'what equiment is in this lab',1,'general_info','{"facility": null, "location": null, "issue_type": null, "component": "equiment"}','2025-06-29 16:20:34.530433');
-INSERT INTO chat_messages VALUES(6,3,replace('It looks like you''re asking about equipment in a lab, but I''m not sure which lab you''re referring to. Could you specify the lab? For example:  \n\n- **Computer Lab (N28 & N28a, FC)** – Typically has computers, printers, and software for general use.  \n- **CCNP Network Lab (Level 4, N28, FC)** – Contains networking equipment like routers, switches, and servers for IT/engineering courses.  \n\nLet me know which lab you''re interested in, and I can give you more details!','\n',char(10)),0,NULL,NULL,'2025-06-29 16:20:34.531918');
-INSERT INTO chat_messages VALUES(7,3,'what lab is this',1,'general_info','{"facility": null, "location": null, "issue_type": null, "component": null}','2025-06-29 16:40:02.273777');
-INSERT INTO chat_messages VALUES(8,3,replace('It seems you''re asking about the lab you''re currently in. Could you share more details about the lab''s location (e.g., building, level) or its features?  \n\nHere’s a quick list of bookable labs at UTM:  \n- **Computer Lab** – N28 & N28a, FC  \n- **CCNP Network Lab** – Level 4, N28, FC  \n\nLet me know if you need specifics!','\n',char(10)),0,NULL,NULL,'2025-06-29 16:40:02.275772');
-INSERT INTO chat_messages VALUES(9,3,'what lab',1,'search','{"facility": "lab", "location": null, "issue_type": null, "component": null}','2025-06-29 16:41:02.228674');
-INSERT INTO chat_messages VALUES(10,3,replace('Here are the labs available at UTM:  \n\n1. **Computer Lab** – Located at N28 & N28a, FC (Bookable)  \n2. **CCNP Network Lab** – Located at Level 4, N28, FC (Bookable)  \n\nLet me know if you need details on booking or any specific lab!','\n',char(10)),0,NULL,NULL,'2025-06-29 16:41:02.229437');
-INSERT INTO chat_messages VALUES(11,3,'Where is the computer lab?',1,'search','{"facility": "Computer Lab", "location": null, "issue_type": null, "component": null}','2025-06-29 16:47:21.251598');
-INSERT INTO chat_messages VALUES(12,3,'🖥️ **Computer Lab 1** is located at **Block A, Level 2**. It has 40 workstations and is available for booking. You can use it for coursework and projects.',0,NULL,NULL,'2025-06-29 16:47:21.252595');
-INSERT INTO chat_messages VALUES(13,3,'Where is the computer lab?',1,'search','{"facility": "Computer Lab", "location": null, "issue_type": null, "component": null}','2025-06-29 16:51:14.234036');
-INSERT INTO chat_messages VALUES(14,3,'🖥️ **Computer Lab 1** is located at **Block A, Level 2**. It has 40 workstations and is available for booking. You can use it for coursework and projects.',0,NULL,NULL,'2025-06-29 16:51:14.235033');
-INSERT INTO chat_messages VALUES(15,3,'what lab is this',1,'general_info','{"facility": null, "location": null, "issue_type": null, "component": null}','2025-06-29 16:51:53.266309');
-INSERT INTO chat_messages VALUES(16,3,'🖥️ **Computer Lab 1** is located at **Block A, Level 2**. It has 40 workstations and is available for booking. You can use it for coursework and projects.',0,NULL,NULL,'2025-06-29 16:51:53.267311');
-INSERT INTO chat_messages VALUES(17,3,'tell me the name of the lab',1,'general_info','{}','2025-06-29 16:52:58.270728');
-INSERT INTO chat_messages VALUES(18,3,'🖥️ **Computer Lab 1** is located at **Block A, Level 2**. It has 40 workstations and is available for booking. You can use it for coursework and projects.',0,NULL,NULL,'2025-06-29 16:52:58.271725');
-INSERT INTO chat_messages VALUES(19,3,'tell me the name of the lab',1,'general_info','{}','2025-06-29 16:56:18.274827');
-INSERT INTO chat_messages VALUES(20,3,'🖥️ **Computer Lab 1** is located at **Block A, Level 2**. It has 40 workstations and is available for booking. You can use it for coursework and projects.',0,NULL,NULL,'2025-06-29 16:56:18.274993');
+INSERT INTO chat_messages VALUES(1,1,'1+1?',1,'general_info','{"facility": null, "location": null, "issue_type": null, "component": null}','2025-07-01 16:04:24.664257');
+INSERT INTO chat_messages VALUES(2,1,replace('That’s a classic! In math terms, 1+1 = 2. 😊  \n\nIf you were testing me—I passed! Let me know if you have any *actual* questions about UTM’s facilities. For example:  \n- *"Where’s the gym?"*  \n- *"How do I book a meeting room?"*  \n\nHappy to help!','\n',char(10)),0,NULL,NULL,'2025-07-01 16:04:24.665286');
+INSERT INTO chat_messages VALUES(3,1,'Where is the computer lab?',1,'search','{"facility": "Computer Lab", "location": null, "issue_type": null, "component": null}','2025-07-01 16:05:19.975432');
+INSERT INTO chat_messages VALUES(4,1,replace('The **Computer Lab** is located in **N28 & N28a (Faculty Cluster, FC)**. It''s a **bookable** facility for academic or research use.  \n\nNeed help booking, or looking for a specific lab (e.g., CCNP Network Lab on Level 4 N28)? Just ask! 😊','\n',char(10)),0,NULL,NULL,'2025-07-01 16:05:19.976429');
+INSERT INTO chat_messages VALUES(5,1,'How to report a broken air conditioner?',1,'report_issue','{"facility": null, "location": null, "issue_type": "equipment", "component": "air conditioner"}','2025-07-01 16:05:57.792867');
+INSERT INTO chat_messages VALUES(6,1,replace('Got it! To report a *broken air conditioner* (or any facility issue) at UTM:  \n\n1. **Specify the location** (e.g., *"Hostel Block C, Room 205"* or *"Level 5 Activity Learning Lab, N28"*) so I can direct you further.  \n2. **Reporting Options**:  \n   - *Online Portal*: Submit via the official UTM facilities maintenance system (link not visible here).  \n   - *In-Person*: Visit the Facilities Management Office (Ground Floor, N28).  \n\nNeed more details (e.g., severity, noise/leakage)? Let me know! 🌟  \n\n*(Note: Exact reporting steps may vary—check campus notices for updates.)*','\n',char(10)),0,NULL,NULL,'2025-07-01 16:05:57.793864');
+INSERT INTO chat_messages VALUES(7,1,'Hi, are there air conditioning in this facility?',1,'general_info','{"facility": null, "location": null, "issue_type": null, "component": "air conditioning"}','2025-07-01 16:53:06.078639');
+INSERT INTO chat_messages VALUES(8,1,'Hi there! Yes, Kejora Hall at N28a, FC is air-conditioned. If you''re planning an event there, you can book it through the campus booking system. Let me know if you''d like more details! 😊',0,NULL,NULL,'2025-07-01 16:53:06.423819');
+INSERT INTO chat_messages VALUES(9,1,'In Kejora Hall, the air conditioning is not working, what do I do?',1,'report_issue','{"facility": "Kejora Hall", "location": "N28a, FC", "issue_type": "electrical", "component": "air conditioning"}','2025-07-01 16:56:24.800240');
+INSERT INTO chat_messages VALUES(10,1,replace('👋 **UTM Campus Assistant** can help you with:\n\n• 🔍 **Find facilities** - Ask about locations and details\n• 🔧 **Report issues** - Submit facility problems\n• 📅 **Booking info** - Get booking information\n• ℹ️ **General info** - Campus facility questions\n\nWhat can I help you with today?','\n',char(10)),0,NULL,NULL,'2025-07-01 16:56:24.800240');
+INSERT INTO chat_messages VALUES(11,1,'How do I report the issue of broken air conditioning in Kejora Hall?',1,'general_info','{}','2025-07-01 17:00:45.444207');
+INSERT INTO chat_messages VALUES(12,1,replace('🔧 To report a facility issue:\n1. Go to the **Report Issue** page\n2. Describe the problem in detail\n3. Select the issue type and location\n4. Submit your report\n\nYou can track the status of your report from your dashboard.','\n',char(10)),0,NULL,NULL,'2025-07-01 17:00:45.444207');
+INSERT INTO chat_messages VALUES(13,1,'How do I book the Kejora Hall?',1,'general_info','{}','2025-07-01 17:02:13.387369');
+INSERT INTO chat_messages VALUES(14,1,'📚 The **Library** is located at **Block B, Ground Floor**. It''s open from 8:00 AM to 10:00 PM and provides study spaces and resources for students.',0,NULL,NULL,'2025-07-01 17:02:13.387369');
+INSERT INTO chat_messages VALUES(15,1,'How to book a facility?',1,'general_info','{}','2025-07-01 17:02:27.695017');
+INSERT INTO chat_messages VALUES(16,1,'📚 The **Library** is located at **Block B, Ground Floor**. It''s open from 8:00 AM to 10:00 PM and provides study spaces and resources for students.',0,NULL,NULL,'2025-07-01 17:02:27.695986');
+INSERT INTO chat_messages VALUES(17,1,'What is 1 + 1?',1,'general_info','{}','2025-07-01 17:03:01.218290');
+INSERT INTO chat_messages VALUES(18,1,replace('👋 **UTM Campus Assistant** can help you with:\n\n• 🔍 **Find facilities** - Ask about locations and details\n• 🔧 **Report issues** - Submit facility problems\n• 📅 **Booking info** - Get booking information\n• ℹ️ **General info** - Campus facility questions\n\nWhat can I help you with today?','\n',char(10)),0,NULL,NULL,'2025-07-01 17:03:01.218290');
 COMMIT;
