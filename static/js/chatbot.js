@@ -220,22 +220,25 @@ class ChatBot {
     formatBotMessage(message) {
         // Convert newlines to breaks and format lists
         let formatted = this.escapeHtml(message);
-        
+
+        // Convert newlines to <br>
+        formatted = formatted.replace(/\n/g, '<br>');
+
         // Convert numbered lists
         formatted = formatted.replace(/(\d+\.\s)/g, '<br>$1');
-        
+
         // Convert bullet points
         formatted = formatted.replace(/(\*\s|\-\s)/g, '<br>• ');
-        
+
         // Convert URLs to links
         formatted = formatted.replace(
             /(https?:\/\/[^\s]+)/g, 
             '<a href="$1" target="_blank" class="text-decoration-none">$1</a>'
         );
-        
+
         // Bold text
         formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        
+
         return formatted;
     }
     
