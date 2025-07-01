@@ -2,6 +2,8 @@
 
 A Flask-based web application for campus facility management, featuring an AI-powered chatbot, issue reporting, facility booking, and admin dashboard. This project can be hosted locally or online.
 
+You can access this UTM Campus Chatbot web-app hosted on PythonAnywhere [here](https://tansenghooi.pythonanywhere.com/).
+
 ---
 
 ## Hosting Options
