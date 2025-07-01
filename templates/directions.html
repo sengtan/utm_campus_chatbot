@@ -291,7 +291,7 @@
 {% block scripts %}
 <script>
 function bookFacility(facilityName) {
-    alert(`Booking facility: ${facilityName}\n\nOnline booking system feature coming soon!`);
+    window.location.href = "{{ url_for('book_facility') }}?facility=" + encodeURIComponent(facilityName);
 }
 
 function reportIssueWithContext(facilityName, location) {
