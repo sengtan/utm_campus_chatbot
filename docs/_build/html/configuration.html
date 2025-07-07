@@ -1,0 +1,545 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuration and Settings &mdash; UTM Campus Assistant Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Administrator Guide" href="admin_guide.html" />
+    <link rel="prev" title="Installation and Setup" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            UTM Campus Assistant Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation and Setup</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration and Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#application-configuration">Application Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#core-components">Core Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flask-application-stack">Flask Application Stack</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#database-configuration">Database Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ai-service-configuration">AI Service Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#security-configuration">Security Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#authentication-settings">Authentication Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#session-management">Session Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#form-validation-rules">Form Validation Rules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#system-workflows">System Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#issue-management-workflow">Issue Management Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#facility-booking-workflow">Facility Booking Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#integration-settings">Integration Settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#external-service-configuration">External Service Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#frontend-configuration">Frontend Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring-and-logging">Monitoring and Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#application-logging">Application Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#performance-monitoring">Performance Monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#backup-and-recovery">Backup and Recovery</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#database-backup-strategy">Database Backup Strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-backup">Configuration Backup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-specific-settings">Environment-Specific Settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#development-environment">Development Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#production-environment">Production Environment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#customization-options">Customization Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#theme-customization">Theme Customization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feature-toggles">Feature Toggles</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="admin_guide.html">Administrator Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_management.html">User Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facility_management.html">Facility Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UTM Campus Assistant Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Configuration and Settings</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/configuration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configuration-and-settings">
+<h1>Configuration and Settings<a class="headerlink" href="#configuration-and-settings" title="Link to this heading"></a></h1>
+<section id="application-configuration">
+<h2>Application Configuration<a class="headerlink" href="#application-configuration" title="Link to this heading"></a></h2>
+<section id="core-components">
+<h3>Core Components<a class="headerlink" href="#core-components" title="Link to this heading"></a></h3>
+<section id="flask-application-stack">
+<h4>Flask Application Stack<a class="headerlink" href="#flask-application-stack" title="Link to this heading"></a></h4>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Core Flask Components</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 50.0%" />
+<col style="width: 20.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Component</p></th>
+<th class="head"><p>Purpose</p></th>
+<th class="head"><p>Configuration File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Flask-SQLAlchemy</strong></p></td>
+<td><p>Database ORM and management</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">flask_app.py</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Flask-Login</strong></p></td>
+<td><p>User authentication and sessions</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">flask_app.py</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Flask-WTF</strong></p></td>
+<td><p>Form handling and CSRF protection</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">forms.py</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Flask-Bcrypt</strong></p></td>
+<td><p>Password hashing and verification</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">flask_app.py</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Gunicorn</strong></p></td>
+<td><p>WSGI HTTP server</p></td>
+<td><p>Workflow configuration</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="database-configuration">
+<h4>Database Configuration<a class="headerlink" href="#database-configuration" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Primary Database Models (models.py)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">User</span><span class="p">(</span><span class="n">UserMixin</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;User account management&quot;&quot;&quot;</span>
+    <span class="o">-</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Primary</span> <span class="n">key</span>
+    <span class="o">-</span> <span class="n">username</span><span class="p">:</span> <span class="n">Unique</span> <span class="n">identifier</span>
+    <span class="o">-</span> <span class="n">email</span><span class="p">:</span> <span class="n">Contact</span> <span class="n">information</span>
+    <span class="o">-</span> <span class="n">role</span><span class="p">:</span> <span class="n">UserRole</span> <span class="p">(</span><span class="n">STUDENT</span><span class="o">/</span><span class="n">ADMIN</span><span class="p">)</span>
+    <span class="o">-</span> <span class="n">password_hash</span><span class="p">:</span> <span class="n">Bcrypt</span> <span class="n">hashed</span> <span class="n">password</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Facility</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Campus facility information&quot;&quot;&quot;</span>
+    <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">Facility</span> <span class="n">identifier</span>
+    <span class="o">-</span> <span class="n">category</span><span class="p">:</span> <span class="n">Type</span> <span class="n">classification</span>
+    <span class="o">-</span> <span class="n">location</span><span class="p">:</span> <span class="n">Physical</span> <span class="n">address</span>
+    <span class="o">-</span> <span class="n">is_bookable</span><span class="p">:</span> <span class="n">Booking</span> <span class="n">availability</span>
+    <span class="o">-</span> <span class="n">capacity</span><span class="p">:</span> <span class="n">Maximum</span> <span class="n">occupancy</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Issue</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Facility issue tracking&quot;&quot;&quot;</span>
+    <span class="o">-</span> <span class="n">title</span><span class="p">:</span> <span class="n">Issue</span> <span class="n">description</span>
+    <span class="o">-</span> <span class="n">issue_type</span><span class="p">:</span> <span class="n">Category</span> <span class="n">classification</span>
+    <span class="o">-</span> <span class="n">priority</span><span class="p">:</span> <span class="n">Urgency</span> <span class="n">level</span>
+    <span class="o">-</span> <span class="n">status</span><span class="p">:</span> <span class="n">Current</span> <span class="n">state</span>
+    <span class="o">-</span> <span class="n">reporter</span><span class="p">:</span> <span class="n">User</span> <span class="n">relationship</span>
+    <span class="o">-</span> <span class="n">facility</span><span class="p">:</span> <span class="n">Facility</span> <span class="n">relationship</span>
+</pre></div>
+</div>
+</section>
+<section id="ai-service-configuration">
+<h4>AI Service Configuration<a class="headerlink" href="#ai-service-configuration" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># AI Service Settings (ai_service.py)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AIService</span><span class="p">:</span>
+    <span class="n">timeout</span> <span class="o">=</span> <span class="mi">60</span>  <span class="c1"># API timeout in seconds</span>
+
+    <span class="c1"># DeepSeek LLM Configuration</span>
+    <span class="n">api_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DEEPSEEK_API_URL&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;http://localhost:11434/v1/chat/completions&quot;</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DEEPSEEK_MODEL&quot;</span><span class="p">,</span> <span class="s2">&quot;deepseek-r1:7b&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Core Functions:</span>
+    <span class="o">-</span> <span class="n">extract_entities_and_intent</span><span class="p">():</span> <span class="n">Natural</span> <span class="n">language</span> <span class="n">processing</span>
+    <span class="o">-</span> <span class="n">generate_response</span><span class="p">():</span> <span class="n">Context</span><span class="o">-</span><span class="n">aware</span> <span class="n">responses</span>
+    <span class="o">-</span> <span class="n">classify_issue_from_description</span><span class="p">():</span> <span class="n">Automatic</span> <span class="n">issue</span> <span class="n">categorization</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="security-configuration">
+<h2>Security Configuration<a class="headerlink" href="#security-configuration" title="Link to this heading"></a></h2>
+<section id="authentication-settings">
+<h3>Authentication Settings<a class="headerlink" href="#authentication-settings" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># User Role Management</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">UserRole</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">STUDENT</span> <span class="o">=</span> <span class="s2">&quot;student&quot;</span>  <span class="c1"># Basic access rights</span>
+    <span class="n">ADMIN</span> <span class="o">=</span> <span class="s2">&quot;admin&quot;</span>      <span class="c1"># Full system access</span>
+
+<span class="c1"># Password Security</span>
+<span class="o">-</span> <span class="n">Minimum</span> <span class="n">length</span><span class="p">:</span> <span class="mi">6</span> <span class="n">characters</span>
+<span class="o">-</span> <span class="n">Bcrypt</span> <span class="n">hashing</span> <span class="k">with</span> <span class="n">salt</span>
+<span class="o">-</span> <span class="n">Session</span><span class="o">-</span><span class="n">based</span> <span class="n">authentication</span>
+<span class="o">-</span> <span class="n">CSRF</span> <span class="n">protection</span> <span class="n">on</span> <span class="nb">all</span> <span class="n">forms</span>
+</pre></div>
+</div>
+</section>
+<section id="session-management">
+<h3>Session Management<a class="headerlink" href="#session-management" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Flask Session Configuration</span>
+<span class="n">app</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SESSION_SECRET&quot;</span><span class="p">)</span>
+
+<span class="c1"># Security Features:</span>
+<span class="o">-</span> <span class="n">Secure</span> <span class="n">session</span> <span class="n">cookies</span>
+<span class="o">-</span> <span class="n">CSRF</span> <span class="n">token</span> <span class="n">validation</span>
+<span class="o">-</span> <span class="n">Session</span> <span class="n">timeout</span> <span class="n">handling</span>
+<span class="o">-</span> <span class="n">User</span> <span class="n">session</span> <span class="n">tracking</span>
+</pre></div>
+</div>
+</section>
+<section id="form-validation-rules">
+<h3>Form Validation Rules<a class="headerlink" href="#form-validation-rules" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Input Validation Rules</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 50.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field Type</p></th>
+<th class="head"><p>Validation Rules</p></th>
+<th class="head"><p>Error Handling</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Username</strong></p></td>
+<td><p>4-20 characters, unique</p></td>
+<td><p>Duplicate check</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Email</strong></p></td>
+<td><p>Valid format, unique</p></td>
+<td><p>Format validation</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Student ID</strong></p></td>
+<td><p>Optional, max 20 chars, unique</p></td>
+<td><p>Uniqueness check</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Issue Description</strong></p></td>
+<td><p>Minimum 10 characters</p></td>
+<td><p>Length validation</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Facility Name</strong></p></td>
+<td><p>2-100 characters</p></td>
+<td><p>Required field</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="system-workflows">
+<h2>System Workflows<a class="headerlink" href="#system-workflows" title="Link to this heading"></a></h2>
+<section id="issue-management-workflow">
+<h3>Issue Management Workflow<a class="headerlink" href="#issue-management-workflow" title="Link to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Student Reports Issue → AI Classification → Admin Review → Resolution → Feedback
+
+States:
+- REPORTED: Initial submission
+- IN_PROGRESS: Admin assigned
+- RESOLVED: Issue fixed
+- CLOSED: Feedback received
+</pre></div>
+</div>
+</section>
+<section id="facility-booking-workflow">
+<h3>Facility Booking Workflow<a class="headerlink" href="#facility-booking-workflow" title="Link to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Student Request → Admin Review → Approval/Rejection → Notification
+
+States:
+- PENDING: Awaiting admin review
+- APPROVED: Booking confirmed
+- REJECTED: Request denied
+- CANCELLED: User cancelled
+</pre></div>
+</div>
+</section>
+</section>
+<section id="integration-settings">
+<h2>Integration Settings<a class="headerlink" href="#integration-settings" title="Link to this heading"></a></h2>
+<section id="external-service-configuration">
+<h3>External Service Configuration<a class="headerlink" href="#external-service-configuration" title="Link to this heading"></a></h3>
+<p><strong>DeepSeek LLM Integration</strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Required Environment Variables</span>
+<span class="nt">DEEPSEEK_API_URL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://localhost:11434/v1/chat/completions&quot;</span>
+<span class="nt">DEEPSEEK_MODEL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deepseek-r1:7b&quot;</span>
+
+<span class="c1"># Fallback Configuration</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Timeout handling</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60 seconds</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Error recovery</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Rule-based responses</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Cache management</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Facility data preloaded</span>
+</pre></div>
+</div>
+<p><strong>Database Integration</strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># PostgreSQL Configuration</span>
+<span class="nt">DATABASE_URL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;postgresql://user:pass@host:port/db&quot;</span>
+
+<span class="c1"># Connection Pool Settings</span>
+<span class="nt">SQLALCHEMY_ENGINE_OPTIONS</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pool_recycle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
+<span class="w">  </span><span class="nt">pool_pre_ping</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+</section>
+<section id="frontend-configuration">
+<h3>Frontend Configuration<a class="headerlink" href="#frontend-configuration" title="Link to this heading"></a></h3>
+<p><strong>Static Assets</strong>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static/
+├── css/
+│   ├── style.css          # Main stylesheet
+│   └── chatbot.css        # Chatbot specific styles
+├── js/
+│   └── chatbot.js         # Frontend chatbot logic
+└── images/
+    └── logo.png           # Application logo
+</pre></div>
+</div>
+<p><strong>Template Structure</strong>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>templates/
+├── base.html              # Base template with Bootstrap 5
+├── index.html             # Landing page
+├── admin_dashboard.html   # Admin control panel
+├── student_dashboard.html # Student interface
+├── chatbot.html          # AI chat interface
+├── facility_info.html    # Facility directory
+└── report_issue.html     # Issue submission form
+</pre></div>
+</div>
+</section>
+</section>
+<section id="monitoring-and-logging">
+<h2>Monitoring and Logging<a class="headerlink" href="#monitoring-and-logging" title="Link to this heading"></a></h2>
+<section id="application-logging">
+<h3>Application Logging<a class="headerlink" href="#application-logging" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Logging Configuration</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+<span class="c1"># Log Categories:</span>
+<span class="o">-</span> <span class="n">Database</span> <span class="n">operations</span>
+<span class="o">-</span> <span class="n">AI</span> <span class="n">service</span> <span class="n">responses</span>
+<span class="o">-</span> <span class="n">User</span> <span class="n">authentication</span>
+<span class="o">-</span> <span class="n">Error</span> <span class="n">tracking</span>
+<span class="o">-</span> <span class="n">Performance</span> <span class="n">metrics</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-monitoring">
+<h3>Performance Monitoring<a class="headerlink" href="#performance-monitoring" title="Link to this heading"></a></h3>
+<p><strong>Key Metrics</strong>:</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Performance Indicators</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 40.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Target Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Response Time</strong></p></td>
+<td><p>Page load duration</p></td>
+<td><p>&lt; 2 seconds</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>AI Response Time</strong></p></td>
+<td><p>Chatbot query processing</p></td>
+<td><p>&lt; 5 seconds</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Database Queries</strong></p></td>
+<td><p>Query execution time</p></td>
+<td><p>&lt; 100ms average</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Memory Usage</strong></p></td>
+<td><p>Application memory footprint</p></td>
+<td><p>&lt; 512MB</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>CPU Usage</strong></p></td>
+<td><p>Processing utilization</p></td>
+<td><p>&lt; 70% average</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="backup-and-recovery">
+<h2>Backup and Recovery<a class="headerlink" href="#backup-and-recovery" title="Link to this heading"></a></h2>
+<section id="database-backup-strategy">
+<h3>Database Backup Strategy<a class="headerlink" href="#database-backup-strategy" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Automated Backup (Daily)</span>
+pg_dump<span class="w"> </span>utm_campus_assistant<span class="w"> </span>&gt;<span class="w"> </span>backup_<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>.sql
+
+<span class="c1"># Restore Procedure</span>
+psql<span class="w"> </span>utm_campus_assistant<span class="w"> </span>&lt;<span class="w"> </span>backup_YYYYMMDD.sql
+</pre></div>
+</div>
+</section>
+<section id="configuration-backup">
+<h3>Configuration Backup<a class="headerlink" href="#configuration-backup" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Critical Files to Backup</span>
+-<span class="w"> </span>.env<span class="w"> </span><span class="o">(</span>environment<span class="w"> </span>variables<span class="o">)</span>
+-<span class="w"> </span>instance/<span class="w"> </span><span class="o">(</span>SQLite<span class="w"> </span>fallback<span class="o">)</span>
+-<span class="w"> </span>static/<span class="w"> </span><span class="o">(</span>custom<span class="w"> </span>assets<span class="o">)</span>
+-<span class="w"> </span>templates/<span class="w"> </span><span class="o">(</span>custom<span class="w"> </span>templates<span class="o">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="environment-specific-settings">
+<h2>Environment-Specific Settings<a class="headerlink" href="#environment-specific-settings" title="Link to this heading"></a></h2>
+<section id="development-environment">
+<h3>Development Environment<a class="headerlink" href="#development-environment" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Development Configuration</span>
+<span class="n">FLASK_ENV</span> <span class="o">=</span> <span class="s2">&quot;development&quot;</span>
+<span class="n">FLASK_DEBUG</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># Features:</span>
+<span class="o">-</span> <span class="n">Hot</span> <span class="n">reload</span> <span class="n">enabled</span>
+<span class="o">-</span> <span class="n">Detailed</span> <span class="n">error</span> <span class="n">pages</span>
+<span class="o">-</span> <span class="n">Debug</span> <span class="n">toolbar</span> <span class="n">available</span>
+<span class="o">-</span> <span class="n">SQL</span> <span class="n">query</span> <span class="n">logging</span>
+</pre></div>
+</div>
+</section>
+<section id="production-environment">
+<h3>Production Environment<a class="headerlink" href="#production-environment" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Production Configuration</span>
+<span class="n">FLASK_ENV</span> <span class="o">=</span> <span class="s2">&quot;production&quot;</span>
+<span class="n">FLASK_DEBUG</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="c1"># Features:</span>
+<span class="o">-</span> <span class="n">Error</span> <span class="n">logging</span> <span class="n">to</span> <span class="n">files</span>
+<span class="o">-</span> <span class="n">Performance</span> <span class="n">optimizations</span>
+<span class="o">-</span> <span class="n">Security</span> <span class="n">hardening</span>
+<span class="o">-</span> <span class="n">Resource</span> <span class="n">compression</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="customization-options">
+<h2>Customization Options<a class="headerlink" href="#customization-options" title="Link to this heading"></a></h2>
+<section id="theme-customization">
+<h3>Theme Customization<a class="headerlink" href="#theme-customization" title="Link to this heading"></a></h3>
+<div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="c">/* Custom Theme Variables */</span>
+<span class="p">:</span><span class="nd">root</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nv">--primary-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#007bff</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--secondary-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#6c757d</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--success-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#28a745</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--danger-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#dc3545</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--warning-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#ffc107</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="feature-toggles">
+<h3>Feature Toggles<a class="headerlink" href="#feature-toggles" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Feature Configuration</span>
+<span class="n">FEATURES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;CHATBOT_ENABLED&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;BOOKING_SYSTEM&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;AI_CLASSIFICATION&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;EMAIL_NOTIFICATIONS&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s1">&#39;SMS_ALERTS&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation and Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="admin_guide.html" class="btn btn-neutral float-right" title="Administrator Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, UTM Campus Assistant Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

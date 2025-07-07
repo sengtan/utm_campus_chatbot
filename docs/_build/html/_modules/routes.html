@@ -1,0 +1,935 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>routes &mdash; UTM Campus Assistant Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            UTM Campus Assistant Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation and Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration and Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide.html">Administrator Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_management.html">User Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../facility_management.html">Facility Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UTM Campus Assistant Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">routes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for routes</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">url_for</span><span class="p">,</span> <span class="n">flash</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">session</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_login</span><span class="w"> </span><span class="kn">import</span> <span class="n">login_user</span><span class="p">,</span> <span class="n">logout_user</span><span class="p">,</span> <span class="n">login_required</span><span class="p">,</span> <span class="n">current_user</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_app</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">bcrypt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">models</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">Issue</span><span class="p">,</span> <span class="n">Facility</span><span class="p">,</span> <span class="n">ChatSession</span><span class="p">,</span> <span class="n">ChatMessage</span><span class="p">,</span> <span class="n">IssueStatus</span><span class="p">,</span> <span class="n">IssueType</span><span class="p">,</span> <span class="n">Priority</span><span class="p">,</span> <span class="n">UserRole</span><span class="p">,</span> <span class="n">FacilityBooking</span><span class="p">,</span> <span class="n">BookingStatus</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoginForm</span><span class="p">,</span> <span class="n">RegistrationForm</span><span class="p">,</span> <span class="n">IssueForm</span><span class="p">,</span> <span class="n">FeedbackForm</span><span class="p">,</span> <span class="n">BookingForm</span><span class="p">,</span> <span class="n">BookingManagementForm</span><span class="p">,</span> <span class="n">FacilityForm</span><span class="p">,</span> <span class="n">FacilityManagementForm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ai_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ai_service</span>
+
+<div class="viewcode-block" id="index">
+<a class="viewcode-back" href="../api_reference.html#routes.index">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;admin_dashboard&#39;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;student_dashboard&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="login">
+<a class="viewcode-back" href="../api_reference.html#routes.login">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/login&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">login</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+    
+    <span class="n">form</span> <span class="o">=</span> <span class="n">LoginForm</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">check_password_hash</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">password_hash</span><span class="p">,</span> <span class="n">form</span><span class="o">.</span><span class="n">password</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+            <span class="n">login_user</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+            <span class="n">next_page</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;next&#39;</span><span class="p">)</span>
+            <span class="n">flash</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Welcome back, </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">full_name</span><span class="si">}</span><span class="s1">!&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">next_page</span><span class="p">)</span> <span class="k">if</span> <span class="n">next_page</span> <span class="k">else</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Invalid username or password&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;login.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="register">
+<a class="viewcode-back" href="../api_reference.html#routes.register">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/register&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+    
+    <span class="n">form</span> <span class="o">=</span> <span class="n">RegistrationForm</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+        <span class="n">hashed_password</span> <span class="o">=</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">generate_password_hash</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">password</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">()</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">full_name</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">full_name</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">student_id</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">student_id</span><span class="o">.</span><span class="n">data</span> <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">student_id</span><span class="o">.</span><span class="n">data</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">=</span> <span class="n">UserRole</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">role</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">password_hash</span> <span class="o">=</span> <span class="n">hashed_password</span>
+
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span> <span class="ow">and</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span> <span class="o">!=</span> <span class="s1">&#39;admin&#39;</span><span class="p">:</span>
+            <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Only the default admin can be registered as an admin. Please use &quot;admin&quot; as the username for admin accounts.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;register.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+
+        <span class="c1"># Add new user to the database</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Registration successful! You can now log in.&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">))</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;register.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="logout">
+<a class="viewcode-back" href="../api_reference.html#routes.logout">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/logout&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">logout</span><span class="p">():</span>
+    <span class="n">logout_user</span><span class="p">()</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;You have been logged out.&#39;</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="student_dashboard">
+<a class="viewcode-back" href="../api_reference.html#routes.student_dashboard">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/student_dashboard&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">student_dashboard</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">STUDENT</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Access denied. Students only.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+    
+    <span class="c1"># Get user&#39;s recent issues</span>
+    <span class="n">recent_issues</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>\
+                             <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">Issue</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span>\
+                             <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    
+    <span class="c1"># Get user&#39;s recent bookings</span>
+    <span class="n">recent_bookings</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>\
+                                          <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">FacilityBooking</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span>\
+                                          <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    
+    <span class="c1"># Get statistics</span>
+    <span class="n">total_issues</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">resolved_issues</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">IssueStatus</span><span class="o">.</span><span class="n">RESOLVED</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;student_dashboard.html&#39;</span><span class="p">,</span> 
+                         <span class="n">recent_issues</span><span class="o">=</span><span class="n">recent_issues</span><span class="p">,</span>
+                         <span class="n">recent_bookings</span><span class="o">=</span><span class="n">recent_bookings</span><span class="p">,</span>
+                         <span class="n">total_issues</span><span class="o">=</span><span class="n">total_issues</span><span class="p">,</span>
+                         <span class="n">resolved_issues</span><span class="o">=</span><span class="n">resolved_issues</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="admin_dashboard">
+<a class="viewcode-back" href="../api_reference.html#routes.admin_dashboard">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/admin_dashboard&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">admin_dashboard</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Access denied. Admins only.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+    
+    <span class="c1"># Get recent issues for admin</span>
+    <span class="n">recent_issues</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">Issue</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    
+    <span class="c1"># Get recent bookings for admin</span>
+    <span class="n">recent_bookings</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">FacilityBooking</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    
+    <span class="c1"># Get statistics</span>
+    <span class="n">total_issues</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">pending_issues</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">IssueStatus</span><span class="o">.</span><span class="n">REPORTED</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">in_progress_issues</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">IssueStatus</span><span class="o">.</span><span class="n">IN_PROGRESS</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">resolved_issues</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">IssueStatus</span><span class="o">.</span><span class="n">RESOLVED</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    
+    <span class="c1"># Get booking statistics</span>
+    <span class="n">total_bookings</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">pending_bookings</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">BookingStatus</span><span class="o">.</span><span class="n">PENDING</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">approved_bookings</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">BookingStatus</span><span class="o">.</span><span class="n">APPROVED</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;admin_dashboard.html&#39;</span><span class="p">,</span>
+                         <span class="n">recent_issues</span><span class="o">=</span><span class="n">recent_issues</span><span class="p">,</span>
+                         <span class="n">recent_bookings</span><span class="o">=</span><span class="n">recent_bookings</span><span class="p">,</span>
+                         <span class="n">total_issues</span><span class="o">=</span><span class="n">total_issues</span><span class="p">,</span>
+                         <span class="n">pending_issues</span><span class="o">=</span><span class="n">pending_issues</span><span class="p">,</span>
+                         <span class="n">in_progress_issues</span><span class="o">=</span><span class="n">in_progress_issues</span><span class="p">,</span>
+                         <span class="n">resolved_issues</span><span class="o">=</span><span class="n">resolved_issues</span><span class="p">,</span>
+                         <span class="n">total_bookings</span><span class="o">=</span><span class="n">total_bookings</span><span class="p">,</span>
+                         <span class="n">pending_bookings</span><span class="o">=</span><span class="n">pending_bookings</span><span class="p">,</span>
+                         <span class="n">approved_bookings</span><span class="o">=</span><span class="n">approved_bookings</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="chatbot">
+<a class="viewcode-back" href="../api_reference.html#routes.chatbot">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/chatbot&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">chatbot</span><span class="p">():</span>
+    <span class="c1"># Get or create chat session</span>
+    <span class="n">session_id</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;chat_session_id&#39;</span><span class="p">)</span>
+    <span class="n">chat_session</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">session_id</span><span class="p">:</span>
+        <span class="n">chat_session</span> <span class="o">=</span> <span class="n">ChatSession</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">session_id</span><span class="o">=</span><span class="n">session_id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">session_id</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">chat_session</span><span class="p">:</span>
+        <span class="n">session_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+        <span class="n">session</span><span class="p">[</span><span class="s1">&#39;chat_session_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">session_id</span>
+
+        <span class="n">chat_session</span> <span class="o">=</span> <span class="n">ChatSession</span><span class="p">()</span>
+        <span class="n">chat_session</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">chat_session</span><span class="o">.</span><span class="n">session_id</span> <span class="o">=</span> <span class="n">session_id</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">chat_session</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    
+    <span class="c1"># Get context from URL parameters</span>
+    <span class="n">facility</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;facility&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;context&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">initial_message</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;chatbot.html&#39;</span><span class="p">,</span> 
+                         <span class="n">context_facility</span><span class="o">=</span><span class="n">facility</span><span class="p">,</span>
+                         <span class="n">context_location</span><span class="o">=</span><span class="n">location</span><span class="p">,</span> 
+                         <span class="n">context_type</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+                         <span class="n">initial_message</span><span class="o">=</span><span class="n">initial_message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="chat_api">
+<a class="viewcode-back" href="../api_reference.html#routes.chat_api">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/api/chat&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">chat_api</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="n">user_message</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">chat_history</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;history&#39;</span><span class="p">,</span> <span class="p">[])</span>  <span class="c1"># &lt;-- get history from request</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user_message</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Message cannot be empty&#39;</span><span class="p">}),</span> <span class="mi">400</span>
+        
+        <span class="c1"># Get chat session</span>
+        <span class="n">session_id</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;chat_session_id&#39;</span><span class="p">)</span>
+        <span class="n">chat_session</span> <span class="o">=</span> <span class="n">ChatSession</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">session_id</span><span class="o">=</span><span class="n">session_id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">chat_session</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Chat session not found&#39;</span><span class="p">}),</span> <span class="mi">400</span>
+        
+        <span class="c1"># Process message with AI, now passing chat_history as user_context</span>
+        <span class="n">intent_data</span> <span class="o">=</span> <span class="n">ai_service</span><span class="o">.</span><span class="n">extract_entities_and_intent</span><span class="p">(</span><span class="n">user_message</span><span class="p">)</span>
+        <span class="n">bot_response</span> <span class="o">=</span> <span class="n">ai_service</span><span class="o">.</span><span class="n">generate_response</span><span class="p">(</span><span class="n">user_message</span><span class="p">,</span> <span class="n">intent_data</span><span class="p">,</span> <span class="n">user_context</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;history&#39;</span><span class="p">:</span> <span class="n">chat_history</span><span class="p">})</span>
+
+        <span class="c1"># Save user message</span>
+        <span class="n">user_msg</span> <span class="o">=</span> <span class="n">ChatMessage</span><span class="p">()</span>
+        <span class="n">user_msg</span><span class="o">.</span><span class="n">session_id</span> <span class="o">=</span> <span class="n">chat_session</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">user_msg</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">user_message</span>
+        <span class="n">user_msg</span><span class="o">.</span><span class="n">is_user</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">user_msg</span><span class="o">.</span><span class="n">intent</span> <span class="o">=</span> <span class="n">intent_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;intent&#39;</span><span class="p">)</span>
+        <span class="n">user_msg</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="n">intent_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;entities&#39;</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user_msg</span><span class="p">)</span>
+        
+        <span class="c1"># Save bot response</span>
+        <span class="n">bot_msg</span> <span class="o">=</span> <span class="n">ChatMessage</span><span class="p">()</span>
+        <span class="n">bot_msg</span><span class="o">.</span><span class="n">session_id</span> <span class="o">=</span> <span class="n">chat_session</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">bot_msg</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">bot_response</span>
+        <span class="n">bot_msg</span><span class="o">.</span><span class="n">is_user</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">bot_msg</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+            <span class="s1">&#39;response&#39;</span><span class="p">:</span> <span class="n">bot_response</span><span class="p">,</span>
+            <span class="s1">&#39;intent&#39;</span><span class="p">:</span> <span class="n">intent_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;intent&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;entities&#39;</span><span class="p">:</span> <span class="n">intent_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;entities&#39;</span><span class="p">)</span>
+        <span class="p">})</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chat API error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Failed to process message&#39;</span><span class="p">}),</span> <span class="mi">500</span></div>
+
+
+<div class="viewcode-block" id="report_issue">
+<a class="viewcode-back" href="../api_reference.html#routes.report_issue">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/report_issue&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">report_issue</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">STUDENT</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Access denied. Students only.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+    
+    <span class="n">form</span> <span class="o">=</span> <span class="n">IssueForm</span><span class="p">()</span>
+    
+    <span class="c1"># Pre-fill form if URL parameters are provided</span>
+    <span class="n">facility_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;facility&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;context&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">from_page</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;from_page&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">location</span><span class="p">:</span>
+        <span class="n">form</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">location</span>
+    
+    <span class="c1"># Add context information for better user experience</span>
+    <span class="n">context_info</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">context</span> <span class="o">==</span> <span class="s1">&#39;directions&#39;</span> <span class="ow">and</span> <span class="n">from_page</span> <span class="o">==</span> <span class="s1">&#39;facility_directions&#39;</span><span class="p">:</span>
+        <span class="n">context_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Issue reported from directions page for </span><span class="si">{</span><span class="n">facility_name</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="c1"># Pre-fill title with context if facility name is available</span>
+        <span class="k">if</span> <span class="n">facility_name</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">form</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Issue with </span><span class="si">{</span><span class="n">facility_name</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">elif</span> <span class="n">context</span> <span class="o">==</span> <span class="s1">&#39;facility_info&#39;</span> <span class="ow">and</span> <span class="n">from_page</span> <span class="o">==</span> <span class="s1">&#39;facility_info&#39;</span><span class="p">:</span>
+        <span class="n">context_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Issue reported from facility info page for </span><span class="si">{</span><span class="n">facility_name</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="c1"># Pre-fill title with context if facility name is available</span>
+        <span class="k">if</span> <span class="n">facility_name</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">form</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Issue with </span><span class="si">{</span><span class="n">facility_name</span><span class="si">}</span><span class="s1">&#39;</span>
+    
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+        <span class="c1"># Use AI to enhance issue classification</span>
+        <span class="n">ai_classification</span> <span class="o">=</span> <span class="n">ai_service</span><span class="o">.</span><span class="n">classify_issue_from_description</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        
+        <span class="n">issue</span> <span class="o">=</span> <span class="n">Issue</span><span class="p">()</span>
+        <span class="n">issue</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">issue</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">issue</span><span class="o">.</span><span class="n">issue_type</span> <span class="o">=</span> <span class="n">IssueType</span><span class="p">(</span><span class="n">ai_classification</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;issue_type&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">.</span><span class="n">issue_type</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">issue</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="n">Priority</span><span class="p">(</span><span class="n">ai_classification</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">.</span><span class="n">priority</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">issue</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">issue</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span>
+        
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">issue</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        
+        <span class="n">flash</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Issue reported successfully! (ID: </span><span class="si">{</span><span class="n">issue</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;student_dashboard&#39;</span><span class="p">))</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;report_issue.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">context_info</span><span class="o">=</span><span class="n">context_info</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="facility_info">
+<a class="viewcode-back" href="../api_reference.html#routes.facility_info">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/facility_info&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">facility_info</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Display all facilities with search and filter options&quot;&quot;&quot;</span>
+    <span class="n">search</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="n">query</span> <span class="o">=</span> <span class="n">Facility</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Facility</span><span class="o">.</span><span class="n">is_active</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">search</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">Facility</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;%</span><span class="si">{</span><span class="n">search</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span> <span class="o">|</span>
+            <span class="n">Facility</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;%</span><span class="si">{</span><span class="n">search</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span> <span class="o">|</span>
+            <span class="n">Facility</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;%</span><span class="si">{</span><span class="n">search</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">category</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Facility</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="n">category</span><span class="p">)</span>
+    
+    <span class="n">facilities</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    
+    <span class="c1"># Get unique categories for filter dropdown</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Facility</span><span class="o">.</span><span class="n">category</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Facility</span><span class="o">.</span><span class="n">is_active</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="n">cat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;facility_info.html&#39;</span><span class="p">,</span> 
+                         <span class="n">facilities</span><span class="o">=</span><span class="n">facilities</span><span class="p">,</span> 
+                         <span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span>
+                         <span class="n">search</span><span class="o">=</span><span class="n">search</span><span class="p">,</span>
+                         <span class="n">selected_category</span><span class="o">=</span><span class="n">category</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="facility_directions">
+<a class="viewcode-back" href="../api_reference.html#routes.facility_directions">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/directions/&lt;int:facility_id&gt;&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">facility_directions</span><span class="p">(</span><span class="n">facility_id</span><span class="p">):</span>
+    <span class="n">facility</span> <span class="o">=</span> <span class="n">Facility</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">facility_id</span><span class="p">)</span>
+    
+    <span class="c1"># Create detailed step-by-step directions based on facility location</span>
+    <span class="n">directions_data</span> <span class="o">=</span> <span class="n">get_facility_directions</span><span class="p">(</span><span class="n">facility</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;directions.html&#39;</span><span class="p">,</span> 
+                         <span class="n">facility</span><span class="o">=</span><span class="n">facility</span><span class="p">,</span> 
+                         <span class="n">directions</span><span class="o">=</span><span class="n">directions_data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_facility_directions">
+<a class="viewcode-back" href="../api_reference.html#routes.get_facility_directions">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_facility_directions</span><span class="p">(</span><span class="n">facility</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate detailed directions for a specific facility&quot;&quot;&quot;</span>
+    
+    <span class="c1"># Base directions for all facilities starting from main entrance</span>
+    <span class="n">base_steps</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Enter UTM campus via the main entrance gate&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Show your student/staff ID at the security checkpoint&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Main Gate Security Post&#39;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> 
+            <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Head towards the Faculty of Computing area&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Walk straight along the main campus road towards the center of campus&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Pass by Arked Angkasa food court on your right&#39;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+    
+    <span class="c1"># Facility-specific directions</span>
+    <span class="n">facility_specific</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;Activity Learning Lab&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Locate the N28 building (Faculty of Computing)&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Look for the large multi-story building with &quot;Faculty of Computing&quot; signage&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;N28 Building - Faculty of Computing&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Enter N28 building and take elevator to Level 5&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Use the main entrance and elevator banks on the ground floor&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Level 5, N28 Building&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Find the Activity Learning Lab&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Look for room signage indicating Activity Learning Lab&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Activity Learning Lab - Level 5&#39;</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;Lecture Room Type A&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Locate the N28A building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Main Faculty of Computing building with lecture halls&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;N28A Building entrance&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Look for Lecture Room Type A signage&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;2 rooms available in N28A, 7 rooms in N28 building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Lecture Room Type A&#39;</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;Lecture Room Type B&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Go to Level 1 of N28 or N28A building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Ground floor level for easy access&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Level 1, N28/N28A Buildings&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Find Lecture Room Type B&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Look for room directory or signage on Level 1&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Lecture Room Type B - Level 1&#39;</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;Computer Lab&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Enter either N28 or N28A building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;12 computer labs distributed across both buildings&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;N28/N28A Computer Lab areas&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Look for &quot;Computer Lab&quot; signage&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Check building directory for specific lab locations&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Computer Lab entrance&#39;</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;CCNP Network Lab&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Enter N28 building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Main Faculty of Computing building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;N28 Building entrance&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Take elevator to Level 4&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Specialized networking laboratory on 4th floor&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Level 4, N28 Building&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Find CCNP Network Lab&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Look for networking lab signage and specialized equipment&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;CCNP Network Lab - Level 4&#39;</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;Tutorial Room&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Go to N28A building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Main Faculty of Computing building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;N28A Building entrance&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Stay on Level 1 (Ground Floor)&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;6 tutorial rooms available on this level&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Level 1, N28A Building&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Find Tutorial Room&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Small rooms designed for group discussions&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Tutorial Room - Level 1&#39;</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;Meeting Room&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Check both N28A and N28 buildings&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;2 meeting rooms in N28A, 1 meeting room in N28&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;N28A/N28 Building meeting areas&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Look for &quot;Meeting Room&quot; signage&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Professional meeting spaces with presentation equipment&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Meeting Room entrance&#39;</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;Kejora Hall&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Enter N28A building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Main Faculty of Computing building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;N28A Building main entrance&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Look for Kejora Hall signage&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Large seminar hall - the biggest venue in the faculty&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Kejora Hall entrance&#39;</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;Discussion Room&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Enter N28A building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Main Faculty of Computing building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;N28A Building entrance&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Take elevator to Level 2&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;Second floor of the building&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Level 2, N28A Building&#39;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                <span class="s1">&#39;instruction&#39;</span><span class="p">:</span> <span class="s1">&#39;Find Discussion Room&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail&#39;</span><span class="p">:</span> <span class="s1">&#39;3 small discussion rooms available on this level&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;landmark&#39;</span><span class="p">:</span> <span class="s1">&#39;Discussion Room - Level 2&#39;</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+    
+    <span class="c1"># Combine base steps with facility-specific steps</span>
+    <span class="n">all_steps</span> <span class="o">=</span> <span class="n">base_steps</span> <span class="o">+</span> <span class="n">facility_specific</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">facility</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">[])</span>
+    
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;steps&#39;</span><span class="p">:</span> <span class="n">all_steps</span><span class="p">,</span>
+        <span class="s1">&#39;total_time&#39;</span><span class="p">:</span> <span class="s1">&#39;5-10 minutes walking&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;difficulty&#39;</span><span class="p">:</span> <span class="s1">&#39;Easy&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;accessibility&#39;</span><span class="p">:</span> <span class="s1">&#39;Wheelchair accessible via elevators&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;map_markers&#39;</span><span class="p">:</span> <span class="n">get_map_markers</span><span class="p">(</span><span class="n">facility</span><span class="p">)</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="get_map_markers">
+<a class="viewcode-back" href="../api_reference.html#routes.get_map_markers">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_map_markers</span><span class="p">(</span><span class="n">facility</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate map markers for the route visualization&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="mf">1.5586</span><span class="p">,</span> <span class="s1">&#39;lng&#39;</span><span class="p">:</span> <span class="mf">103.6383</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Main Entrance&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;waypoints&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="mf">1.5590</span><span class="p">,</span> <span class="s1">&#39;lng&#39;</span><span class="p">:</span> <span class="mf">103.6385</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Arked Angkasa&#39;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="mf">1.5594</span><span class="p">,</span> <span class="s1">&#39;lng&#39;</span><span class="p">:</span> <span class="mf">103.6387</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Faculty of Computing&#39;</span><span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;destination&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="mf">1.5596</span><span class="p">,</span> <span class="s1">&#39;lng&#39;</span><span class="p">:</span> <span class="mf">103.6388</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">facility</span><span class="o">.</span><span class="n">name</span><span class="p">}</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="view_issue">
+<a class="viewcode-back" href="../api_reference.html#routes.view_issue">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/issue/&lt;int:issue_id&gt;&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">view_issue</span><span class="p">(</span><span class="n">issue_id</span><span class="p">):</span>
+    <span class="n">issue</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">issue_id</span><span class="p">)</span>
+    
+    <span class="c1"># Check permissions</span>
+    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">STUDENT</span> <span class="ow">and</span> <span class="n">issue</span><span class="o">.</span><span class="n">user_id</span> <span class="o">!=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Access denied.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;student_dashboard&#39;</span><span class="p">))</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;view_issue.html&#39;</span><span class="p">,</span> <span class="n">issue</span><span class="o">=</span><span class="n">issue</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="update_issue_status">
+<a class="viewcode-back" href="../api_reference.html#routes.update_issue_status">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/issue/&lt;int:issue_id&gt;/update_status&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_issue_status</span><span class="p">(</span><span class="n">issue_id</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Access denied. Admins only.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+    
+    <span class="n">issue</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">issue_id</span><span class="p">)</span>
+    <span class="n">new_status</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span>
+    <span class="n">admin_notes</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;admin_notes&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">new_status</span> <span class="ow">in</span> <span class="p">[</span><span class="n">status</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">status</span> <span class="ow">in</span> <span class="n">IssueStatus</span><span class="p">]:</span>
+        <span class="n">issue</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">IssueStatus</span><span class="p">(</span><span class="n">new_status</span><span class="p">)</span>
+        <span class="n">issue</span><span class="o">.</span><span class="n">updated_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">admin_notes</span><span class="p">:</span>
+            <span class="n">issue</span><span class="o">.</span><span class="n">admin_notes</span> <span class="o">=</span> <span class="n">admin_notes</span>
+        <span class="k">if</span> <span class="n">new_status</span> <span class="o">==</span> <span class="n">IssueStatus</span><span class="o">.</span><span class="n">RESOLVED</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="n">issue</span><span class="o">.</span><span class="n">resolved_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+        
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Issue status updated successfully!&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Invalid status.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;admin_dashboard&#39;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="submit_feedback">
+<a class="viewcode-back" href="../api_reference.html#routes.submit_feedback">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/issue/&lt;int:issue_id&gt;/feedback&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">submit_feedback</span><span class="p">(</span><span class="n">issue_id</span><span class="p">):</span>
+    <span class="n">issue</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">issue_id</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">issue</span><span class="o">.</span><span class="n">user_id</span> <span class="o">!=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Access denied.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;student_dashboard&#39;</span><span class="p">))</span>
+    
+    <span class="k">if</span> <span class="n">issue</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="n">IssueStatus</span><span class="o">.</span><span class="n">RESOLVED</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Can only provide feedback for resolved issues.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;view_issue&#39;</span><span class="p">,</span> <span class="n">issue_id</span><span class="o">=</span><span class="n">issue_id</span><span class="p">))</span>
+    
+    <span class="n">form</span> <span class="o">=</span> <span class="n">FeedbackForm</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+        <span class="n">issue</span><span class="o">.</span><span class="n">feedback_rating</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">rating</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">issue</span><span class="o">.</span><span class="n">feedback_comment</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">issue</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">IssueStatus</span><span class="o">.</span><span class="n">CLOSED</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Thank you for your feedback!&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;student_dashboard&#39;</span><span class="p">))</span>
+    
+    <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Invalid feedback data.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;view_issue&#39;</span><span class="p">,</span> <span class="n">issue_id</span><span class="o">=</span><span class="n">issue_id</span><span class="p">))</span></div>
+
+
+<span class="c1"># Initialize some sample data</span>
+<div class="viewcode-block" id="create_sample_data">
+<a class="viewcode-back" href="../api_reference.html#routes.create_sample_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_sample_data</span><span class="p">():</span>
+    <span class="c1"># Create sample facilities if none exist</span>
+    <span class="k">if</span> <span class="n">Facility</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">facilities_data</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Computer Lab 1&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Laboratory&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Block A, Level 2&quot;</span><span class="p">,</span> 
+             <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Main computer lab with 40 workstations&quot;</span><span class="p">,</span> <span class="s2">&quot;is_bookable&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;capacity&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Library&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Academic&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Block B, Ground Floor&quot;</span><span class="p">,</span> 
+             <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Main university library&quot;</span><span class="p">,</span> <span class="s2">&quot;operating_hours&quot;</span><span class="p">:</span> <span class="s2">&quot;8:00 AM - 10:00 PM&quot;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Gymnasium&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Sports&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Sports Complex&quot;</span><span class="p">,</span> 
+             <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Indoor gymnasium for sports activities&quot;</span><span class="p">,</span> <span class="s2">&quot;is_bookable&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Male Hostel Block C&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Accommodation&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Hostel Area&quot;</span><span class="p">,</span> 
+             <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Male student accommodation&quot;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Female Hostel Block D&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Accommodation&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Hostel Area&quot;</span><span class="p">,</span> 
+             <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Female student accommodation&quot;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Cafeteria&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Dining&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Student Center&quot;</span><span class="p">,</span> 
+             <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Main dining facility&quot;</span><span class="p">,</span> <span class="s2">&quot;operating_hours&quot;</span><span class="p">:</span> <span class="s2">&quot;7:00 AM - 9:00 PM&quot;</span><span class="p">},</span>
+        <span class="p">]</span>
+        
+        <span class="k">for</span> <span class="n">facility_data</span> <span class="ow">in</span> <span class="n">facilities_data</span><span class="p">:</span>
+            <span class="n">facility</span> <span class="o">=</span> <span class="n">Facility</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">facility_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">facility</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">facility</span><span class="p">)</span>
+        
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sample facilities created&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1"># Refresh AI service facilities cache when needed</span>
+<div class="viewcode-block" id="refresh_cache">
+<a class="viewcode-back" href="../api_reference.html#routes.refresh_cache">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/admin/refresh_cache&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">refresh_cache</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Access denied.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+    
+    <span class="n">ai_service</span><span class="o">.</span><span class="n">load_facilities</span><span class="p">()</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;AI service cache refreshed successfully!&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;admin_dashboard&#39;</span><span class="p">))</span></div>
+
+
+<span class="c1"># Facility Booking Routes</span>
+<div class="viewcode-block" id="book_facility">
+<a class="viewcode-back" href="../api_reference.html#routes.book_facility">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/book_facility&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">book_facility</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Book a facility&quot;&quot;&quot;</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">BookingForm</span><span class="p">()</span>
+    
+    <span class="c1"># Populate facility choices</span>
+    <span class="n">facilities</span> <span class="o">=</span> <span class="n">Facility</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">is_bookable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">form</span><span class="o">.</span><span class="n">facility_id</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">[(</span><span class="n">f</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">facilities</span><span class="p">]</span>
+    
+    <span class="c1"># Handle facility pre-selection from URL parameter</span>
+    <span class="n">facility_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;facility&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">facility_name</span><span class="p">:</span>
+        <span class="n">selected_facility</span> <span class="o">=</span> <span class="n">Facility</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">facility_name</span><span class="p">,</span> <span class="n">is_bookable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">selected_facility</span><span class="p">:</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">facility_id</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">selected_facility</span><span class="o">.</span><span class="n">id</span>
+    
+    <span class="c1"># Pre-select facility if specified in URL parameter</span>
+    <span class="n">facility_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;facility&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">facility_name</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">facility</span> <span class="ow">in</span> <span class="n">facilities</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">facility</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">facility_name</span><span class="p">:</span>
+                <span class="n">form</span><span class="o">.</span><span class="n">facility_id</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">facility</span><span class="o">.</span><span class="n">id</span>
+                <span class="k">break</span>
+    
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+        <span class="c1"># Check for conflicts</span>
+        <span class="n">existing_booking</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span>
+            <span class="n">facility_id</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">facility_id</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">booking_date</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">booking_date</span><span class="o">.</span><span class="n">data</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">start_hour</span> <span class="o">&lt;</span> <span class="n">form</span><span class="o">.</span><span class="n">end_hour</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">end_hour</span> <span class="o">&gt;</span> <span class="n">form</span><span class="o">.</span><span class="n">start_hour</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">in_</span><span class="p">([</span><span class="n">BookingStatus</span><span class="o">.</span><span class="n">PENDING</span><span class="p">,</span> <span class="n">BookingStatus</span><span class="o">.</span><span class="n">APPROVED</span><span class="p">])</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">existing_booking</span><span class="p">:</span>
+            <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Time slot is already booked. Please choose a different time.&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">booking</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="p">(</span>
+                <span class="n">facility_id</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">facility_id</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">user_id</span><span class="o">=</span><span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="n">booking_date</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">booking_date</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">start_hour</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">start_hour</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">end_hour</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">end_hour</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">purpose</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">purpose</span><span class="o">.</span><span class="n">data</span>
+            <span class="p">)</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">booking</span><span class="p">)</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Booking request submitted successfully!&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;my_bookings&#39;</span><span class="p">))</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;book_facility.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">facilities</span><span class="o">=</span><span class="n">facilities</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="my_bookings">
+<a class="viewcode-back" href="../api_reference.html#routes.my_bookings">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/my_bookings&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_bookings</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;View user&#39;s bookings&quot;&quot;&quot;</span>
+    <span class="n">bookings</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span>
+        <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">booking_date</span><span class="o">.</span><span class="n">desc</span><span class="p">(),</span>
+        <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">start_hour</span><span class="o">.</span><span class="n">desc</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;my_bookings.html&#39;</span><span class="p">,</span> <span class="n">bookings</span><span class="o">=</span><span class="n">bookings</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="facility_schedule">
+<a class="viewcode-back" href="../api_reference.html#routes.facility_schedule">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/facility_schedule/&lt;int:facility_id&gt;&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">facility_schedule</span><span class="p">(</span><span class="n">facility_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;View facility booking schedule&quot;&quot;&quot;</span>
+    <span class="n">facility</span> <span class="o">=</span> <span class="n">Facility</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">facility_id</span><span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
+    
+    <span class="c1"># Get bookings for the next 30 days</span>
+    <span class="n">start_date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="n">end_date</span> <span class="o">=</span> <span class="n">start_date</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    
+    <span class="n">bookings</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+        <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">facility_id</span> <span class="o">==</span> <span class="n">facility_id</span><span class="p">,</span>
+        <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">booking_date</span> <span class="o">&gt;=</span> <span class="n">start_date</span><span class="p">,</span>
+        <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">booking_date</span> <span class="o">&lt;=</span> <span class="n">end_date</span><span class="p">,</span>
+        <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">in_</span><span class="p">([</span><span class="n">BookingStatus</span><span class="o">.</span><span class="n">PENDING</span><span class="p">,</span> <span class="n">BookingStatus</span><span class="o">.</span><span class="n">APPROVED</span><span class="p">])</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">FacilityBooking</span><span class="o">.</span><span class="n">booking_date</span><span class="p">,</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">start_hour</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;facility_schedule.html&#39;</span><span class="p">,</span> <span class="n">facility</span><span class="o">=</span><span class="n">facility</span><span class="p">,</span> <span class="n">bookings</span><span class="o">=</span><span class="n">bookings</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="manage_bookings">
+<a class="viewcode-back" href="../api_reference.html#routes.manage_bookings">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/manage_bookings&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">manage_bookings</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Admin view to manage all bookings&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Access denied.&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+    
+    <span class="n">bookings</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span>
+        <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">booking_date</span><span class="o">.</span><span class="n">desc</span><span class="p">(),</span>
+        <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">start_hour</span><span class="o">.</span><span class="n">desc</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;manage_bookings.html&#39;</span><span class="p">,</span> <span class="n">bookings</span><span class="o">=</span><span class="n">bookings</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="update_booking">
+<a class="viewcode-back" href="../api_reference.html#routes.update_booking">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/update_booking/&lt;int:booking_id&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_booking</span><span class="p">(</span><span class="n">booking_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update booking status (admin only)&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Access denied.&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+    <span class="n">booking</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">booking_id</span><span class="p">)</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">BookingManagementForm</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">booking</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+        <span class="n">booking</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">BookingStatus</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">booking</span><span class="o">.</span><span class="n">admin_notes</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">admin_notes</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Booking updated successfully!&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;manage_bookings&#39;</span><span class="p">))</span>
+    
+    <span class="c1"># Render the update form for GET or invalid POST</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;update_booking.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">booking</span><span class="o">=</span><span class="n">booking</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="reset_database">
+<a class="viewcode-back" href="../api_reference.html#routes.reset_database">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/reset_database&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">reset_database</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reset database to initial state (admin only)&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Admin access required.&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Clear all data except admin users</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ChatMessage</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ChatSession</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">FacilityBooking</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Issue</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        
+        <span class="c1"># Keep admin users, remove only student users</span>
+        <span class="n">student_users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">UserRole</span><span class="o">.</span><span class="n">STUDENT</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">student_users</span><span class="p">:</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+        
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        
+        <span class="c1"># Recreate sample facilities if they don&#39;t exist</span>
+        <span class="k">if</span> <span class="n">Facility</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;create_sample_data&#39;</span><span class="p">))</span>
+        
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Database reset successfully! All user data, issues, and bookings have been cleared.&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">flash</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error resetting database: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;admin_dashboard&#39;</span><span class="p">))</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, UTM Campus Assistant Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,873 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troubleshooting Guide &mdash; UTM Campus Assistant Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api_reference.html" />
+    <link rel="prev" title="Facility Management" href="facility_management.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            UTM Campus Assistant Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation and Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration and Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin_guide.html">Administrator Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_management.html">User Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facility_management.html">Facility Management</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Troubleshooting Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#system-startup-issues">System Startup Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#application-won-t-start">Application Won’t Start</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#database-issues">Database Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#table-creation-errors">Table Creation Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-corruption-issues">Data Corruption Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#authentication-problems">Authentication Problems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#user-cannot-login">User Cannot Login</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#session-timeouts">Session Timeouts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ai-service-issues">AI Service Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#deepseek-llm-not-responding">DeepSeek LLM Not Responding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#slow-ai-response-times">Slow AI Response Times</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chatbot-response-quality-issues">Chatbot Response Quality Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#frontend-issues">Frontend Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#chatbot-interface-not-loading">Chatbot Interface Not Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#form-submission-errors">Form Submission Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-issues">Performance Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#slow-page-load-times">Slow Page Load Times</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#high-memory-usage">High Memory Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#booking-system-issues">Booking System Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#booking-conflicts">Booking Conflicts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#booking-approval-issues">Booking Approval Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#facility-information-issues">Facility Information Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#outdated-facility-data">Outdated Facility Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#directions-not-working">Directions Not Working</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#security-issues">Security Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#unauthorized-access">Unauthorized Access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#csrf-token-errors">CSRF Token Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring-and-logging">Monitoring and Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#log-analysis">Log Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#system-health-checks">System Health Checks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#emergency-procedures">Emergency Procedures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#complete-system-recovery">Complete System Recovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-recovery">Data Recovery</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-help">Getting Help</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#support-resources">Support Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#escalation-procedures">Escalation Procedures</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UTM Campus Assistant Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Troubleshooting Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/troubleshooting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="troubleshooting-guide">
+<h1>Troubleshooting Guide<a class="headerlink" href="#troubleshooting-guide" title="Link to this heading"></a></h1>
+<p>This comprehensive troubleshooting guide helps administrators diagnose and resolve common issues in the UTM Campus Assistant Chatbot system.</p>
+<section id="system-startup-issues">
+<h2>System Startup Issues<a class="headerlink" href="#system-startup-issues" title="Link to this heading"></a></h2>
+<section id="application-won-t-start">
+<h3>Application Won’t Start<a class="headerlink" href="#application-won-t-start" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Application fails to launch or crashes immediately</p>
+<p><strong>Common Causes and Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Database Connection Failed</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Error: could not connect to server</span>
+<span class="c1"># Check database status</span>
+pg_isready<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span>
+
+<span class="c1"># Verify DATABASE_URL format</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$DATABASE_URL</span>
+<span class="c1"># Should be: postgresql://user:pass@host:port/database</span>
+
+<span class="c1"># Test connection manually</span>
+psql<span class="w"> </span><span class="nv">$DATABASE_URL</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Missing Environment Variables</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check required variables</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$SESSION_SECRET</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$DATABASE_URL</span>
+
+<span class="c1"># Set missing variables</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SESSION_SECRET</span><span class="o">=</span><span class="s2">&quot;your-secret-key-here&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DATABASE_URL</span><span class="o">=</span><span class="s2">&quot;postgresql://...&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Port Already in Use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check what&#39;s using port 5000</span>
+lsof<span class="w"> </span>-i<span class="w"> </span>:5000
+
+<span class="c1"># Kill existing process</span>
+pkill<span class="w"> </span>-f<span class="w"> </span>gunicorn
+
+<span class="c1"># Or use different port</span>
+gunicorn<span class="w"> </span>--bind<span class="w"> </span><span class="m">0</span>.0.0.0:5001<span class="w"> </span>main:app
+</pre></div>
+</div>
+</li>
+<li><p><strong>Python Dependencies Missing</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reinstall dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="c1"># Check for conflicts</span>
+pip<span class="w"> </span>check
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="database-issues">
+<h2>Database Issues<a class="headerlink" href="#database-issues" title="Link to this heading"></a></h2>
+<section id="table-creation-errors">
+<h3>Table Creation Errors<a class="headerlink" href="#table-creation-errors" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Tables not created or migration errors</p>
+<p><strong>Solution Steps</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Manual Table Creation</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flask_app</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">db</span>
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>  <span class="c1"># Caution: deletes all data</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Check Database Permissions</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Connect as database admin</span>
+<span class="n">psql</span><span class="w"> </span><span class="o">-</span><span class="n">U</span><span class="w"> </span><span class="n">postgres</span>
+
+<span class="c1">-- Grant permissions</span>
+<span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">utm_campus_assistant</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">your_user</span><span class="p">;</span>
+<span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="n">TABLES</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="k">SCHEMA</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">your_user</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Schema Validation</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if tables exist</span>
+psql<span class="w"> </span><span class="nv">$DATABASE_URL</span><span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;\dt&quot;</span>
+
+<span class="c1"># Verify table structure</span>
+psql<span class="w"> </span><span class="nv">$DATABASE_URL</span><span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;\d users&quot;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="data-corruption-issues">
+<h3>Data Corruption Issues<a class="headerlink" href="#data-corruption-issues" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Invalid data or foreign key constraint errors</p>
+<p><strong>Recovery Steps</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Data Integrity Check</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Check for orphaned records</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">issues</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">);</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">facility_bookings</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">facility_id</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">facilities</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Clean Up Orphaned Data</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Remove orphaned issues</span>
+<span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">issues</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">);</span>
+
+<span class="c1">-- Remove orphaned bookings</span>
+<span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">facility_bookings</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">facility_id</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">facilities</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Reset to Clean State</strong>:</p>
+<p>Use the admin interface database reset function or:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Access /admin/reset-database endpoint as admin</span>
+<span class="c1"># This will recreate all tables with sample data</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="authentication-problems">
+<h2>Authentication Problems<a class="headerlink" href="#authentication-problems" title="Link to this heading"></a></h2>
+<section id="user-cannot-login">
+<h3>User Cannot Login<a class="headerlink" href="#user-cannot-login" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Valid credentials rejected</p>
+<p><strong>Diagnostic Steps</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check User Account Status</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;problem_user&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Password Hash Verification</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flask_bcrypt</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bcrypt</span>
+<span class="n">bcrypt</span> <span class="o">=</span> <span class="n">Bcrypt</span><span class="p">()</span>
+
+<span class="c1"># Test password hashing</span>
+<span class="n">test_hash</span> <span class="o">=</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">generate_password_hash</span><span class="p">(</span><span class="s1">&#39;test_password&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bcrypt</span><span class="o">.</span><span class="n">check_password_hash</span><span class="p">(</span><span class="n">test_hash</span><span class="p">,</span> <span class="s1">&#39;test_password&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Session Configuration</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify session secret is set</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$SESSION_SECRET</span>
+
+<span class="c1"># Check for session conflicts</span>
+<span class="c1"># Clear browser cookies and try again</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="session-timeouts">
+<h3>Session Timeouts<a class="headerlink" href="#session-timeouts" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Users logged out unexpectedly</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Extend Session Timeout</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In flask_app.py, adjust session configuration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span>
+<span class="n">app</span><span class="o">.</span><span class="n">permanent_session_lifetime</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Check Session Storage</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure sufficient disk space for session files</span>
+df<span class="w"> </span>-h<span class="w"> </span>/tmp
+</pre></div>
+</div>
+</li>
+<li><p><strong>Session Cookie Issues</strong>:</p>
+<p>Check browser console for cookie-related errors and ensure HTTPS is properly configured.</p>
+</li>
+</ol>
+</section>
+</section>
+<section id="ai-service-issues">
+<h2>AI Service Issues<a class="headerlink" href="#ai-service-issues" title="Link to this heading"></a></h2>
+<section id="deepseek-llm-not-responding">
+<h3>DeepSeek LLM Not Responding<a class="headerlink" href="#deepseek-llm-not-responding" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Chatbot returns fallback responses or errors</p>
+<p><strong>Diagnostic Steps</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check LLM Service Status</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test API endpoint</span>
+curl<span class="w"> </span>http://localhost:11434/v1/models
+
+<span class="c1"># Check if Ollama is running</span>
+ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>ollama
+</pre></div>
+</div>
+</li>
+<li><p><strong>Verify API Configuration</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="nv">$DEEPSEEK_API_URL</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$DEEPSEEK_MODEL</span>
+
+<span class="c1"># Test manual API call</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:11434/v1/chat/completions<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;model&quot;:&quot;deepseek-r1:7b&quot;,&quot;messages&quot;:[{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;Hello&quot;}]}&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Restart LLM Service</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For Ollama</span>
+pkill<span class="w"> </span>ollama
+ollama<span class="w"> </span>serve<span class="w"> </span><span class="p">&amp;</span>
+
+<span class="c1"># For vLLM</span>
+pkill<span class="w"> </span>-f<span class="w"> </span>vllm
+python<span class="w"> </span>-m<span class="w"> </span>vllm.entrypoints.openai.api_server<span class="w"> </span>--model<span class="w"> </span>deepseek-ai/deepseek-r1-distill-qwen-7b<span class="w"> </span>--port<span class="w"> </span><span class="m">8000</span><span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="slow-ai-response-times">
+<h3>Slow AI Response Times<a class="headerlink" href="#slow-ai-response-times" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Chatbot takes too long to respond</p>
+<p><strong>Optimization Steps</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check System Resources</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monitor CPU and memory usage</span>
+htop
+
+<span class="c1"># Check GPU usage (if applicable)</span>
+nvidia-smi
+</pre></div>
+</div>
+</li>
+<li><p><strong>Adjust Timeout Settings</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In ai_service.py</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AIService</span><span class="p">:</span>
+    <span class="n">timeout</span> <span class="o">=</span> <span class="mi">30</span>  <span class="c1"># Reduce from 60 seconds</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Model Optimization</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use smaller model for faster responses</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DEEPSEEK_MODEL</span><span class="o">=</span><span class="s2">&quot;deepseek-r1:1.5b&quot;</span>
+
+<span class="c1"># Or increase hardware resources</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="chatbot-response-quality-issues">
+<h3>Chatbot Response Quality Issues<a class="headerlink" href="#chatbot-response-quality-issues" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Inappropriate or inaccurate responses</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Update Facility Cache</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Refresh facility information</span>
+<span class="c1"># Access /admin/refresh-cache endpoint</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Review System Prompts</strong>:</p>
+<p>Check and update the system prompts in <cite>ai_service.py</cite> to improve response quality.</p>
+</li>
+<li><p><strong>Fallback System Check</strong>:</p>
+<p>Ensure fallback responses are appropriate when AI service is unavailable.</p>
+</li>
+</ol>
+</section>
+</section>
+<section id="frontend-issues">
+<h2>Frontend Issues<a class="headerlink" href="#frontend-issues" title="Link to this heading"></a></h2>
+<section id="chatbot-interface-not-loading">
+<h3>Chatbot Interface Not Loading<a class="headerlink" href="#chatbot-interface-not-loading" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Chat interface doesn’t appear or respond</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check JavaScript Console</strong>:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Open browser console (F12) and look for errors</span>
+<span class="c1">// Common errors:</span>
+<span class="c1">// - Failed to fetch</span>
+<span class="c1">// - CSRF token missing</span>
+<span class="c1">// - Network connectivity issues</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Verify Static Files</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if JavaScript files exist</span>
+ls<span class="w"> </span>-la<span class="w"> </span>static/js/chatbot.js
+
+<span class="c1"># Verify file permissions</span>
+chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>static/js/chatbot.js
+</pre></div>
+</div>
+</li>
+<li><p><strong>CSRF Token Issues</strong>:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Ensure CSRF token is present in templates --&gt;</span>
+<span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;csrf-token&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;{{ csrf_token() }}&quot;</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="form-submission-errors">
+<h3>Form Submission Errors<a class="headerlink" href="#form-submission-errors" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Forms don’t submit or show validation errors</p>
+<p><strong>Diagnostic Steps</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check Form Configuration</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify CSRF is enabled</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;WTF_CSRF_ENABLED&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># Check form validation in forms.py</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Validation Error Debugging</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add debugging to form handlers</span>
+<span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+    <span class="c1"># Form is valid</span>
+    <span class="k">pass</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">errors</span><span class="p">)</span>  <span class="c1"># Debug validation errors</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="performance-issues">
+<h2>Performance Issues<a class="headerlink" href="#performance-issues" title="Link to this heading"></a></h2>
+<section id="slow-page-load-times">
+<h3>Slow Page Load Times<a class="headerlink" href="#slow-page-load-times" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Pages take too long to load</p>
+<p><strong>Optimization Steps</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Database Query Optimization</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable SQL query logging</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;SQLALCHEMY_ECHO&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># Look for N+1 query problems</span>
+<span class="c1"># Use eager loading for relationships</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Static File Optimization</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compress CSS and JavaScript files</span>
+<span class="c1"># Enable gzip compression in web server</span>
+<span class="c1"># Use CDN for Bootstrap and other libraries</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Database Connection Pooling</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Adjust connection pool settings</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;SQLALCHEMY_ENGINE_OPTIONS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;pool_recycle&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+    <span class="s2">&quot;pool_pre_ping&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s2">&quot;pool_size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;max_overflow&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="high-memory-usage">
+<h3>High Memory Usage<a class="headerlink" href="#high-memory-usage" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Application consuming too much memory</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Monitor Memory Usage</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check memory consumption</span>
+ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>gunicorn
+
+<span class="c1"># Monitor over time</span>
+top<span class="w"> </span>-p<span class="w"> </span><span class="k">$(</span>pgrep<span class="w"> </span>gunicorn<span class="k">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Optimize Database Queries</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use pagination for large result sets</span>
+<span class="n">issues</span> <span class="o">=</span> <span class="n">Issue</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">paginate</span><span class="p">(</span><span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># Close database sessions properly</span>
+<span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Configure Gunicorn Workers</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Adjust worker count based on available memory</span>
+gunicorn<span class="w"> </span>--workers<span class="w"> </span><span class="m">2</span><span class="w"> </span>--bind<span class="w"> </span><span class="m">0</span>.0.0.0:5000<span class="w"> </span>main:app
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="booking-system-issues">
+<h2>Booking System Issues<a class="headerlink" href="#booking-system-issues" title="Link to this heading"></a></h2>
+<section id="booking-conflicts">
+<h3>Booking Conflicts<a class="headerlink" href="#booking-conflicts" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Double bookings or scheduling conflicts</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Database Constraint Check</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Add unique constraint to prevent conflicts</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">facility_bookings</span>
+<span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">unique_booking</span>
+<span class="k">UNIQUE</span><span class="w"> </span><span class="p">(</span><span class="n">facility_id</span><span class="p">,</span><span class="w"> </span><span class="n">booking_date</span><span class="p">,</span><span class="w"> </span><span class="n">start_hour</span><span class="p">,</span><span class="w"> </span><span class="n">end_hour</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Validation Logic</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check for existing bookings before approval</span>
+<span class="n">existing</span> <span class="o">=</span> <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+    <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">facility_id</span> <span class="o">==</span> <span class="n">booking</span><span class="o">.</span><span class="n">facility_id</span><span class="p">,</span>
+    <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">booking_date</span> <span class="o">==</span> <span class="n">booking</span><span class="o">.</span><span class="n">booking_date</span><span class="p">,</span>
+    <span class="n">FacilityBooking</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">BookingStatus</span><span class="o">.</span><span class="n">APPROVED</span>
+<span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="booking-approval-issues">
+<h3>Booking Approval Issues<a class="headerlink" href="#booking-approval-issues" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Bookings stuck in pending status</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check Admin Notifications</strong>:</p>
+<p>Ensure admins are receiving notifications about pending bookings.</p>
+</li>
+<li><p><strong>Review Approval Workflow</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify admin permissions</span>
+<span class="nd">@admin_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_booking</span><span class="p">(</span><span class="n">booking_id</span><span class="p">):</span>
+    <span class="c1"># Check user has admin role</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Automated Approval Rules</strong>:</p>
+<p>Consider implementing automatic approval for certain booking types.</p>
+</li>
+</ol>
+</section>
+</section>
+<section id="facility-information-issues">
+<h2>Facility Information Issues<a class="headerlink" href="#facility-information-issues" title="Link to this heading"></a></h2>
+<section id="outdated-facility-data">
+<h3>Outdated Facility Data<a class="headerlink" href="#outdated-facility-data" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Incorrect facility information displayed</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Update Facility Records</strong>:</p>
+<p>Use admin interface to update facility information or directly update database.</p>
+</li>
+<li><p><strong>Cache Refresh</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Force cache refresh in AI service</span>
+<span class="n">ai_service</span><span class="o">.</span><span class="n">load_facilities</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Data Validation</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Check for facilities with missing information</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">facilities</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">location</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="directions-not-working">
+<h3>Directions Not Working<a class="headerlink" href="#directions-not-working" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Facility directions not displaying properly</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check Location Data</strong>:</p>
+<p>Ensure all facilities have complete location information.</p>
+</li>
+<li><p><strong>Verify Direction Algorithm</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test direction generation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_facility_directions</span>
+<span class="n">directions</span> <span class="o">=</span> <span class="n">get_facility_directions</span><span class="p">(</span><span class="n">facility</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="security-issues">
+<h2>Security Issues<a class="headerlink" href="#security-issues" title="Link to this heading"></a></h2>
+<section id="unauthorized-access">
+<h3>Unauthorized Access<a class="headerlink" href="#unauthorized-access" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: Users accessing admin functions</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check Role Decorators</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure all admin routes are protected</span>
+<span class="nd">@admin_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">admin_function</span><span class="p">():</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Session Security</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify session configuration</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="n">SESSION_COOKIE_SECURE</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># HTTPS only</span>
+    <span class="n">SESSION_COOKIE_HTTPONLY</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># No JavaScript access</span>
+    <span class="n">SESSION_COOKIE_SAMESITE</span><span class="o">=</span><span class="s1">&#39;Lax&#39;</span><span class="p">,</span>  <span class="c1"># CSRF protection</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="csrf-token-errors">
+<h3>CSRF Token Errors<a class="headerlink" href="#csrf-token-errors" title="Link to this heading"></a></h3>
+<p><strong>Symptom</strong>: CSRF validation failed errors</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Token Generation</strong>:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Ensure token is included in forms --&gt;</span>
+{{ csrf_token() }}
+</pre></div>
+</div>
+</li>
+<li><p><strong>Ajax Requests</strong>:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Include CSRF token in fetch requests</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/endpoint&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s1">&#39;X-CSRFToken&#39;</span><span class="o">:</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;[name=csrf-token]&#39;</span><span class="p">).</span><span class="nx">content</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="monitoring-and-logging">
+<h2>Monitoring and Logging<a class="headerlink" href="#monitoring-and-logging" title="Link to this heading"></a></h2>
+<section id="log-analysis">
+<h3>Log Analysis<a class="headerlink" href="#log-analysis" title="Link to this heading"></a></h3>
+<p><strong>Application Logs</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check application logs</span>
+tail<span class="w"> </span>-f<span class="w"> </span>/var/log/utm_assistant.log
+
+<span class="c1"># Filter for errors</span>
+grep<span class="w"> </span>ERROR<span class="w"> </span>/var/log/utm_assistant.log
+
+<span class="c1"># Monitor database queries</span>
+grep<span class="w"> </span><span class="s2">&quot;SELECT\|INSERT\|UPDATE\|DELETE&quot;</span><span class="w"> </span>/var/log/utm_assistant.log
+</pre></div>
+</div>
+<p><strong>Database Logs</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># PostgreSQL logs</span>
+tail<span class="w"> </span>-f<span class="w"> </span>/var/log/postgresql/postgresql-*.log
+
+<span class="c1"># Check for connection issues</span>
+grep<span class="w"> </span><span class="s2">&quot;connection&quot;</span><span class="w"> </span>/var/log/postgresql/postgresql-*.log
+</pre></div>
+</div>
+</section>
+<section id="system-health-checks">
+<h3>System Health Checks<a class="headerlink" href="#system-health-checks" title="Link to this heading"></a></h3>
+<p><strong>Automated Monitoring Script</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># health_check.sh</span>
+
+<span class="c1"># Check application response</span>
+curl<span class="w"> </span>-f<span class="w"> </span>http://localhost:5000/<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Application down&quot;</span>
+
+<span class="c1"># Check database connectivity</span>
+pg_isready<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Database down&quot;</span>
+
+<span class="c1"># Check AI service</span>
+curl<span class="w"> </span>-f<span class="w"> </span>http://localhost:11434/v1/models<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;AI service down&quot;</span>
+
+<span class="c1"># Check disk space</span>
+df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;$5 &gt; 85 {print &quot;Disk space warning: &quot; $0}&#39;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="emergency-procedures">
+<h2>Emergency Procedures<a class="headerlink" href="#emergency-procedures" title="Link to this heading"></a></h2>
+<section id="complete-system-recovery">
+<h3>Complete System Recovery<a class="headerlink" href="#complete-system-recovery" title="Link to this heading"></a></h3>
+<p><strong>If system is completely down</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Check Service Status</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systemctl<span class="w"> </span>status<span class="w"> </span>postgresql
+systemctl<span class="w"> </span>status<span class="w"> </span>nginx<span class="w">  </span><span class="c1"># if using reverse proxy</span>
+ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>gunicorn
+</pre></div>
+</div>
+</li>
+<li><p><strong>Restart Services</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Restart database</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>postgresql
+
+<span class="c1"># Restart application</span>
+pkill<span class="w"> </span>gunicorn
+gunicorn<span class="w"> </span>--bind<span class="w"> </span><span class="m">0</span>.0.0.0:5000<span class="w"> </span>main:app
+</pre></div>
+</div>
+</li>
+<li><p><strong>Restore from Backup</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Restore database backup</span>
+psql<span class="w"> </span>utm_campus_assistant<span class="w"> </span>&lt;<span class="w"> </span>backup_latest.sql
+
+<span class="c1"># Verify data integrity</span>
+psql<span class="w"> </span>utm_campus_assistant<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SELECT COUNT(*) FROM users;&quot;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="data-recovery">
+<h3>Data Recovery<a class="headerlink" href="#data-recovery" title="Link to this heading"></a></h3>
+<p><strong>If data is corrupted or lost</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Stop Application</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pkill<span class="w"> </span>gunicorn
+</pre></div>
+</div>
+</li>
+<li><p><strong>Restore Database</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dropdb<span class="w"> </span>utm_campus_assistant
+createdb<span class="w"> </span>utm_campus_assistant
+psql<span class="w"> </span>utm_campus_assistant<span class="w"> </span>&lt;<span class="w"> </span>backup_YYYYMMDD.sql
+</pre></div>
+</div>
+</li>
+<li><p><strong>Verify Restoration</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check table counts</span>
+psql<span class="w"> </span>utm_campus_assistant<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;\dt+&quot;</span>
+
+<span class="c1"># Verify user accounts</span>
+psql<span class="w"> </span>utm_campus_assistant<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SELECT COUNT(*) FROM users;&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Restart Application</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gunicorn<span class="w"> </span>--bind<span class="w"> </span><span class="m">0</span>.0.0.0:5000<span class="w"> </span>main:app
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="getting-help">
+<h2>Getting Help<a class="headerlink" href="#getting-help" title="Link to this heading"></a></h2>
+<section id="support-resources">
+<h3>Support Resources<a class="headerlink" href="#support-resources" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Check Documentation</strong>:
+- Review this troubleshooting guide
+- Consult API reference documentation
+- Check configuration documentation</p></li>
+<li><p><strong>Review Logs</strong>:
+- Application error logs
+- Database connection logs
+- System resource usage</p></li>
+<li><p><strong>Community Support</strong>:
+- Flask documentation and community
+- PostgreSQL support resources
+- DeepSeek/Ollama documentation</p></li>
+<li><p><strong>Professional Support</strong>:
+- Contact system administrator
+- Escalate to development team
+- Consider professional consultation</p></li>
+</ol>
+</section>
+<section id="escalation-procedures">
+<h3>Escalation Procedures<a class="headerlink" href="#escalation-procedures" title="Link to this heading"></a></h3>
+<p><strong>When to Escalate</strong>:</p>
+<ul class="simple">
+<li><p>Security breaches or suspected attacks</p></li>
+<li><p>Data corruption or loss</p></li>
+<li><p>System performance severely degraded</p></li>
+<li><p>Multiple component failures</p></li>
+<li><p>Unable to resolve within 2 hours</p></li>
+</ul>
+<p><strong>Escalation Information to Provide</strong>:</p>
+<ul class="simple">
+<li><p>Description of the problem</p></li>
+<li><p>Steps already attempted</p></li>
+<li><p>Error messages and logs</p></li>
+<li><p>System configuration details</p></li>
+<li><p>Impact on users and operations</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="facility_management.html" class="btn btn-neutral float-left" title="Facility Management" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api_reference.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, UTM Campus Assistant Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

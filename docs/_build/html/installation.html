@@ -1,0 +1,408 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installation and Setup &mdash; UTM Campus Assistant Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration and Settings" href="configuration.html" />
+    <link rel="prev" title="UTM Campus Assistant Chatbot - Administrator Manual" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            UTM Campus Assistant Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation and Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#system-requirements">System Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hardware-requirements">Hardware Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software-dependencies">Software Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-methods">Installation Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#replit-deployment-recommended">Replit Deployment (Recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#self-hosted-deployment">Self-Hosted Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-variables">Environment Variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#required-variables">Required Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optional-variables">Optional Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#initial-configuration">Initial Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#database-initialization">Database Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#admin-user-creation">Admin User Creation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sample-data-loading">Sample Data Loading</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#verification-steps">Verification Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting-installation">Troubleshooting Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#common-issues">Common Issues</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration and Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin_guide.html">Administrator Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_management.html">User Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facility_management.html">Facility Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UTM Campus Assistant Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Installation and Setup</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installation-and-setup">
+<h1>Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Link to this heading"></a></h1>
+<section id="system-requirements">
+<h2>System Requirements<a class="headerlink" href="#system-requirements" title="Link to this heading"></a></h2>
+<section id="hardware-requirements">
+<h3>Hardware Requirements<a class="headerlink" href="#hardware-requirements" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Minimum</strong>: 2GB RAM, 1 CPU core, 5GB storage</p></li>
+<li><p><strong>Recommended</strong>: 4GB RAM, 2 CPU cores, 10GB storage</p></li>
+<li><p><strong>Operating System</strong>: Linux (Ubuntu 18.04+), macOS 10.15+, Windows 10+</p></li>
+</ul>
+</section>
+<section id="software-dependencies">
+<h3>Software Dependencies<a class="headerlink" href="#software-dependencies" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Python 3.11+</p></li>
+<li><p>PostgreSQL 12+</p></li>
+<li><p>Node.js 18+ (for frontend dependencies)</p></li>
+<li><p>Git for version control</p></li>
+</ul>
+</section>
+</section>
+<section id="installation-methods">
+<h2>Installation Methods<a class="headerlink" href="#installation-methods" title="Link to this heading"></a></h2>
+<section id="replit-deployment-recommended">
+<h3>Replit Deployment (Recommended)<a class="headerlink" href="#replit-deployment-recommended" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p><strong>Import Project</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone or import the project to Replit</span>
+<span class="c1"># All dependencies are managed via pyproject.toml</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Environment Setup</strong>:</p>
+<p>The system automatically configures:
+- Python 3.11 runtime
+- PostgreSQL database
+- Required Python packages
+- Gunicorn web server</p>
+</li>
+<li><p><strong>Database Configuration</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Database is automatically created and configured</span>
+<span class="c1"># Tables are created on first run</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="self-hosted-deployment">
+<h3>Self-Hosted Deployment<a class="headerlink" href="#self-hosted-deployment" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p><strong>Clone Repository</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>&lt;repository-url&gt;
+<span class="nb">cd</span><span class="w"> </span>utm-campus-assistant
+</pre></div>
+</div>
+</li>
+<li><p><strong>Install Dependencies</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+</li>
+<li><p><strong>Database Setup</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create PostgreSQL database</span>
+createdb<span class="w"> </span>utm_campus_assistant
+
+<span class="c1"># Set environment variables</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DATABASE_URL</span><span class="o">=</span><span class="s2">&quot;postgresql://user:password@localhost/utm_campus_assistant&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SESSION_SECRET</span><span class="o">=</span><span class="s2">&quot;your-secret-key&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>DeepSeek LLM Setup</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Option A: Using Ollama</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://ollama.ai/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+ollama<span class="w"> </span>pull<span class="w"> </span>deepseek-r1:7b
+ollama<span class="w"> </span>serve
+
+<span class="c1"># Option B: Using vLLM</span>
+pip<span class="w"> </span>install<span class="w"> </span>vllm
+python<span class="w"> </span>-m<span class="w"> </span>vllm.entrypoints.openai.api_server<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model<span class="w"> </span>deepseek-ai/deepseek-r1-distill-qwen-7b<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="m">8000</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Start Application</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>main.py
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h2>
+<section id="required-variables">
+<h3>Required Variables<a class="headerlink" href="#required-variables" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 50.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Default Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code></p></td>
+<td><p>PostgreSQL connection string</p></td>
+<td><p>Auto-configured on Replit</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SESSION_SECRET</span></code></p></td>
+<td><p>Flask session encryption key</p></td>
+<td><p>Auto-generated on Replit</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DEEPSEEK_API_URL</span></code></p></td>
+<td><p>DeepSeek LLM API endpoint</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">http://localhost:11434/v1/chat/completions</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DEEPSEEK_MODEL</span></code></p></td>
+<td><p>DeepSeek model name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">deepseek-r1:7b</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="optional-variables">
+<h3>Optional Variables<a class="headerlink" href="#optional-variables" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 50.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Default Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">FLASK_ENV</span></code></p></td>
+<td><p>Application environment</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">production</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FLASK_DEBUG</span></code></p></td>
+<td><p>Debug mode toggle</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="initial-configuration">
+<h2>Initial Configuration<a class="headerlink" href="#initial-configuration" title="Link to this heading"></a></h2>
+<section id="database-initialization">
+<h3>Database Initialization<a class="headerlink" href="#database-initialization" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p><strong>Automatic Setup</strong>: On first run, the application automatically:</p>
+<ul class="simple">
+<li><p>Creates all database tables</p></li>
+<li><p>Loads sample facility data</p></li>
+<li><p>Sets up administrative user structure</p></li>
+</ul>
+</li>
+<li><p><strong>Manual Setup</strong> (if needed):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flask_app</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">db</span>
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="admin-user-creation">
+<h3>Admin User Creation<a class="headerlink" href="#admin-user-creation" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Navigate to the registration page</p></li>
+<li><p>Create an admin account:</p>
+<ul class="simple">
+<li><p>Username: <code class="docutils literal notranslate"><span class="pre">admin</span></code></p></li>
+<li><p>Email: <code class="docutils literal notranslate"><span class="pre">admin&#64;utm.edu.my</span></code></p></li>
+<li><p>Role: <code class="docutils literal notranslate"><span class="pre">Admin</span></code></p></li>
+<li><p>Password: Set a secure password</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="sample-data-loading">
+<h3>Sample Data Loading<a class="headerlink" href="#sample-data-loading" title="Link to this heading"></a></h3>
+<p>The system includes sample facilities for testing:</p>
+<ul class="simple">
+<li><p>Academic buildings</p></li>
+<li><p>Laboratories</p></li>
+<li><p>Sports facilities</p></li>
+<li><p>Administrative offices</p></li>
+<li><p>Dining halls</p></li>
+</ul>
+</section>
+</section>
+<section id="verification-steps">
+<h2>Verification Steps<a class="headerlink" href="#verification-steps" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p><strong>Application Start</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check application logs</span>
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Starting<span class="w"> </span>gunicorn
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Database<span class="w"> </span>tables<span class="w"> </span>created
+<span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Loaded<span class="w"> </span>X<span class="w"> </span>facilities<span class="w"> </span>into<span class="w"> </span>cache
+</pre></div>
+</div>
+</li>
+<li><p><strong>Database Connection</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify database connectivity</span>
+<span class="c1"># Check facility count in logs</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Web Interface</strong>:</p>
+<ul class="simple">
+<li><p>Navigate to application URL</p></li>
+<li><p>Verify login page loads</p></li>
+<li><p>Test user registration</p></li>
+<li><p>Check admin dashboard access</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="troubleshooting-installation">
+<h2>Troubleshooting Installation<a class="headerlink" href="#troubleshooting-installation" title="Link to this heading"></a></h2>
+<section id="common-issues">
+<h3>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<p><strong>Database Connection Failed</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check DATABASE_URL format</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DATABASE_URL</span><span class="o">=</span><span class="s2">&quot;postgresql://username:password@host:port/database&quot;</span>
+</pre></div>
+</div>
+<p><strong>DeepSeek LLM Not Responding</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify LLM service is running</span>
+curl<span class="w"> </span>http://localhost:11434/v1/models
+
+<span class="c1"># Check API URL configuration</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DEEPSEEK_API_URL</span><span class="o">=</span><span class="s2">&quot;http://localhost:11434/v1/chat/completions&quot;</span>
+</pre></div>
+</div>
+<p><strong>Port Already in Use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Kill existing processes</span>
+pkill<span class="w"> </span>-f<span class="w"> </span>gunicorn
+
+<span class="c1"># Or use different port</span>
+gunicorn<span class="w"> </span>--bind<span class="w"> </span><span class="m">0</span>.0.0.0:5001<span class="w"> </span>main:app
+</pre></div>
+</div>
+<p><strong>Permission Errors</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check file permissions</span>
+chmod<span class="w"> </span>+x<span class="w"> </span>main.py
+
+<span class="c1"># Ensure write access to instance directory</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>instance
+chmod<span class="w"> </span><span class="m">755</span><span class="w"> </span>instance
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="UTM Campus Assistant Chatbot - Administrator Manual" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="configuration.html" class="btn btn-neutral float-right" title="Configuration and Settings" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, UTM Campus Assistant Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

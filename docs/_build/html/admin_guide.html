@@ -1,0 +1,704 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administrator Guide &mdash; UTM Campus Assistant Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="User Management" href="user_management.html" />
+    <link rel="prev" title="Configuration and Settings" href="configuration.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            UTM Campus Assistant Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation and Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration and Settings</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Administrator Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#admin-dashboard-overview">Admin Dashboard Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user-management">User Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-admin-accounts">Creating Admin Accounts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#managing-student-accounts">Managing Student Accounts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#issue-management-system">Issue Management System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#issue-tracking-dashboard">Issue Tracking Dashboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#issue-response-workflow">Issue Response Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#issue-classification-system">Issue Classification System</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#facility-management">Facility Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#facility-information-system">Facility Information System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#facility-updates-and-maintenance">Facility Updates and Maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#booking-management-system">Booking Management System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#booking-approval-workflow">Booking Approval Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#booking-conflict-resolution">Booking Conflict Resolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#booking-analytics">Booking Analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#chatbot-administration">Chatbot Administration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ai-service-monitoring">AI Service Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chat-session-management">Chat Session Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ai-training-and-improvement">AI Training and Improvement</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#system-maintenance">System Maintenance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#database-management">Database Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#system-health-monitoring">System Health Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#troubleshooting-common-issues">Troubleshooting Common Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#security-administration">Security Administration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#access-control-management">Access Control Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#security-best-practices">Security Best Practices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#regular-maintenance-tasks">Regular Maintenance Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#daily-tasks">Daily Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#weekly-tasks">Weekly Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#monthly-tasks">Monthly Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seasonal-tasks">Seasonal Tasks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_management.html">User Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facility_management.html">Facility Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UTM Campus Assistant Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Administrator Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/admin_guide.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="administrator-guide">
+<h1>Administrator Guide<a class="headerlink" href="#administrator-guide" title="Link to this heading"></a></h1>
+<p>Welcome to the UTM Campus Assistant Administrator Guide. This section provides comprehensive instructions for managing all aspects of the campus facility system.</p>
+<section id="admin-dashboard-overview">
+<h2>Admin Dashboard Overview<a class="headerlink" href="#admin-dashboard-overview" title="Link to this heading"></a></h2>
+<p>The Admin Dashboard provides centralized control over the entire system. Access it by logging in with an admin account and navigating to the dashboard.</p>
+<a class="reference internal image-reference" href="_images/Admin_Dashboard.PNG"><img alt="Admin Dashboard Interface" class="align-center" src="_images/Admin_Dashboard.PNG" style="width: 800px;" />
+</a>
+<p><strong>Dashboard Features:</strong></p>
+<ul class="simple">
+<li><p><strong>System Statistics</strong>: Overview of active issues, bookings, and user activity</p></li>
+<li><p><strong>Quick Actions</strong>: Direct access to common administrative tasks</p></li>
+<li><p><strong>Recent Activity</strong>: Latest system events and user interactions</p></li>
+<li><p><strong>Status Indicators</strong>: Health monitoring for AI services and database</p></li>
+</ul>
+</section>
+<section id="user-management">
+<h2>User Management<a class="headerlink" href="#user-management" title="Link to this heading"></a></h2>
+<section id="creating-admin-accounts">
+<h3>Creating Admin Accounts<a class="headerlink" href="#creating-admin-accounts" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p><strong>Registration Process</strong>:</p>
+<a class="reference internal image-reference" href="_images/Admin_Register_Failed_Restricted.PNG"><img alt="Admin Registration Restrictions" class="align-center" src="_images/Admin_Register_Failed_Restricted.PNG" style="width: 600px;" />
+</a>
+<ul class="simple">
+<li><p>Navigate to registration page</p></li>
+<li><p>Select “Admin” role from dropdown</p></li>
+<li><p>Complete all required fields</p></li>
+<li><p>System validates admin privileges</p></li>
+</ul>
+</li>
+<li><p><strong>User Verification</strong>:</p>
+<ul class="simple">
+<li><p>Review registration requests</p></li>
+<li><p>Verify institutional email addresses</p></li>
+<li><p>Approve or deny admin privileges</p></li>
+<li><p>Monitor user activity logs</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="managing-student-accounts">
+<h3>Managing Student Accounts<a class="headerlink" href="#managing-student-accounts" title="Link to this heading"></a></h3>
+<p><strong>Account Monitoring</strong>:</p>
+<ul class="simple">
+<li><p>View all registered students</p></li>
+<li><p>Check login activity and timestamps</p></li>
+<li><p>Monitor issue reporting patterns</p></li>
+<li><p>Review facility usage statistics</p></li>
+</ul>
+<p><strong>Account Actions</strong>:</p>
+<ul class="simple">
+<li><p>Reset student passwords (if implemented)</p></li>
+<li><p>Deactivate problematic accounts</p></li>
+<li><p>Update student information</p></li>
+<li><p>Merge duplicate accounts</p></li>
+</ul>
+</section>
+</section>
+<section id="issue-management-system">
+<h2>Issue Management System<a class="headerlink" href="#issue-management-system" title="Link to this heading"></a></h2>
+<section id="issue-tracking-dashboard">
+<h3>Issue Tracking Dashboard<a class="headerlink" href="#issue-tracking-dashboard" title="Link to this heading"></a></h3>
+<a class="reference internal image-reference" href="_images/Admin_Issues_List.PNG"><img alt="Admin Issues List" class="align-center" src="_images/Admin_Issues_List.PNG" style="width: 800px;" />
+</a>
+<p>The issues dashboard provides complete oversight of all facility problems reported by students.</p>
+<p><strong>Key Features:</strong></p>
+<ul class="simple">
+<li><p><strong>Status Filter</strong>: Filter by REPORTED, IN_PROGRESS, RESOLVED, CLOSED</p></li>
+<li><p><strong>Priority Sorting</strong>: HIGH, MEDIUM, LOW, URGENT classifications</p></li>
+<li><p><strong>Category Filter</strong>: Electrical, Hygiene, Structural, Equipment, Security, Other</p></li>
+<li><p><strong>Assignment Tracking</strong>: See which admin is handling each issue</p></li>
+</ul>
+</section>
+<section id="issue-response-workflow">
+<h3>Issue Response Workflow<a class="headerlink" href="#issue-response-workflow" title="Link to this heading"></a></h3>
+<a class="reference internal image-reference" href="_images/Admin_Issue_Response.PNG"><img alt="Admin Issue Response Interface" class="align-center" src="_images/Admin_Issue_Response.PNG" style="width: 700px;" />
+</a>
+<ol class="arabic">
+<li><p><strong>Issue Review</strong>:</p>
+<ul class="simple">
+<li><p>Click on any issue to view full details</p></li>
+<li><p>Review AI-generated classification</p></li>
+<li><p>Check facility location and description</p></li>
+<li><p>Assess priority level accuracy</p></li>
+</ul>
+</li>
+<li><p><strong>Status Updates</strong>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>REPORTED → IN_PROGRESS → RESOLVED → CLOSED
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>IN_PROGRESS</strong>: Assign to technician or yourself</p></li>
+<li><p><strong>RESOLVED</strong>: Mark when repair/fix is complete</p></li>
+<li><p><strong>CLOSED</strong>: Final closure after student feedback</p></li>
+</ul>
+</li>
+<li><p><strong>Admin Notes</strong>:</p>
+<ul class="simple">
+<li><p>Add detailed progress notes</p></li>
+<li><p>Document repair actions taken</p></li>
+<li><p>Include cost estimates or vendor information</p></li>
+<li><p>Create maintenance schedules</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="issue-classification-system">
+<h3>Issue Classification System<a class="headerlink" href="#issue-classification-system" title="Link to this heading"></a></h3>
+<p>The AI service automatically classifies issues, but admins can override:</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Issue Types and Priority Guidelines</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 40.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Category</p></th>
+<th class="head"><p>Examples</p></th>
+<th class="head"><p>Typical Priority</p></th>
+<th class="head"><p>Response Time</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Electrical</strong></p></td>
+<td><p>Power outages, faulty outlets</p></td>
+<td><p>HIGH/URGENT</p></td>
+<td><p>2-4 hours</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Hygiene</strong></p></td>
+<td><p>Cleaning, sanitation issues</p></td>
+<td><p>MEDIUM</p></td>
+<td><p>24 hours</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Structural</strong></p></td>
+<td><p>Building damage, leaks</p></td>
+<td><p>HIGH</p></td>
+<td><p>4-8 hours</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Equipment</strong></p></td>
+<td><p>Broken lab equipment</p></td>
+<td><p>MEDIUM/HIGH</p></td>
+<td><p>8-24 hours</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Security</strong></p></td>
+<td><p>Access control, locks</p></td>
+<td><p>HIGH/URGENT</p></td>
+<td><p>1-2 hours</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Other</strong></p></td>
+<td><p>General maintenance</p></td>
+<td><p>LOW/MEDIUM</p></td>
+<td><p>48 hours</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="facility-management">
+<h2>Facility Management<a class="headerlink" href="#facility-management" title="Link to this heading"></a></h2>
+<section id="facility-information-system">
+<h3>Facility Information System<a class="headerlink" href="#facility-information-system" title="Link to this heading"></a></h3>
+<p><strong>Adding New Facilities</strong>:</p>
+<ol class="arabic">
+<li><p>Navigate to “Manage Facilities” section</p></li>
+<li><p>Click “Add New Facility”</p></li>
+<li><p>Complete facility details:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- Name: Building/Room identifier
+- Category: Laboratory, Academic, Sports, etc.
+- Location: Detailed address/directions
+- Capacity: Maximum occupancy
+- Operating Hours: Access times
+- Contact Info: Responsible person/department
+- Bookable Status: Yes/No
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Facility Categories</strong>:</p>
+<ul class="simple">
+<li><p><strong>Laboratory</strong>: Research and teaching labs</p></li>
+<li><p><strong>Academic</strong>: Classrooms, lecture halls</p></li>
+<li><p><strong>Sports</strong>: Gymnasiums, fields, courts</p></li>
+<li><p><strong>Administrative</strong>: Offices, meeting rooms</p></li>
+<li><p><strong>Accommodation</strong>: Dormitories, guest houses</p></li>
+<li><p><strong>Dining</strong>: Cafeterias, food courts</p></li>
+<li><p><strong>Event</strong>: Auditoriums, conference centers</p></li>
+</ul>
+</section>
+<section id="facility-updates-and-maintenance">
+<h3>Facility Updates and Maintenance<a class="headerlink" href="#facility-updates-and-maintenance" title="Link to this heading"></a></h3>
+<p><strong>Regular Updates</strong>:</p>
+<ul class="simple">
+<li><p>Update operating hours seasonally</p></li>
+<li><p>Modify capacity based on renovations</p></li>
+<li><p>Add new equipment information</p></li>
+<li><p>Update contact details for staff changes</p></li>
+</ul>
+<p><strong>Maintenance Scheduling</strong>:</p>
+<ul class="simple">
+<li><p>Plan preventive maintenance windows</p></li>
+<li><p>Coordinate with facility booking system</p></li>
+<li><p>Notify users of temporary closures</p></li>
+<li><p>Update facility status in real-time</p></li>
+</ul>
+</section>
+</section>
+<section id="booking-management-system">
+<h2>Booking Management System<a class="headerlink" href="#booking-management-system" title="Link to this heading"></a></h2>
+<section id="booking-approval-workflow">
+<h3>Booking Approval Workflow<a class="headerlink" href="#booking-approval-workflow" title="Link to this heading"></a></h3>
+<a class="reference internal image-reference" href="_images/Admin_Manage_Bookings.PNG"><img alt="Admin Booking Management" class="align-center" src="_images/Admin_Manage_Bookings.PNG" style="width: 800px;" />
+</a>
+<p><strong>Booking Review Process</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Pending Requests</strong>: View all student booking requests</p></li>
+<li><p><strong>Request Evaluation</strong>:</p>
+<ul class="simple">
+<li><p>Check facility availability</p></li>
+<li><p>Verify student credentials</p></li>
+<li><p>Assess purpose appropriateness</p></li>
+<li><p>Review time slot conflicts</p></li>
+</ul>
+</li>
+<li><p><strong>Approval Actions</strong>:</p>
+<a class="reference internal image-reference" href="_images/Admin_Update_Booking.PNG"><img alt="Booking Update Interface" class="align-center" src="_images/Admin_Update_Booking.PNG" style="width: 600px;" />
+</a>
+<ul class="simple">
+<li><p><strong>APPROVED</strong>: Confirm booking with notes</p></li>
+<li><p><strong>REJECTED</strong>: Decline with reason</p></li>
+<li><p><strong>PENDING</strong>: Keep under review</p></li>
+<li><p><strong>CANCELLED</strong>: Handle cancellations</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="booking-conflict-resolution">
+<h3>Booking Conflict Resolution<a class="headerlink" href="#booking-conflict-resolution" title="Link to this heading"></a></h3>
+<p><strong>Conflict Types</strong>:</p>
+<ul class="simple">
+<li><p><strong>Time Overlap</strong>: Multiple requests for same time slot</p></li>
+<li><p><strong>Capacity Exceeded</strong>: Too many people for facility</p></li>
+<li><p><strong>Maintenance Conflicts</strong>: Scheduled repairs during booking</p></li>
+<li><p><strong>Policy Violations</strong>: Inappropriate use requests</p></li>
+</ul>
+<p><strong>Resolution Strategies</strong>:</p>
+<ol class="arabic simple">
+<li><p>Contact students to negotiate alternative times</p></li>
+<li><p>Suggest similar alternative facilities</p></li>
+<li><p>Implement waiting list for popular facilities</p></li>
+<li><p>Create booking priority system for academic vs. recreational use</p></li>
+</ol>
+</section>
+<section id="booking-analytics">
+<h3>Booking Analytics<a class="headerlink" href="#booking-analytics" title="Link to this heading"></a></h3>
+<a class="reference internal image-reference" href="_images/Admin_Bookings_List.PNG"><img alt="Booking Statistics" class="align-center" src="_images/Admin_Bookings_List.PNG" style="width: 800px;" />
+</a>
+<p><strong>Usage Metrics</strong>:</p>
+<ul class="simple">
+<li><p>Most popular facilities and time slots</p></li>
+<li><p>Average booking duration</p></li>
+<li><p>Approval/rejection rates</p></li>
+<li><p>Student booking patterns</p></li>
+<li><p>Seasonal usage trends</p></li>
+</ul>
+<p><strong>Reports Available</strong>:</p>
+<ul class="simple">
+<li><p>Daily/Weekly/Monthly booking summaries</p></li>
+<li><p>Facility utilization rates</p></li>
+<li><p>Student activity reports</p></li>
+<li><p>Revenue tracking (if applicable)</p></li>
+</ul>
+</section>
+</section>
+<section id="chatbot-administration">
+<h2>Chatbot Administration<a class="headerlink" href="#chatbot-administration" title="Link to this heading"></a></h2>
+<section id="ai-service-monitoring">
+<h3>AI Service Monitoring<a class="headerlink" href="#ai-service-monitoring" title="Link to this heading"></a></h3>
+<p><strong>Service Health Checks</strong>:</p>
+<ul class="simple">
+<li><p>Monitor DeepSeek LLM API connectivity</p></li>
+<li><p>Check response times and timeout rates</p></li>
+<li><p>Review AI classification accuracy</p></li>
+<li><p>Monitor fallback system usage</p></li>
+</ul>
+<p><strong>Performance Metrics</strong>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Response Time Targets:
+- Simple queries: &lt; 3 seconds
+- Complex facility searches: &lt; 5 seconds
+- Issue classification: &lt; 2 seconds
+- General conversation: &lt; 4 seconds
+</pre></div>
+</div>
+</section>
+<section id="chat-session-management">
+<h3>Chat Session Management<a class="headerlink" href="#chat-session-management" title="Link to this heading"></a></h3>
+<p><strong>Session Monitoring</strong>:</p>
+<ul class="simple">
+<li><p>View active chat sessions</p></li>
+<li><p>Review conversation histories</p></li>
+<li><p>Identify common query patterns</p></li>
+<li><p>Monitor user satisfaction</p></li>
+</ul>
+<p><strong>Content Moderation</strong>:</p>
+<ul class="simple">
+<li><p>Review inappropriate queries</p></li>
+<li><p>Monitor AI response quality</p></li>
+<li><p>Handle escalated conversations</p></li>
+<li><p>Update response templates</p></li>
+</ul>
+</section>
+<section id="ai-training-and-improvement">
+<h3>AI Training and Improvement<a class="headerlink" href="#ai-training-and-improvement" title="Link to this heading"></a></h3>
+<p><strong>Facility Data Updates</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Cache Management</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Refresh facility cache when updates are made</span>
+<span class="c1"># System automatically reloads facility information</span>
+<span class="c1"># Updates reflect immediately in chatbot responses</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Response Quality</strong>:</p>
+<ul class="simple">
+<li><p>Review chat logs for improvement opportunities</p></li>
+<li><p>Update facility descriptions for better AI understanding</p></li>
+<li><p>Refine entity extraction patterns</p></li>
+<li><p>Improve intent classification accuracy</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="system-maintenance">
+<h2>System Maintenance<a class="headerlink" href="#system-maintenance" title="Link to this heading"></a></h2>
+<section id="database-management">
+<h3>Database Management<a class="headerlink" href="#database-management" title="Link to this heading"></a></h3>
+<a class="reference internal image-reference" href="_images/Admin_Database_Reset.PNG"><img alt="Database Reset Interface" class="align-center" src="_images/Admin_Database_Reset.PNG" style="width: 600px;" />
+</a>
+<p><strong>Routine Operations</strong>:</p>
+<ul class="simple">
+<li><p><strong>Database Reset</strong>: Clear all data and reload samples</p></li>
+<li><p><strong>Cache Refresh</strong>: Update facility information in AI service</p></li>
+<li><p><strong>User Cleanup</strong>: Remove inactive accounts</p></li>
+<li><p><strong>Log Rotation</strong>: Archive old system logs</p></li>
+</ul>
+<p><strong>Backup Procedures</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Daily Automated Backups</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Automatic backup at 2 AM daily</span>
+pg_dump<span class="w"> </span>utm_campus_assistant<span class="w"> </span>&gt;<span class="w"> </span>daily_backup.sql
+</pre></div>
+</div>
+</li>
+<li><p><strong>Manual Backup Before Major Changes</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Before system updates or data migration</span>
+pg_dump<span class="w"> </span>utm_campus_assistant<span class="w"> </span>&gt;<span class="w"> </span>pre_update_backup.sql
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="system-health-monitoring">
+<h3>System Health Monitoring<a class="headerlink" href="#system-health-monitoring" title="Link to this heading"></a></h3>
+<p><strong>Key Performance Indicators</strong>:</p>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">System Health Metrics</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 40.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Alert Threshold</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Database Connections</strong></p></td>
+<td><p>Active PostgreSQL connections</p></td>
+<td><p>&gt; 80% of max</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>AI Response Rate</strong></p></td>
+<td><p>DeepSeek API availability</p></td>
+<td><p>&lt; 95% success</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Memory Usage</strong></p></td>
+<td><p>Application memory consumption</p></td>
+<td><p>&gt; 90% available</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Disk Space</strong></p></td>
+<td><p>Storage utilization</p></td>
+<td><p>&gt; 85% full</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Error Rate</strong></p></td>
+<td><p>Application error frequency</p></td>
+<td><p>&gt; 5% of requests</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="troubleshooting-common-issues">
+<h3>Troubleshooting Common Issues<a class="headerlink" href="#troubleshooting-common-issues" title="Link to this heading"></a></h3>
+<p><strong>Database Connection Issues</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check database status</span>
+pg_isready<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span>
+
+<span class="c1"># Restart database service</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>postgresql
+</pre></div>
+</div>
+<p><strong>AI Service Problems</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify DeepSeek service</span>
+curl<span class="w"> </span>http://localhost:11434/v1/models
+
+<span class="c1"># Restart Ollama service</span>
+systemctl<span class="w"> </span>restart<span class="w"> </span>ollama
+</pre></div>
+</div>
+<p><strong>Application Performance</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monitor resource usage</span>
+htop
+
+<span class="c1"># Check application logs</span>
+tail<span class="w"> </span>-f<span class="w"> </span>/var/log/utm_assistant.log
+</pre></div>
+</div>
+</section>
+</section>
+<section id="security-administration">
+<h2>Security Administration<a class="headerlink" href="#security-administration" title="Link to this heading"></a></h2>
+<section id="access-control-management">
+<h3>Access Control Management<a class="headerlink" href="#access-control-management" title="Link to this heading"></a></h3>
+<p><strong>Role-Based Permissions</strong>:</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Permission Matrix</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 35.0%" />
+<col style="width: 35.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Student Access</p></th>
+<th class="head"><p>Admin Access</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>View Facilities</strong></p></td>
+<td><p>✓ All facilities</p></td>
+<td><p>✓ All facilities + management</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Report Issues</strong></p></td>
+<td><p>✓ Own reports only</p></td>
+<td><p>✓ All reports + management</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Book Facilities</strong></p></td>
+<td><p>✓ Request only</p></td>
+<td><p>✓ Request + approve/deny</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Chatbot</strong></p></td>
+<td><p>✓ General queries</p></td>
+<td><p>✓ All queries + monitoring</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>User Management</strong></p></td>
+<td><p>✗ No access</p></td>
+<td><p>✓ Full control</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>System Settings</strong></p></td>
+<td><p>✗ No access</p></td>
+<td><p>✓ Configuration access</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="security-best-practices">
+<h3>Security Best Practices<a class="headerlink" href="#security-best-practices" title="Link to this heading"></a></h3>
+<p><strong>Password Policy</strong>:</p>
+<ul class="simple">
+<li><p>Minimum 6 characters (consider increasing to 8+)</p></li>
+<li><p>Bcrypt hashing with salt</p></li>
+<li><p>Session timeout after inactivity</p></li>
+<li><p>Account lockout after failed attempts</p></li>
+</ul>
+<p><strong>Data Protection</strong>:</p>
+<ul class="simple">
+<li><p>CSRF protection on all forms</p></li>
+<li><p>SQL injection prevention via SQLAlchemy ORM</p></li>
+<li><p>XSS protection through template escaping</p></li>
+<li><p>Secure session management</p></li>
+</ul>
+<p><strong>Audit Logging</strong>:</p>
+<ul class="simple">
+<li><p>User login/logout events</p></li>
+<li><p>Administrative actions</p></li>
+<li><p>Data modifications</p></li>
+<li><p>Security-related events</p></li>
+</ul>
+</section>
+</section>
+<section id="regular-maintenance-tasks">
+<h2>Regular Maintenance Tasks<a class="headerlink" href="#regular-maintenance-tasks" title="Link to this heading"></a></h2>
+<section id="daily-tasks">
+<h3>Daily Tasks<a class="headerlink" href="#daily-tasks" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Review new issue reports</p></li>
+<li><p>Process pending facility bookings</p></li>
+<li><p>Monitor system performance metrics</p></li>
+<li><p>Check AI service health</p></li>
+</ul>
+</section>
+<section id="weekly-tasks">
+<h3>Weekly Tasks<a class="headerlink" href="#weekly-tasks" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Analyze facility usage patterns</p></li>
+<li><p>Review user feedback and ratings</p></li>
+<li><p>Update facility information as needed</p></li>
+<li><p>Generate utilization reports</p></li>
+</ul>
+</section>
+<section id="monthly-tasks">
+<h3>Monthly Tasks<a class="headerlink" href="#monthly-tasks" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Database maintenance and optimization</p></li>
+<li><p>Security audit and review</p></li>
+<li><p>System backup verification</p></li>
+<li><p>Performance analysis and optimization</p></li>
+</ul>
+</section>
+<section id="seasonal-tasks">
+<h3>Seasonal Tasks<a class="headerlink" href="#seasonal-tasks" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Update facility operating hours</p></li>
+<li><p>Review and update emergency procedures</p></li>
+<li><p>Plan for academic calendar changes</p></li>
+<li><p>Conduct comprehensive system testing</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="configuration.html" class="btn btn-neutral float-left" title="Configuration and Settings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="user_management.html" class="btn btn-neutral float-right" title="User Management" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, UTM Campus Assistant Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
