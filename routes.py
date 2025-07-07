@@ -1,11 +1,20 @@
 import uuid
 from datetime import datetime
-from flask import render_template, request, redirect, url_for, flash, jsonify, session
+from flask import render_template, request, redirect, url_for, flash, jsonify, session, Blueprint, send_from_directory
+import os
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_app import app, db, bcrypt
 from models import User, Issue, Facility, ChatSession, ChatMessage, IssueStatus, IssueType, Priority, UserRole, FacilityBooking, BookingStatus
 from forms import LoginForm, RegistrationForm, IssueForm, FeedbackForm, BookingForm, BookingManagementForm, FacilityForm, FacilityManagementForm
 from ai_service import ai_service
+
+docs_bp = Blueprint('docs', __name__, url_prefix='/docs')
+
+@docs_bp.route('/', defaults={'filename': 'index.html'})
+@docs_bp.route('/<path:filename>')
+def serve_docs(filename):
+    docs_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'docs', '_build', 'html')
+    return send_from_directory(docs_dir, filename)
 
 @app.route('/')
 def index():
