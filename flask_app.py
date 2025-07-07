@@ -65,3 +65,7 @@ with app.app_context():
     # Initialize sample data
     from routes import create_sample_data
     create_sample_data()
+
+from routes import docs_bp
+
+app.register_blueprint(docs_bp)
